@@ -1,0 +1,9 @@
+.idea/
+*.flac
+*.aac
+*.mp3
+*.exe
+*.dll
+/__pycache__
+*.pyc
+*.gguf
