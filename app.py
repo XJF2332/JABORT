@@ -173,10 +173,10 @@ class MyWindow(QWidget, Ui_Form):
             deduplicate=self.PNG2JPGDedup.currentIndex()
         )
         # 连接信号
-        self.png2jpg_worker.output_updated.connect(lambda t: self.UniLog.appendPlainText(str(t)))
         self.png2jpg_worker.progress_updated.connect(lambda v: self.PNG2JPGProgress.setValue(int(v)))
         self.png2jpg_worker.worker_finished.connect(lambda: self.PNG2JPGRun.setEnabled(True))
         self.png2jpg_worker.worker_finished.connect(lambda: self.PNG2JPGStop.setEnabled(False))
+        self.png2jpg_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
         # 启动
         self.png2jpg_worker.start()
 
