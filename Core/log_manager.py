@@ -22,7 +22,7 @@ def _archive_existing_log():
 
     try:
         # 文件创建时间
-        ctime = os.path.getctime(LOG_PATH)
+        ctime = os.path.getmtime(LOG_PATH)
         dt = datetime.fromtimestamp(ctime)
         timestamp_str = dt.strftime("%Y%m%d_%H%M%S")
 
@@ -39,7 +39,7 @@ def _archive_existing_log():
     except Exception as e:
         print(f"[LogManager] Error during log archiving: {e}")
 
-def get_logger(name="App"):
+def get_logger(name="main"):
     """
     获取 Logger 的工厂方法。
 
@@ -51,7 +51,7 @@ def get_logger(name="App"):
     global _logger_initialized
 
     # 根 Logger 名称，所有模块应基于此扩展，如 App.Network, App.Database
-    root_name = "App"
+    root_name = "main"
 
     # 获取根 logger
     root_logger = logging.getLogger(root_name)
@@ -88,13 +88,9 @@ def get_logger(name="App"):
 
                 _logger_initialized = True
 
-    # 请求的是根名称，直接返回
     if name == root_name:
         return root_logger
-
-    # 请求的是其他名称，返回 child
-    if name.startswith(root_name + "."):
-        return logging.getLogger(name)
+    elif name.startswith(f"{root_name}."):
+        return root_logger.getChild(name)
     else:
-        # 使用 getChild 继承配置
         return root_logger.getChild(name)
