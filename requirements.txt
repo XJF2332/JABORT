@@ -1,0 +1,11 @@
+anytree==2.13.0
+charset_normalizer==3.4.1
+fitz==0.0.1.dev2
+numpy==1.26.4
+Pillow==10.4.0
+pyside6==6.10.0
+pyside6_addons==6.10.0
+pyside6_essentials==6.10.0
+Requests==2.32.3
+send2trash==2.0.0
+llama_cpp_python==0.3.18

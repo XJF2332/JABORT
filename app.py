@@ -146,10 +146,10 @@ class MyWindow(QWidget, Ui_Form):
         self.NewFlattenRun.setEnabled(False)
         self.NewFlattenStop.setEnabled(True)
         self.new_flatten_worker = NewFlattenWorker(self.NewFlattenDirInput.text())
-        self.new_flatten_worker.progress_updated.connect(lambda v: self.NewFlattenProgress.setValue(v * 100))
-        self.new_flatten_worker.output_updated.connect(lambda t: self.UniLog.appendPlainText(str(t)))
+        self.new_flatten_worker.progress_updated.connect(lambda v: self.NewFlattenProgress.setValue(v))
         self.new_flatten_worker.worker_finished.connect(lambda: self.NewFlattenRun.setEnabled(True))
         self.new_flatten_worker.worker_finished.connect(lambda: self.NewFlattenStop.setEnabled(False))
+        self.new_flatten_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
         self.new_flatten_worker.start()
 
     def crop_text_run(self):

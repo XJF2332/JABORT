@@ -41,19 +41,10 @@ def _archive_existing_log():
 
 def get_logger(name="main"):
     """
-    获取 Logger 的工厂方法。
-
-    机制保证：
-    1. 只有第一次调用时会执行归档和 Handler 配置。
-    2. 返回的 Logger 实例将持有唯一的 FileHandler，保证线程安全。
-    3. 后续调用只会返回已配置好的 Logger 或其子 Logger。
+    获取 Logger
     """
     global _logger_initialized
-
-    # 根 Logger 名称，所有模块应基于此扩展，如 App.Network, App.Database
     root_name = "main"
-
-    # 获取根 logger
     root_logger = logging.getLogger(root_name)
 
     # 双重检查锁定，确保多线程初始化时的安全性
@@ -90,7 +81,5 @@ def get_logger(name="main"):
 
     if name == root_name:
         return root_logger
-    elif name.startswith(f"{root_name}."):
-        return root_logger.getChild(name)
     else:
         return root_logger.getChild(name)
