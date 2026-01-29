@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appjWhuEG.ui'
+## Form generated from reading UI file 'appoWFkiw.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -119,6 +119,7 @@ class Ui_Form(object):
 
         self.NewFlattenDirInput = QLineEdit(self.NewFlattenLayout)
         self.NewFlattenDirInput.setObjectName(u"NewFlattenDirInput")
+        self.NewFlattenDirInput.setClearButtonEnabled(True)
 
         self.NewFlattenDir.addWidget(self.NewFlattenDirInput)
 

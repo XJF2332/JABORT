@@ -137,9 +137,9 @@ class MyWindow(QWidget, Ui_Form):
         self.FlattenRun.setEnabled(False)
         self.FlattenStop.setEnabled(True)
         self.flatten_worker = FlattenWorker(self.FlattenDirInput.text())
-        self.flatten_worker.output_updated.connect(lambda t: self.UniLog.appendPlainText(str(t)))
         self.flatten_worker.worker_finished.connect(lambda: self.FlattenRun.setEnabled(True))
         self.flatten_worker.worker_finished.connect(lambda: self.FlattenStop.setEnabled(False))
+        self.flatten_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
         self.flatten_worker.start()
 
     def new_flatten_run(self):

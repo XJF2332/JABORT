@@ -32,8 +32,8 @@ class NewFlattenWorker(QThread):
     def run(self):
         self._stop = False
         if not self.folder or not os.path.exists(self.folder):
-            logger.error("输入路径为空或不存在")
-            self.worker_finished.emit(("错误", "输入路径为空或不存在", QMessageBox.Icon.Critical))
+            logger.error("路径不存在或为空")
+            self.worker_finished.emit(("错误", "路径不存在或为空", QMessageBox.Icon.Critical))
             return
 
         try:
