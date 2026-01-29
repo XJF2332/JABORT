@@ -7,6 +7,9 @@ import fitz
 from send2trash import send2trash
 
 from Tools.Utils import utils
+from Core import log_manager
+
+logger = log_manager.get_logger(__name__)
 
 
 class SequenceInfo(TypedDict):
@@ -20,11 +23,6 @@ class SequenceInfo(TypedDict):
 def _process_folder(dirpath: str, dirnames: List[str], filenames: List[str]) -> List[SequenceInfo]:
     """
     处理单个文件夹中的图像序列，识别并分组序列文件。
-
-    :param dirpath: 当前文件夹的路径
-    :param dirnames: 当前文件夹下的子文件夹名称列表
-    :param filenames: 当前文件夹下的文件名称列表
-    :return: 包含识别到的图像序列信息的字典列表
     """
     sequence_groups: Dict[tuple, List[tuple]] = defaultdict(list)
     IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.tif', '.webp', '.ico'}
@@ -37,7 +35,7 @@ def _process_folder(dirpath: str, dirnames: List[str], filenames: List[str]) -> 
         if match:
             prefix, number_str, extension = match.groups()
 
-            #检查扩展名
+            # 检查扩展名
             if extension.lower() not in IMAGE_EXTENSIONS:
                 continue
 
@@ -47,7 +45,6 @@ def _process_folder(dirpath: str, dirnames: List[str], filenames: List[str]) -> 
                 # 将 (数字, 完整路径) 添加到对应的组
                 sequence_groups[(prefix, extension)].append((number, full_path))
             except ValueError:
-                # 如果数字部分无法转换为整数，则跳过
                 continue
 
     sequences: List[SequenceInfo] = []
@@ -79,11 +76,8 @@ def _process_folder(dirpath: str, dirnames: List[str], filenames: List[str]) -> 
 def find_image_sequences(root_folder: str, recursive: bool = False) -> List[SequenceInfo]:
     """
     查找指定文件夹及其子文件夹（可选）中的所有图像序列。
-
-    :param root_folder: 要扫描的根文件夹路径
-    :param recursive: 是否递归查找子文件夹，默认为 False
-    :return: 包含所有找到的序列信息字典的列表
     """
+    logger.debug(f"正在扫描图像序列: {root_folder}, 递归: {recursive}")
     all_sequences_info: List[SequenceInfo] = []
 
     if recursive:
@@ -91,22 +85,20 @@ def find_image_sequences(root_folder: str, recursive: bool = False) -> List[Sequ
             all_sequences_info.extend(_process_folder(dirpath, dirnames, filenames))
     else:
         dirpath = root_folder
-        dirnames = [d for d in os.listdir(dirpath) if os.path.isdir(os.path.join(dirpath, d))]
-        filenames = [f for f in os.listdir(dirpath) if os.path.isfile(os.path.join(dirpath, f))]
-        all_sequences_info.extend(_process_folder(dirpath, dirnames, filenames))
+        if os.path.isdir(dirpath):
+            dirnames = [d for d in os.listdir(dirpath) if os.path.isdir(os.path.join(dirpath, d))]
+            filenames = [f for f in os.listdir(dirpath) if os.path.isfile(os.path.join(dirpath, f))]
+            all_sequences_info.extend(_process_folder(dirpath, dirnames, filenames))
 
+    logger.info(f"扫描完成，共找到 {len(all_sequences_info)} 个图像序列")
     return all_sequences_info
 
 
-def create_pdf_from_sequence(sequence_info: SequenceInfo) -> str | None:
+def create_pdf_from_sequence(sequence_info: SequenceInfo) -> int:
     """
     将一个图像序列转换为一个PDF文件。
 
-    PDF保存在序列所在文件夹上一级，并以文件夹名命名。
-    如果同名文件已存在，则在文件名末尾添加序号。
-
-    :param sequence_info: 包含序列信息的字典
-    :return: 若成功则返回None，失败则返回错误信息
+    :return: 0 表示成功，1 表示失败
     """
     folder_path = sequence_info["folder"]
     image_paths = sequence_info["sequence"]
@@ -114,10 +106,18 @@ def create_pdf_from_sequence(sequence_info: SequenceInfo) -> str | None:
     # 确定输出PDF的路径和名称
     parent_dir = os.path.dirname(folder_path)
     folder_name = os.path.basename(folder_path)
+
+    # 简单的防御性检查，防止路径错误
+    if not parent_dir or not folder_name:
+        logger.error(f"路径解析错误: {folder_path}")
+        return 1
+
     output_pdf_path = utils.get_unique_filename(os.path.join(parent_dir, f"{folder_name}.pdf"))
 
-    with fitz.open() as pdf_document:
-        try:
+    logger.debug(f"正在创建PDF: {output_pdf_path}, 源文件数: {len(image_paths)}")
+
+    try:
+        with fitz.open() as pdf_document:
             # 追加图像
             for img_path in image_paths:
                 img_doc = fitz.open(img_path)
@@ -128,22 +128,23 @@ def create_pdf_from_sequence(sequence_info: SequenceInfo) -> str | None:
                 img_doc.close()
             # 保存 PDF
             pdf_document.save(output_pdf_path)
-            return None
-        except Exception as e:
-            return f"[图像序列转PDF] 无法创建PDF: {str(e)}"
+
+        logger.info(f"成功创建PDF: {output_pdf_path}")
+        return 0
+    except Exception as e:
+        logger.error(f"无法创建PDF ({folder_name}): {str(e)}")
+        return 1
 
 
-
-def cleanup_original_files(sequence_info: SequenceInfo, send_to_trash_flag: bool) -> str:
+def cleanup_original_files(sequence_info: SequenceInfo, send_to_trash_flag: bool) -> int:
     """
     根据用户选择和文件夹内容，将原文件或文件夹发送到回收站。
 
-    :param sequence_info: 包含序列信息的字典
-    :param send_to_trash_flag: 是否将文件发送到回收站的标志
-    :return: 执行状态
+    :return: 0 表示成功或跳过，1 表示失败
     """
     if not send_to_trash_flag:
-        return "[图像序列转PDF] 跳过清理"
+        logger.debug("跳过清理：未启用发送到回收站")
+        return 0
 
     folder_path = sequence_info["folder"]
     sequence_files = set(sequence_info["sequence"])
@@ -153,54 +154,56 @@ def cleanup_original_files(sequence_info: SequenceInfo, send_to_trash_flag: bool
     # 序列文件是文件夹的所有内容，且没有子文件夹 - 直接删除父文件夹更快
     if sequence_files == all_items_in_folder and not has_subfolder:
         try:
-            send2trash(os.path.normpath(folder_path))
-            return "[图像序列转PDF] 删除成功"
+            norm_path = os.path.normpath(folder_path)
+            send2trash(norm_path)
+            logger.info(f"文件夹已移至回收站: {norm_path}")
+            return 0
         except Exception as e:
-            return f"[图像序列转PDF] 无法删除文件夹：{str(e)}"
+            logger.error(f"无法删除文件夹 ({folder_path}): {str(e)}")
+            return 1
     else:
         try:
-            send2trash([os.path.normpath(i) for i in sequence_info["sequence"]])
-            return "[图像序列转PDF] 删除成功"
+            files_to_trash = [os.path.normpath(i) for i in sequence_info["sequence"]]
+            send2trash(files_to_trash)
+            logger.info(f"序列文件已移至回收站，共 {len(files_to_trash)} 个文件")
+            return 0
         except Exception as e:
-            return f"[图像序列转PDF] 无法删除序列：{str(e)}"
+            logger.error(f"无法删除序列文件: {str(e)}")
+            return 1
 
 
 def process_image_sequences(target_folder: str, recursive: bool = False,
-                            send_to_trash: bool = False) -> Generator[tuple[int, str], None, None]:
+                            send_to_trash: bool = False) -> Generator[int, None, None]:
     """
     处理图像序列转PDF的主函数。
 
-    查找指定目录下的图像序列，将其转换为PDF，并根据参数清理原文件。
-
-    :param target_folder: 目标文件夹路径
-    :param recursive: 是否递归查找子文件夹，默认为 False
-    :param send_to_trash: 处理完成后是否将原图像文件发送到回收站，默认为 False
-    :return: 生成器，第一项为进度（0~100），第二项为日志信息，进度按序列数量计算
+    :return: 进度生成器 (Yields int: 0-100)
     """
     # 查找所有图像序列
     sequences = find_image_sequences(target_folder, recursive)
     seq_length = len(sequences)
 
     if not sequences:
-        yield 0, "[图像序列转PDF] 未找到任何符合条件的图像序列"
-        return None
+        logger.warning("未找到任何符合条件的图像序列")
+        yield 100
+        return
 
     # 处理每个序列
     for i, seq_info in enumerate(sequences, 1):
         progress = int((i / seq_length) * 100)
 
         # 创建 PDF
-        try:
-            res = create_pdf_from_sequence(seq_info)
-            yield progress, res
-            if res:
-                continue
-        except Exception as e:
-            yield progress, f"[图像序列转PDF] 无法处理序列 {i}：{str(e)}"
+        result_code = create_pdf_from_sequence(seq_info)
+
+        if result_code != 0:
+            # 如果创建失败，跳过后续清理步骤，继续下一个序列
+            logger.warning(f"序列 {i} 处理失败，跳过清理")
+            yield progress
             continue
 
         # 清理原文件
         cleanup_original_files(seq_info, send_to_trash)
 
-    yield 100, "[图像序列转PDF] 所有任务已完成！"
-    return None
+        yield progress
+
+    return

@@ -190,7 +190,7 @@ class MyWindow(QWidget, Ui_Form):
         )
         self.seq2pdf_worker.worker_finished.connect(lambda: self.Seq2PDFRun.setEnabled(True))
         self.seq2pdf_worker.worker_finished.connect(lambda: self.Seq2PDFStop.setEnabled(False))
-        self.seq2pdf_worker.output_updated.connect(lambda t: self.UniLog.appendPlainText(t))
+        self.seq2pdf_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
         self.seq2pdf_worker.progress_updated.connect(lambda v: self.Seq2PDFProgress.setValue(v))
         self.seq2pdf_worker.run()
 
