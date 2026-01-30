@@ -144,9 +144,9 @@ def show_context_menu(list_widget, position, menu_items: List[Tuple[str, Callabl
     context_menu.exec(list_widget.mapToGlobal(position))
 
 
-def show_message_box(parent=None, title="提示", content="", icon=QMessageBox.Icon.Information):
+def show_icon_message_box(parent=None, title="提示", content="", icon=QMessageBox.Icon.Information):
     """
-    显示一个只有一个"确定"按钮的消息框
+    显示一个只有一个"确定"按钮的带图标的消息框
 
     可选的icon：
     - QMessageBox.Icon.NoIcon: 无图标
@@ -161,21 +161,10 @@ def show_message_box(parent=None, title="提示", content="", icon=QMessageBox.I
         content: 消息内容，默认为空
         icon: 消息图标，默认为QMessageBox.Icon.Information
     """
-    # 创建消息框
     msg_box = QMessageBox(parent)
-
-    # 设置标题和内容
     msg_box.setWindowTitle(title)
     msg_box.setText(content)
-
-    # 设置图标
     msg_box.setIcon(icon)
-
-    # 添加"确定"按钮
     msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
-
-    # 设置默认按钮为"确定"
     msg_box.setDefaultButton(QMessageBox.StandardButton.Ok)
-
-    # 显示消息框（模态对话框，阻塞父窗口）
     msg_box.exec()

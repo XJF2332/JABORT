@@ -132,14 +132,14 @@ class MyWindow(QWidget, Ui_Form):
         if path:
             target_widget.setText(path[0])
 
-    # 仅为单个功能服务的函数
+    # 会开启新线程的函数
     def flatten_run(self):
         self.FlattenRun.setEnabled(False)
         self.FlattenStop.setEnabled(True)
         self.flatten_worker = FlattenWorker(self.FlattenDirInput.text())
         self.flatten_worker.worker_finished.connect(lambda: self.FlattenRun.setEnabled(True))
         self.flatten_worker.worker_finished.connect(lambda: self.FlattenStop.setEnabled(False))
-        self.flatten_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
+        self.flatten_worker.worker_finished.connect(lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
         self.flatten_worker.start()
 
     def new_flatten_run(self):
@@ -149,16 +149,8 @@ class MyWindow(QWidget, Ui_Form):
         self.new_flatten_worker.progress_updated.connect(lambda v: self.NewFlattenProgress.setValue(v))
         self.new_flatten_worker.worker_finished.connect(lambda: self.NewFlattenRun.setEnabled(True))
         self.new_flatten_worker.worker_finished.connect(lambda: self.NewFlattenStop.setEnabled(False))
-        self.new_flatten_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
+        self.new_flatten_worker.worker_finished.connect(lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
         self.new_flatten_worker.start()
-
-    def crop_text_run(self):
-        res = CropText.crop_text_file(
-            source_path=self.CropTextInPath.text(),
-            output_path=self.CropTextOutPath.text(),
-            percentage=self.CropTextRatioSpinbox.value(),
-        )
-        self.CropTextLog.appendPlainText(res)
 
     def png2jpg_run(self):
         self.PNG2JPGRun.setEnabled(False)
@@ -172,12 +164,10 @@ class MyWindow(QWidget, Ui_Form):
             delete_origin=self.PNG2JPGDelOri.isChecked(),
             deduplicate=self.PNG2JPGDedup.currentIndex()
         )
-        # 连接信号
         self.png2jpg_worker.progress_updated.connect(lambda v: self.PNG2JPGProgress.setValue(int(v)))
         self.png2jpg_worker.worker_finished.connect(lambda: self.PNG2JPGRun.setEnabled(True))
         self.png2jpg_worker.worker_finished.connect(lambda: self.PNG2JPGStop.setEnabled(False))
-        self.png2jpg_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
-        # 启动
+        self.png2jpg_worker.worker_finished.connect(lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
         self.png2jpg_worker.start()
 
     def img2pdf_run(self):
@@ -190,7 +180,8 @@ class MyWindow(QWidget, Ui_Form):
         )
         self.seq2pdf_worker.worker_finished.connect(lambda: self.Seq2PDFRun.setEnabled(True))
         self.seq2pdf_worker.worker_finished.connect(lambda: self.Seq2PDFStop.setEnabled(False))
-        self.seq2pdf_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
+        self.seq2pdf_worker.worker_finished.connect(
+            lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
         self.seq2pdf_worker.progress_updated.connect(lambda v: self.Seq2PDFProgress.setValue(v))
         self.seq2pdf_worker.run()
 
@@ -236,6 +227,15 @@ class MyWindow(QWidget, Ui_Form):
         self.noise_worker.worker_finished.connect(lambda: self.NoiseImageGenStop.setEnabled(False))
         self.noise_worker.worker_finished.connect(lambda t: self.UniLog.appendPlainText(str(t)))
         self.noise_worker.start()
+
+    # 在当前线程运行的函数
+    def crop_text_run(self):
+        res = CropText.crop_text_file(
+            source_path=self.CropTextInPath.text(),
+            output_path=self.CropTextOutPath.text(),
+            percentage=self.CropTextRatioSpinbox.value(),
+        )
+        self.CropTextLog.appendPlainText(res)
 
     def set_stylesheet(self):
         with open(self.ThemeDropdown.currentText(), "r", encoding="utf-8") as style:
