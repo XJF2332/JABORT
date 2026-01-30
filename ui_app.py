@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appoWFkiw.ui'
+## Form generated from reading UI file 'appRNPcWP.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -723,6 +723,7 @@ class Ui_Form(object):
 
         self.NoiseImagePath = QLineEdit(self.NoiseImgGen)
         self.NoiseImagePath.setObjectName(u"NoiseImagePath")
+        self.NoiseImagePath.setClearButtonEnabled(True)
 
         self.NoiseImagePaths.addWidget(self.NoiseImagePath)
 
@@ -936,7 +937,8 @@ class Ui_Form(object):
         self.MainPage.setTabText(self.MainPage.indexOf(self.TextProcessingLayout), QCoreApplication.translate("Form", u"\u6587\u672c\u5904\u7406", None))
         self.NoiseImageAmount.setSuffix(QCoreApplication.translate("Form", u" \u5f20\u56fe\u7247", None))
         self.NoiseImageAmount.setPrefix(QCoreApplication.translate("Form", u"\u751f\u6210 ", None))
-        self.NoiseImagePathChoose.setText(QCoreApplication.translate("Form", u"\u9009\u62e9\u76ee\u6807\u76ee\u5f55", None))
+        self.NoiseImagePathChoose.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
+        self.NoiseImagePath.setPlaceholderText(QCoreApplication.translate("Form", u"\u5728\u6b64\u76ee\u5f55\u4e0b\u751f\u6210", None))
         self.NoiseImageGenStart.setText(QCoreApplication.translate("Form", u"\u5f00\u59cb", None))
         self.NoiseImageGenStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
         self.TestChildTab.setTabText(self.TestChildTab.indexOf(self.NoiseImgGen), QCoreApplication.translate("Form", u"\u751f\u6210\u566a\u58f0\u56fe\u7247", None))

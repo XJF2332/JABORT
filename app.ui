@@ -414,6 +414,12 @@
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
              </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
             </spacer>
            </item>
           </layout>
@@ -843,6 +849,12 @@
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
              </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
             </spacer>
            </item>
           </layout>
@@ -948,6 +960,12 @@
             <spacer name="CropTextSpacer">
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
              </property>
             </spacer>
            </item>
@@ -1128,12 +1146,19 @@
              <item>
               <widget class="QPushButton" name="NoiseImagePathChoose">
                <property name="text">
-                <string>选择目标目录</string>
+                <string>打开</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="NoiseImagePath"/>
+              <widget class="QLineEdit" name="NoiseImagePath">
+               <property name="placeholderText">
+                <string>在此目录下生成</string>
+               </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -1172,6 +1197,12 @@
             <spacer name="NoiseImageSpacer">
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
              </property>
             </spacer>
            </item>
@@ -1264,6 +1295,12 @@
         <spacer name="SettingsSpacer">
          <property name="orientation">
           <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
          </property>
         </spacer>
        </item>
