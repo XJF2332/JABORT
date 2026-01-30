@@ -88,9 +88,9 @@ class MyWindow(QWidget, Ui_Form):
             )
         )
         # 噪声图像生成信号
-        self.NoiseImageGenStart.clicked.connect(self.noise_gen_run)
-        self.NoiseImageGenStop.clicked.connect(lambda: self.noise_worker.stop())
-        self.NoiseImagePathChoose.clicked.connect(lambda: self.select_folder(self.NoiseImagePath))
+        self.ImageSeqGenStart.clicked.connect(self.image_seq_gen_run)
+        self.ImageSeqGenStop.clicked.connect(lambda: self.noise_worker.stop())
+        self.ImageSeqPathOpen.clicked.connect(lambda: self.select_folder(self.ImageSeqPathInput))
         # 裁剪文本信号
         self.CropTextInPathOpen.clicked.connect(lambda: self.select_file(self.CropTextInPath))
         self.CropTextOutPathOpen.clicked.connect(lambda: self.select_file(self.CropTextOutPath))
@@ -213,16 +213,16 @@ class MyWindow(QWidget, Ui_Form):
         self.UniLog.appendPlainText("[ComfyUI 放大器] 开始处理图像...")
         self.upscaler_worker.start()
 
-    def noise_gen_run(self):
-        self.NoiseImageGenStop.setEnabled(True)
-        self.NoiseImageGenStart.setEnabled(False)
-        self.noise_worker = NoiseImageWorker(
-            num_images=self.NoiseImageAmount.value(),
-            output_folder=self.NoiseImagePath.text()
+    def image_seq_gen_run(self):
+        self.ImageSeqGenStop.setEnabled(True)
+        self.ImageSeqGenStart.setEnabled(False)
+        self.noise_worker = ImageSeqWorker(
+            num_images=self.ImageSeqItemAmount.value(),
+            output_folder=self.ImageSeqPathInput.text()
         )
-        self.noise_worker.progress_updated.connect(lambda v: self.NoiseImageProgress.setValue(v))
-        self.noise_worker.worker_finished.connect(lambda: self.NoiseImageGenStart.setEnabled(True))
-        self.noise_worker.worker_finished.connect(lambda: self.NoiseImageGenStop.setEnabled(False))
+        self.noise_worker.progress_updated.connect(lambda v: self.ImageSeqGenProgress.setValue(v))
+        self.noise_worker.worker_finished.connect(lambda: self.ImageSeqGenStart.setEnabled(True))
+        self.noise_worker.worker_finished.connect(lambda: self.ImageSeqGenStop.setEnabled(False))
         self.noise_worker.worker_finished.connect(lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
         self.noise_worker.start()
 

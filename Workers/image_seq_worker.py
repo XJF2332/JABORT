@@ -2,13 +2,13 @@ import os.path
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import QMessageBox
 
-from Tools.TestTools import NoiseImageGen
+from Tools.TestTools import ImgSeqGen
 from Core import log_manager
 
 logger = log_manager.get_logger(__name__)
 
 
-class NoiseImageWorker(QThread):
+class ImageSeqWorker(QThread):
     progress_updated = Signal(int)
     worker_finished = Signal(tuple)
 
@@ -31,21 +31,19 @@ class NoiseImageWorker(QThread):
         self._stop = False
         logger.info(f"开始生成 {self.num_images} 张噪声图片到 {self.output_folder}")
 
-        for i in range(self.num_images):
+        res = ImgSeqGen.generate_image_sequence(self.output_folder, self.num_images, (256,256))
+        for i in res:
             if self._stop:
                 logger.info("生成已被用户终止")
                 self.worker_finished.emit(("提示", "生成已被终止", QMessageBox.Icon.Information))
                 return
 
-            # NoiseImageGen 现在直接返回 int (0成功, 1失败)
-            result = NoiseImageGen.generate_noise_image(self.output_folder, i + 1)
+            self.progress_updated.emit(i[0])
 
-            self.progress_updated.emit(int((i + 1) / self.num_images * 100))
-
-            if result != 0:
-                logger.error(f"生成第 {i + 1} 张图片时发生错误")
-                self.worker_finished.emit(("错误", "生成噪声图片时发生错误", QMessageBox.Icon.Critical))
+            if i[1]:
+                logger.error(f"生成图片时发生错误")
+                self.worker_finished.emit(("错误", "生成图片时发生错误", QMessageBox.Icon.Critical))
                 return
 
         logger.info("所有图片生成完成")
-        self.worker_finished.emit(("完成", "生成完成", QMessageBox.Icon.Information))
+        self.worker_finished.emit(("完成", "所有图片生成完成", QMessageBox.Icon.Information))

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appRNPcWP.ui'
+## Form generated from reading UI file 'appzeVVnd.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -702,62 +702,62 @@ class Ui_Form(object):
         self.TestChildTab = QTabWidget(self.TestingLayout)
         self.TestChildTab.setObjectName(u"TestChildTab")
         self.TestChildTab.setMovable(True)
-        self.NoiseImgGen = QWidget()
-        self.NoiseImgGen.setObjectName(u"NoiseImgGen")
-        self.verticalLayout_12 = QVBoxLayout(self.NoiseImgGen)
+        self.ImgSeqGen = QWidget()
+        self.ImgSeqGen.setObjectName(u"ImgSeqGen")
+        self.verticalLayout_12 = QVBoxLayout(self.ImgSeqGen)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
-        self.NoiseImageAmount = QSpinBox(self.NoiseImgGen)
-        self.NoiseImageAmount.setObjectName(u"NoiseImageAmount")
-        self.NoiseImageAmount.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
-        self.NoiseImageAmount.setMinimum(1)
-        self.NoiseImageAmount.setMaximum(500)
+        self.ImageSeqItemAmount = QSpinBox(self.ImgSeqGen)
+        self.ImageSeqItemAmount.setObjectName(u"ImageSeqItemAmount")
+        self.ImageSeqItemAmount.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.ImageSeqItemAmount.setMinimum(1)
+        self.ImageSeqItemAmount.setMaximum(500)
 
-        self.verticalLayout_12.addWidget(self.NoiseImageAmount)
+        self.verticalLayout_12.addWidget(self.ImageSeqItemAmount)
 
-        self.NoiseImagePaths = QHBoxLayout()
-        self.NoiseImagePaths.setObjectName(u"NoiseImagePaths")
-        self.NoiseImagePathChoose = QPushButton(self.NoiseImgGen)
-        self.NoiseImagePathChoose.setObjectName(u"NoiseImagePathChoose")
+        self.ImageSeqPaths = QHBoxLayout()
+        self.ImageSeqPaths.setObjectName(u"ImageSeqPaths")
+        self.ImageSeqPathOpen = QPushButton(self.ImgSeqGen)
+        self.ImageSeqPathOpen.setObjectName(u"ImageSeqPathOpen")
 
-        self.NoiseImagePaths.addWidget(self.NoiseImagePathChoose)
+        self.ImageSeqPaths.addWidget(self.ImageSeqPathOpen)
 
-        self.NoiseImagePath = QLineEdit(self.NoiseImgGen)
-        self.NoiseImagePath.setObjectName(u"NoiseImagePath")
-        self.NoiseImagePath.setClearButtonEnabled(True)
+        self.ImageSeqPathInput = QLineEdit(self.ImgSeqGen)
+        self.ImageSeqPathInput.setObjectName(u"ImageSeqPathInput")
+        self.ImageSeqPathInput.setClearButtonEnabled(True)
 
-        self.NoiseImagePaths.addWidget(self.NoiseImagePath)
-
-
-        self.verticalLayout_12.addLayout(self.NoiseImagePaths)
-
-        self.NoiseImageProgress = QProgressBar(self.NoiseImgGen)
-        self.NoiseImageProgress.setObjectName(u"NoiseImageProgress")
-        self.NoiseImageProgress.setValue(0)
-        self.NoiseImageProgress.setTextVisible(False)
-
-        self.verticalLayout_12.addWidget(self.NoiseImageProgress)
-
-        self.NoiseImageGenBtns = QHBoxLayout()
-        self.NoiseImageGenBtns.setObjectName(u"NoiseImageGenBtns")
-        self.NoiseImageGenStart = QPushButton(self.NoiseImgGen)
-        self.NoiseImageGenStart.setObjectName(u"NoiseImageGenStart")
-
-        self.NoiseImageGenBtns.addWidget(self.NoiseImageGenStart)
-
-        self.NoiseImageGenStop = QPushButton(self.NoiseImgGen)
-        self.NoiseImageGenStop.setObjectName(u"NoiseImageGenStop")
-        self.NoiseImageGenStop.setEnabled(False)
-
-        self.NoiseImageGenBtns.addWidget(self.NoiseImageGenStop)
+        self.ImageSeqPaths.addWidget(self.ImageSeqPathInput)
 
 
-        self.verticalLayout_12.addLayout(self.NoiseImageGenBtns)
+        self.verticalLayout_12.addLayout(self.ImageSeqPaths)
 
-        self.NoiseImageSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.ImageSeqGenProgress = QProgressBar(self.ImgSeqGen)
+        self.ImageSeqGenProgress.setObjectName(u"ImageSeqGenProgress")
+        self.ImageSeqGenProgress.setValue(0)
+        self.ImageSeqGenProgress.setTextVisible(False)
 
-        self.verticalLayout_12.addItem(self.NoiseImageSpacer)
+        self.verticalLayout_12.addWidget(self.ImageSeqGenProgress)
 
-        self.TestChildTab.addTab(self.NoiseImgGen, "")
+        self.ImageSeqGenBtns = QHBoxLayout()
+        self.ImageSeqGenBtns.setObjectName(u"ImageSeqGenBtns")
+        self.ImageSeqGenStart = QPushButton(self.ImgSeqGen)
+        self.ImageSeqGenStart.setObjectName(u"ImageSeqGenStart")
+
+        self.ImageSeqGenBtns.addWidget(self.ImageSeqGenStart)
+
+        self.ImageSeqGenStop = QPushButton(self.ImgSeqGen)
+        self.ImageSeqGenStop.setObjectName(u"ImageSeqGenStop")
+        self.ImageSeqGenStop.setEnabled(False)
+
+        self.ImageSeqGenBtns.addWidget(self.ImageSeqGenStop)
+
+
+        self.verticalLayout_12.addLayout(self.ImageSeqGenBtns)
+
+        self.ImageSeqGenSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_12.addItem(self.ImageSeqGenSpacer)
+
+        self.TestChildTab.addTab(self.ImgSeqGen, "")
         self.QtIconsLayout = QWidget()
         self.QtIconsLayout.setObjectName(u"QtIconsLayout")
         self.verticalLayout_16 = QVBoxLayout(self.QtIconsLayout)
@@ -935,13 +935,13 @@ class Ui_Form(object):
         self.JsonSorterOutput.setPlainText(QCoreApplication.translate("Form", u"\u5c06JSON\u7684\u952e\u503c\u5bf9\u6309\u952e\u7684\u987a\u5e8f\u6392\u5e8f", None))
         self.TextProcChildTab.setTabText(self.TextProcChildTab.indexOf(self.JsonSorter), QCoreApplication.translate("Form", u"JSON \u6392\u5e8f", None))
         self.MainPage.setTabText(self.MainPage.indexOf(self.TextProcessingLayout), QCoreApplication.translate("Form", u"\u6587\u672c\u5904\u7406", None))
-        self.NoiseImageAmount.setSuffix(QCoreApplication.translate("Form", u" \u5f20\u56fe\u7247", None))
-        self.NoiseImageAmount.setPrefix(QCoreApplication.translate("Form", u"\u751f\u6210 ", None))
-        self.NoiseImagePathChoose.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
-        self.NoiseImagePath.setPlaceholderText(QCoreApplication.translate("Form", u"\u5728\u6b64\u76ee\u5f55\u4e0b\u751f\u6210", None))
-        self.NoiseImageGenStart.setText(QCoreApplication.translate("Form", u"\u5f00\u59cb", None))
-        self.NoiseImageGenStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
-        self.TestChildTab.setTabText(self.TestChildTab.indexOf(self.NoiseImgGen), QCoreApplication.translate("Form", u"\u751f\u6210\u566a\u58f0\u56fe\u7247", None))
+        self.ImageSeqItemAmount.setSuffix(QCoreApplication.translate("Form", u" \u5f20\u56fe\u7247", None))
+        self.ImageSeqItemAmount.setPrefix(QCoreApplication.translate("Form", u"\u751f\u6210 ", None))
+        self.ImageSeqPathOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
+        self.ImageSeqPathInput.setPlaceholderText(QCoreApplication.translate("Form", u"\u5728\u6b64\u76ee\u5f55\u4e0b\u751f\u6210", None))
+        self.ImageSeqGenStart.setText(QCoreApplication.translate("Form", u"\u5f00\u59cb", None))
+        self.ImageSeqGenStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
+        self.TestChildTab.setTabText(self.TestChildTab.indexOf(self.ImgSeqGen), QCoreApplication.translate("Form", u"\u751f\u6210\u56fe\u50cf\u5e8f\u5217", None))
         self.QtIconsExport.setText(QCoreApplication.translate("Form", u"\u76f4\u63a5\u5bfc\u51fa", None))
         self.QtIconsShow.setText(QCoreApplication.translate("Form", u"\u6253\u5f00 GUI", None))
         self.TestChildTab.setTabText(self.TestChildTab.indexOf(self.QtIconsLayout), QCoreApplication.translate("Form", u"Qt\u5185\u7f6e\u56fe\u6807", None))

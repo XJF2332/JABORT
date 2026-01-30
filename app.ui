@@ -1117,13 +1117,13 @@
          <property name="movable">
           <bool>true</bool>
          </property>
-         <widget class="QWidget" name="NoiseImgGen">
+         <widget class="QWidget" name="ImgSeqGen">
           <attribute name="title">
-           <string>生成噪声图片</string>
+           <string>生成图像序列</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_12">
            <item>
-            <widget class="QSpinBox" name="NoiseImageAmount">
+            <widget class="QSpinBox" name="ImageSeqItemAmount">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
              </property>
@@ -1142,16 +1142,16 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="NoiseImagePaths">
+            <layout class="QHBoxLayout" name="ImageSeqPaths">
              <item>
-              <widget class="QPushButton" name="NoiseImagePathChoose">
+              <widget class="QPushButton" name="ImageSeqPathOpen">
                <property name="text">
                 <string>打开</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="NoiseImagePath">
+              <widget class="QLineEdit" name="ImageSeqPathInput">
                <property name="placeholderText">
                 <string>在此目录下生成</string>
                </property>
@@ -1163,7 +1163,7 @@
             </layout>
            </item>
            <item>
-            <widget class="QProgressBar" name="NoiseImageProgress">
+            <widget class="QProgressBar" name="ImageSeqGenProgress">
              <property name="value">
               <number>0</number>
              </property>
@@ -1173,16 +1173,16 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="NoiseImageGenBtns">
+            <layout class="QHBoxLayout" name="ImageSeqGenBtns">
              <item>
-              <widget class="QPushButton" name="NoiseImageGenStart">
+              <widget class="QPushButton" name="ImageSeqGenStart">
                <property name="text">
                 <string>开始</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="NoiseImageGenStop">
+              <widget class="QPushButton" name="ImageSeqGenStop">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -1194,7 +1194,7 @@
             </layout>
            </item>
            <item>
-            <spacer name="NoiseImageSpacer">
+            <spacer name="ImageSeqGenSpacer">
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
              </property>
