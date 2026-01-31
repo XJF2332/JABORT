@@ -1,49 +1,99 @@
-import os, re
+import os
+import re
 from typing import List, Tuple, Callable
 
 import send2trash
-from PySide6.QtWidgets import QComboBox, QPlainTextEdit, QMenu, QListWidget, QMessageBox
+from PySide6.QtWidgets import QComboBox, QPlainTextEdit, QMenu, QListWidget, QMessageBox, QWidget
 
+from Core import log_manager
 from Tools.Utils import utils
 
-def refresh_combobox(target_widget: QComboBox, path: str, error_widget: QPlainTextEdit, include_path: bool = False,
+logger = log_manager.get_logger(__name__)
+
+
+def show_message_box(parent=None, title: str = "提示", content: str = "",
+                     icon: QMessageBox.Icon = QMessageBox.Icon.NoIcon):
+    """
+    显示一个只有一个"确定"按钮的带图标的消息框
+
+    可选的icon：
+    - QMessageBox.Icon.NoIcon: 无图标
+    - QMessageBox.Icon.Information: 信息图标
+    - QMessageBox.Icon.Warning: 警告图标
+    - QMessageBox.Icon.Critical: 错误图标
+    - QMessageBox.Icon.Question: 问号图标
+
+    Args:
+        parent: 父窗口，默认为None
+        title: 消息框标题，默认为"提示"
+        content: 消息内容，默认为空
+        icon: 消息图标，默认为QMessageBox.Icon.NoIcon
+    """
+    msg_box = QMessageBox(parent)
+    msg_box.setWindowTitle(title)
+    msg_box.setText(content)
+    msg_box.setIcon(icon)
+    msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
+    msg_box.setDefaultButton(QMessageBox.StandardButton.Ok)
+    msg_box.exec()
+
+
+def set_widget_items(target_widget: QListWidget | QComboBox, lst: list[str], remember_prev: bool = True):
+    """
+    设置ListWidget或者ComboBox的项
+    Args:
+        target_widget: 要设置的widget
+        lst: 要设置的内容
+        remember_prev: （仅适用于ComboBox）记住上次选择
+
+    Returns:
+        None
+    """
+    if type(target_widget) == QComboBox and remember_prev:
+        prev = target_widget.currentText()
+        target_widget.clear()
+        target_widget.addItems(lst)
+        target_widget.setCurrentText(prev) if prev and prev in lst else target_widget.setCurrentIndex(0)
+    else:
+        target_widget.clear()
+        target_widget.addItems(lst)
+
+
+def refresh_combobox(target_widget: QComboBox, path: str, parent: QWidget = None, include_path: bool = False,
                      scan_type: str = "local", sub_url: str = "", location: list[int | str] = None) -> None:
     """
     :param target_widget: 要刷新的QComboBox控件
     :param path: 本地路径或URL路径
-    :param error_widget: 出现错误时，将详细的错误信息追加到此处
+    :param parent: 父窗口，显示错误弹窗时使用
     :param include_path: 是否包含完整路径（仅限本地扫描）
     :param scan_type: 扫描类型，"local" 或 "url"
     :param sub_url: 当扫描类型为url时，它会被追加到path后面
     :param location: 定位数据位置的路径列表，列表项可以是整数（视为索引）或字符串（视为键）
-    :return:
+    :return: None
     """
-    scan_res = utils.get_list(path = path, include_path=include_path,
+    logger.info(f"尝试刷新：{target_widget.objectName()}")
+    scan_res = utils.get_list(path=path, include_path=include_path,
                               scan_type=scan_type, sub_url=sub_url, location=location)
     # 更新combobox
     if scan_res[0] == 0:
         # 检查类型
         for item in scan_res[1]:
             if not isinstance(item, str):
-                target_widget.setPlaceholderText("数据包含非字符串")
-                error_widget.appendPlainText(f"列表项必须为字符串，发现类型: {type(item)}, 值: {item}")
+                target_widget.setPlaceholderText("类型错误")
+                logger.error(f"列表项必须为字符串，发现类型: {type(item)}, 值: {item}")
+                show_message_box(parent, "错误", f"列表项必须为字符串，发现类型: {type(item)}, 值: {item}",
+                                 QMessageBox.Icon.Critical)
                 return
         # 记住选择并更新
-        prev = target_widget.currentText()
-        target_widget.clear()
-        target_widget.addItems(scan_res[1])
-        prev_str = prev if prev else ""
-        target_widget.setCurrentText(prev_str) if prev_str and prev_str in scan_res[1] else target_widget.setCurrentIndex(0)
+        set_widget_items(target_widget, scan_res[1], True)
+        logger.info(f"已刷新：{target_widget.objectName()}")
         return
     else:
-        target_widget.setPlaceholderText("查找失败")
-        error_widget.appendPlainText(scan_res[1])
+        target_widget.setCurrentIndex(-1)
+        target_widget.setPlaceholderText("刷新失败")
+        logger.error(f"刷新 {target_widget.objectName()} 失败：{scan_res[1]}")
+        show_message_box(parent, "错误", scan_res[1], QMessageBox.Icon.Critical)
         return
-
-
-def set_list_widget_items(target_widget: QListWidget, lst: list[str]):
-    target_widget.clear()
-    target_widget.addItems(lst)
 
 
 def remove_entry(target_widget: QListWidget, mode: str, log_widget: QPlainTextEdit, pattern: str = "",
@@ -142,29 +192,3 @@ def show_context_menu(list_widget, position, menu_items: List[Tuple[str, Callabl
         action.triggered.connect(callback)
 
     context_menu.exec(list_widget.mapToGlobal(position))
-
-
-def show_icon_message_box(parent=None, title="提示", content="", icon=QMessageBox.Icon.Information):
-    """
-    显示一个只有一个"确定"按钮的带图标的消息框
-
-    可选的icon：
-    - QMessageBox.Icon.NoIcon: 无图标
-    - QMessageBox.Icon.Information: 信息图标
-    - QMessageBox.Icon.Warning: 警告图标
-    - QMessageBox.Icon.Critical: 错误图标
-    - QMessageBox.Icon.Question: 问号图标
-
-    Args:
-        parent: 父窗口，默认为None
-        title: 消息框标题，默认为"提示"
-        content: 消息内容，默认为空
-        icon: 消息图标，默认为QMessageBox.Icon.Information
-    """
-    msg_box = QMessageBox(parent)
-    msg_box.setWindowTitle(title)
-    msg_box.setText(content)
-    msg_box.setIcon(icon)
-    msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
-    msg_box.setDefaultButton(QMessageBox.StandardButton.Ok)
-    msg_box.exec()

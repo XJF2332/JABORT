@@ -55,7 +55,7 @@ class MyWindow(QWidget, Ui_Form):
                 sub_url="/object_info/UpscaleModelLoader",
                 scan_type="url", include_path=False,
                 location=["UpscaleModelLoader", "input", "required", "model_name", 1, "options"],
-                error_widget=self.UniLog
+                parent=self
             )
         )
         self.UpsListImg.clicked.connect(lambda: self.ups_run(mode="find"))
@@ -103,7 +103,7 @@ class MyWindow(QWidget, Ui_Form):
                 target_widget=self.CalSimModelDropdown,
                 path="Models",
                 include_path=True,
-                error_widget=self.UniLog
+                parent=self
             )
         )
         self.CalSimRun.clicked.connect(self.cal_similarity_run)
@@ -139,7 +139,7 @@ class MyWindow(QWidget, Ui_Form):
         self.flatten_worker = FlattenWorker(self.FlattenDirInput.text())
         self.flatten_worker.worker_finished.connect(lambda: self.FlattenRun.setEnabled(True))
         self.flatten_worker.worker_finished.connect(lambda: self.FlattenStop.setEnabled(False))
-        self.flatten_worker.worker_finished.connect(lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
+        self.flatten_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
         self.flatten_worker.start()
 
     def new_flatten_run(self):
@@ -149,7 +149,7 @@ class MyWindow(QWidget, Ui_Form):
         self.new_flatten_worker.progress_updated.connect(lambda v: self.NewFlattenProgress.setValue(v))
         self.new_flatten_worker.worker_finished.connect(lambda: self.NewFlattenRun.setEnabled(True))
         self.new_flatten_worker.worker_finished.connect(lambda: self.NewFlattenStop.setEnabled(False))
-        self.new_flatten_worker.worker_finished.connect(lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
+        self.new_flatten_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
         self.new_flatten_worker.start()
 
     def png2jpg_run(self):
@@ -167,7 +167,7 @@ class MyWindow(QWidget, Ui_Form):
         self.png2jpg_worker.progress_updated.connect(lambda v: self.PNG2JPGProgress.setValue(int(v)))
         self.png2jpg_worker.worker_finished.connect(lambda: self.PNG2JPGRun.setEnabled(True))
         self.png2jpg_worker.worker_finished.connect(lambda: self.PNG2JPGStop.setEnabled(False))
-        self.png2jpg_worker.worker_finished.connect(lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
+        self.png2jpg_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
         self.png2jpg_worker.start()
 
     def img2pdf_run(self):
@@ -180,7 +180,7 @@ class MyWindow(QWidget, Ui_Form):
         )
         self.seq2pdf_worker.worker_finished.connect(lambda: self.Seq2PDFRun.setEnabled(True))
         self.seq2pdf_worker.worker_finished.connect(lambda: self.Seq2PDFStop.setEnabled(False))
-        self.seq2pdf_worker.worker_finished.connect(lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
+        self.seq2pdf_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
         self.seq2pdf_worker.progress_updated.connect(lambda v: self.Seq2PDFProgress.setValue(v))
         self.seq2pdf_worker.run()
 
@@ -206,11 +206,10 @@ class MyWindow(QWidget, Ui_Form):
         self.upscaler_worker.worker_finished.connect(lambda: self.UpsListImg.setEnabled(True))
         self.upscaler_worker.worker_finished.connect(lambda: self.UpsList.setEnabled(True))
         self.upscaler_worker.worker_finished.connect(lambda: self.UpsStop.setEnabled(False))
-        self.upscaler_worker.worker_finished.connect(lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
+        self.upscaler_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
         self.upscaler_worker.progress_updated.connect(lambda v: self.UpsProgress.setValue(v))
-        self.upscaler_worker.image_list_got.connect(lambda lst: ui_utils.set_list_widget_items(self.UpsList, lst))
+        self.upscaler_worker.image_list_got.connect(lambda lst: ui_utils.set_widget_items(self.UpsList, lst))
         self.upscaler_worker.image_list_got.connect(lambda lst: setattr(self, 'ups_image_list', lst))
-        self.UniLog.appendPlainText("[ComfyUI 放大器] 开始处理图像...")
         self.upscaler_worker.start()
 
     def image_seq_gen_run(self):
@@ -223,7 +222,7 @@ class MyWindow(QWidget, Ui_Form):
         self.noise_worker.progress_updated.connect(lambda v: self.ImageSeqGenProgress.setValue(v))
         self.noise_worker.worker_finished.connect(lambda: self.ImageSeqGenStart.setEnabled(True))
         self.noise_worker.worker_finished.connect(lambda: self.ImageSeqGenStop.setEnabled(False))
-        self.noise_worker.worker_finished.connect(lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
+        self.noise_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
         self.noise_worker.start()
 
     # 在当前线程运行的函数
