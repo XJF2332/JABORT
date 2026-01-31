@@ -1,16 +1,19 @@
 import os
 
 from PySide6.QtCore import QThread, Signal
+from PySide6.QtWidgets import QMessageBox
 
+from Core import log_manager
 from Tools.MediaProcessing import ComfyUpscaler
 from Tools.Utils import utils
+
+logger = log_manager.get_logger(__name__)
 
 
 class UpscalerWorker(QThread):
     progress_updated = Signal(int)
-    output_updated = Signal(str)
     image_list_got = Signal(list)
-    worker_finished = Signal()
+    worker_finished = Signal(tuple)
 
     def __init__(
             self,
@@ -28,17 +31,6 @@ class UpscalerWorker(QThread):
     ):
         """
         初始化放大器
-        :param model_name: 放大模型名称
-        :param img_dir: 查找图像路径
-        :param recursive_search: 是否递归查找
-        :param width_threshold: 图像宽度阈值
-        :param height_threshold: 图像高度阈值
-        :param jpg_size_threshold: jpg大小阈值
-        :param post_downscale_scale: 放大后缩小为多少倍
-        :param url: comfyui api url
-        :param get_interval: 多久查询一次任务队列状态
-        :param image_list: 图像列表
-        :param mode: 运行模式，有效值：upscale - 放大， find - 查找图像
         """
         super().__init__()
         self.model_name = model_name
@@ -57,14 +49,18 @@ class UpscalerWorker(QThread):
 
     def run(self):
         self._stop = False
+        logger.info(f"放大器工作线程启动，模式: {self.mode}")
+
+        # 基础检查
         if not self.img_dir:
-            self.output_updated.emit("[ComfyUI 放大器] 输入的路径为空")
-            self.worker_finished.emit()
+            logger.error("输入的路径为空")
+            self.worker_finished.emit(("错误", "输入的路径为空", QMessageBox.Icon.Critical))
             return
         elif not os.path.exists(self.img_dir):
-            self.output_updated.emit(f"[ComfyUI 放大器] 输入的路径不存在")
-            self.worker_finished.emit()
+            logger.error(f"输入的路径不存在: {self.img_dir}")
+            self.worker_finished.emit(("错误", "输入的路径不存在", QMessageBox.Icon.Critical))
             return
+
         # 初始化放大器
         try:
             self.upscaler = ComfyUpscaler.ImageUpscaler(
@@ -79,67 +75,81 @@ class UpscalerWorker(QThread):
                 get_interval=self.get_interval
             )
         except Exception as e:
-            self.output_updated.emit(f"[ComfyUI 放大器] 初始化放大器失败: {e}")
-            self.worker_finished.emit()
+            logger.exception("初始化放大器失败")
+            self.worker_finished.emit(("错误", f"初始化放大器失败: {e}", QMessageBox.Icon.Critical))
             return
-        # 查找图像
+
+        # 运行模式：查找图像
         if self.mode == "find":
-            self._stop = False
-            get_result = self.upscaler.get_image_files()
-            self.image_list = []
+            logger.info("开始查找图像...")
+            found_images = []
 
-            for item in get_result:
+            # 适配修改：get_image_files 现在只生成路径字符串，不返回错误信息（错误已内部记录）
+            for file_path in self.upscaler.get_image_files():
                 if self._stop:
-                    self.output_updated.emit("[ComfyUI 放大器] 图像查找已终止")
-                    self.worker_finished.emit()
+                    logger.warning("图像查找已终止")
+                    self.worker_finished.emit(("提示", "图像查找已终止", QMessageBox.Icon.Warning))
                     return
-                if item[0]:
-                    self.output_updated.emit(item[1])
-                elif item[0] == 0:
-                    self.image_list = item[1]
-                    self.image_list_got.emit(self.image_list if self.image_list else [])
+                found_images.append(file_path)
 
-            if len(self.image_list) == 0:
-                self.output_updated.emit("[ComfyUI 放大器] 未找到符合条件的图像")
+            self.image_list = found_images
+
+            if not self.image_list:
+                logger.info("未找到符合条件的图像")
                 self.image_list_got.emit([])
+                self.worker_finished.emit(("提示", "未找到符合条件的图像", QMessageBox.Icon.Information))
             else:
-                self.output_updated.emit(f"[ComfyUI 放大器] 已找到{len(self.image_list)}个图像")
+                logger.info(f"已找到 {len(self.image_list)} 个图像")
                 self.image_list_got.emit(self.image_list)
-
-            self.worker_finished.emit()
+                self.worker_finished.emit(
+                    ("完成", f"已找到 {len(self.image_list)} 个图像", QMessageBox.Icon.Information))
             return
 
-        # 放大图像
+        # 运行模式：放大图像
         elif self.mode == "upscale":
             # 检查列表
-            if not self.image_list or len(self.image_list) == 0:
-                self.output_updated.emit("[ComfyUI 放大器] 图像列表为空")
-                self.worker_finished.emit()
+            if not self.image_list:
+                logger.warning("图像列表为空，无法开始放大")
+                self.worker_finished.emit(("错误", "图像列表为空", QMessageBox.Icon.Warning))
                 return
             # 检查模型
             if not self.model_name:
-                self.output_updated.emit("[ComfyUI 放大器] 未选择模型")
-                self.worker_finished.emit()
+                logger.warning("未选择模型，无法开始放大")
+                self.worker_finished.emit(("错误", "未选择模型", QMessageBox.Icon.Warning))
                 return
-            # 放大
+
+            logger.info(f"开始放大任务，共 {len(self.image_list)} 张图像")
             img_list_length = len(self.image_list)
+            success_count = 0
 
             for index, image in enumerate(self.image_list):
                 if self._stop:
-                    self.output_updated.emit("[ComfyUI 放大器] 放大已被终止")
-                    self.worker_finished.emit()
+                    logger.warning("放大任务已被用户终止")
+                    self.worker_finished.emit(("提示", "放大已被终止", QMessageBox.Icon.Warning))
                     return
-                image = utils.remove_substring(image, ["T ", "L ", "TL "], "prefix")
-                current_result = self.upscaler.send_request_single(image)
+
+                # 处理前缀
+                clean_image_path = utils.remove_substring(image, ["T ", "L ", "TL "], "prefix")
+
+                # 适配修改：send_request_single 返回 int 状态码 (0=成功)
+                result_code = self.upscaler.send_request_single(clean_image_path)
+
+                if result_code == 0:
+                    success_count += 1
+                else:
+                    logger.warning(f"图像放大失败 (Code {result_code}): {clean_image_path}")
+
                 progress = int(100 * (index + 1) / img_list_length)
                 self.progress_updated.emit(progress)
-                self.output_updated.emit(current_result)
 
-            self.worker_finished.emit()
-        # 其他
+            logger.info(f"放大任务完成。成功: {success_count}, 总计: {img_list_length}")
+            self.worker_finished.emit(
+                ("完成", f"处理完成\n成功：{success_count}\n总计：{img_list_length}", QMessageBox.Icon.Information))
+
+        # 其他模式
         else:
-            self.output_updated.emit(f"[ComfyUI 放大器] 不受支持的运行模式：{self.mode}")
-            self.worker_finished.emit()
+            logger.error(f"不受支持的运行模式：{self.mode}")
+            self.worker_finished.emit(("错误", f"内部错误：无效模式 {self.mode}", QMessageBox.Icon.Critical))
             return
 
     def stop(self):

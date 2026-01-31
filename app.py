@@ -81,8 +81,8 @@ class MyWindow(QWidget, Ui_Form):
                         mode="remove_all", log_widget=self.UniLog, target_widget=self.UpsList
                     )),
                     ("忽略透明项", lambda: ui_utils.remove_entry(
-                        mode="remove_matched", log_widget=self.UniLog, target_widget=self.UpsList, pattern=r"T .*",
-                        substring=["T ", "L ", "TL "], remove_type="prefix"
+                        mode="remove_matched", log_widget=self.UniLog, target_widget=self.UpsList,
+                        pattern=r"(T |TL ).*", substring=["T ", "L ", "TL "], remove_type="prefix"
                     ))
                 ]
             )
@@ -206,8 +206,8 @@ class MyWindow(QWidget, Ui_Form):
         self.upscaler_worker.worker_finished.connect(lambda: self.UpsListImg.setEnabled(True))
         self.upscaler_worker.worker_finished.connect(lambda: self.UpsList.setEnabled(True))
         self.upscaler_worker.worker_finished.connect(lambda: self.UpsStop.setEnabled(False))
+        self.upscaler_worker.worker_finished.connect(lambda t: ui_utils.show_icon_message_box(self, t[0], t[1], t[2]))
         self.upscaler_worker.progress_updated.connect(lambda v: self.UpsProgress.setValue(v))
-        self.upscaler_worker.output_updated.connect(lambda t: self.UniLog.appendPlainText(t))
         self.upscaler_worker.image_list_got.connect(lambda lst: ui_utils.set_list_widget_items(self.UpsList, lst))
         self.upscaler_worker.image_list_got.connect(lambda lst: setattr(self, 'ups_image_list', lst))
         self.UniLog.appendPlainText("[ComfyUI 放大器] 开始处理图像...")
