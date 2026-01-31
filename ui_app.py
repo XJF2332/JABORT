@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appzeVVnd.ui'
+## Form generated from reading UI file 'appVTHxmT.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -911,7 +911,7 @@ class Ui_Form(object):
         self.UpsListImg.setText(QCoreApplication.translate("Form", u"\u67e5\u627e\u56fe\u50cf", None))
         self.UpsStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
         self.ImgProcessingChildTab.setTabText(self.ImgProcessingChildTab.indexOf(self.UpsLayout), QCoreApplication.translate("Form", u"ComfyUI \u56fe\u50cf\u653e\u5927", None))
-        self.MainPage.setTabText(self.MainPage.indexOf(self.ImgProcessingLayout), QCoreApplication.translate("Form", u"\u56fe\u50cf\u5904\u7406", None))
+        self.MainPage.setTabText(self.MainPage.indexOf(self.ImgProcessingLayout), QCoreApplication.translate("Form", u"\u5a92\u4f53\u5904\u7406", None))
         self.CropTextInPathOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.CropTextInPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u5165\u6587\u4ef6\u8def\u5f84", None))
         self.CropTextRatioSpinbox.setSuffix(QCoreApplication.translate("Form", u" %", None))

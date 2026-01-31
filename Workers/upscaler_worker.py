@@ -2,7 +2,7 @@ import os
 
 from PySide6.QtCore import QThread, Signal
 
-from Tools.ImageProcessing import ComfyUpscaler
+from Tools.MediaProcessing import ComfyUpscaler
 from Tools.Utils import utils
 
 

@@ -527,7 +527,7 @@
      </widget>
      <widget class="QWidget" name="ImgProcessingLayout">
       <attribute name="title">
-       <string>图像处理</string>
+       <string>媒体处理</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
