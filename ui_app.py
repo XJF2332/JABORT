@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appVTHxmT.ui'
+## Form generated from reading UI file 'appCeLZnr.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -589,11 +589,6 @@ class Ui_Form(object):
 
         self.verticalLayout_6.addWidget(self.CroptextRun)
 
-        self.CropTextLog = QPlainTextEdit(self.CropText)
-        self.CropTextLog.setObjectName(u"CropTextLog")
-
-        self.verticalLayout_6.addWidget(self.CropTextLog)
-
         self.CropTextSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_6.addItem(self.CropTextSpacer)
@@ -849,7 +844,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Toolbox", None))
-        self.FlattenLabel.setText(QCoreApplication.translate("Form", u"\u5982\u679c\u4e00\u4e2a\u6587\u4ef6\u5939\u53ea\u6709\u4e00\u4e2a\u6587\u4ef6\uff0c\u90a3\u4e48\u628a\u8fd9\u4e2a\u6587\u4ef6\u79fb\u52a8\u5230\u5176\u7236\u7ea7\u6587\u4ef6\u5939\uff0c\u5e76\u91cd\u547d\u540d\u4e3a\u6e90\u6587\u4ef6\u5939\u7684\u540d\u79f0", None))
+        self.FlattenLabel.setText(QCoreApplication.translate("Form", u"\u5982\u679c\u4e00\u4e2a\u6587\u4ef6\u5939\u53ea\u6709\u4e00\u4e2a\u6587\u4ef6\uff0c\u90a3\u4e48\u628a\u8fd9\u4e2a\u6587\u4ef6\u79fb\u52a8\u5230\u5176\u7236\u7ea7\u6587\u4ef6\u5939\uff0c\u5e76\u91cd\u547d\u540d\u4e3a\u6e90\u6587\u4ef6\u5939\u7684\u540d\u79f0\uff0c\u91cd\u590d\u8fd0\u884c\u76f4\u5230\u6ca1\u6709\u53ef\u5904\u7406\u7684\u6587\u4ef6", None))
         self.FlattenDirOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.FlattenDirInput.setPlaceholderText(QCoreApplication.translate("Form", u"\u4ece\u6b64\u5904\u5f00\u59cb\u67e5\u627e\u6587\u4ef6\u5939", None))
         self.FlattenRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
@@ -919,7 +914,6 @@ class Ui_Form(object):
         self.CropTextOutPathOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.CropTextOutPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u51fa\u6587\u4ef6\u8def\u5f84\uff08\u7559\u7a7a\u4ee5\u4fdd\u5b58\u5230\u6e90\u6587\u4ef6\u5939\uff09", None))
         self.CroptextRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
-        self.CropTextLog.setPlainText(QCoreApplication.translate("Form", u"\u622a\u53d6\u8f93\u5165\u6587\u672c\u6587\u4ef6\u7684\u540e x%", None))
         self.TextProcChildTab.setTabText(self.TextProcChildTab.indexOf(self.CropText), QCoreApplication.translate("Form", u"\u622a\u53d6\u6587\u672c", None))
         self.CalSimModelDropdown.setPlaceholderText(QCoreApplication.translate("Form", u"\u5c1d\u8bd5\u5237\u65b0\u5217\u8868", None))
         self.CalSimModelRefresh.setText(QCoreApplication.translate("Form", u"\u5237\u65b0\u5217\u8868", None))

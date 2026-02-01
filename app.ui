@@ -50,7 +50,7 @@
            <item>
             <widget class="QLabel" name="FlattenLabel">
              <property name="text">
-              <string>如果一个文件夹只有一个文件，那么把这个文件移动到其父级文件夹，并重命名为源文件夹的名称</string>
+              <string>如果一个文件夹只有一个文件，那么把这个文件移动到其父级文件夹，并重命名为源文件夹的名称，重复运行直到没有可处理的文件</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
@@ -946,13 +946,6 @@
             <widget class="QPushButton" name="CroptextRun">
              <property name="text">
               <string>运行</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="CropTextLog">
-             <property name="plainText">
-              <string>截取输入文本文件的后 x%</string>
              </property>
             </widget>
            </item>

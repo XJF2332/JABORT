@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from PySide6.QtWidgets import QApplication, QWidget, QFileDialog, QLineEdit
+from PySide6.QtWidgets import QApplication, QWidget, QFileDialog, QLineEdit, QMessageBox
 
 from Tools.TextProcessing import CropText, CalSimilarity, JsonSorter
 from Tools.Utils import ui_utils
@@ -232,7 +232,11 @@ class MyWindow(QWidget, Ui_Form):
             output_path=self.CropTextOutPath.text(),
             percentage=self.CropTextRatioSpinbox.value(),
         )
-        self.CropTextLog.appendPlainText(res)
+        if res[0]:
+            ui_utils.show_message_box(self, "错误", res[1], QMessageBox.Icon.Critical)
+        else:
+            ui_utils.show_message_box(self, "成功",
+                                      f"裁剪后的文本已保存到 {res[1]}", QMessageBox.Icon.Information)
 
     def set_stylesheet(self):
         with open(self.ThemeDropdown.currentText(), "r", encoding="utf-8") as style:
