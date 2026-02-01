@@ -1257,16 +1257,9 @@
         </layout>
        </item>
        <item>
-        <widget class="QLabel" name="LogLabel">
+        <widget class="QPushButton" name="ClearLog">
          <property name="text">
-          <string>详细信息</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPlainTextEdit" name="UniLog">
-         <property name="readOnly">
-          <bool>true</bool>
+          <string>清除日志</string>
          </property>
         </widget>
        </item>

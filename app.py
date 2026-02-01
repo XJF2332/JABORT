@@ -1,6 +1,7 @@
 import os
 import subprocess
 
+import send2trash
 from PySide6.QtWidgets import QApplication, QWidget, QFileDialog, QLineEdit, QMessageBox
 
 from Tools.TextProcessing import CropText, CalSimilarity, JsonSorter
@@ -60,28 +61,28 @@ class MyWindow(QWidget, Ui_Form):
         )
         self.UpsListImg.clicked.connect(lambda: self.ups_run(mode="find"))
         self.UpsList.itemDoubleClicked.connect(
-            lambda item: ui_utils.add_double_click_open(item, self.UniLog, ["T ", "L ", "TL "], "prefix")
+            lambda item: ui_utils.add_double_click_open(item, self, ["T ", "L ", "TL "], "prefix")
         )
         self.UpsList.customContextMenuRequested.connect(
             lambda pos: ui_utils.show_context_menu(
                 self.UpsList, pos,
                 [
                     ("删除选择项", lambda: ui_utils.remove_entry(
-                        mode="delete_selected", log_widget=self.UniLog, target_widget=self.UpsList,
+                        mode="delete_selected", parent=self, target_widget=self.UpsList,
                         substring=["T ", "L ", "TL "], remove_type="prefix"
                     )),
                     ("删除全部项", lambda: ui_utils.remove_entry(
-                        mode="delete_all", log_widget=self.UniLog, target_widget=self.UpsList,
+                        mode="delete_all", parent=self, target_widget=self.UpsList,
                         substring=["T ", "L ", "TL "], remove_type="prefix"
                     )),
                     ("忽略选中项", lambda: ui_utils.remove_entry(
-                        mode="remove_selected", log_widget=self.UniLog, target_widget=self.UpsList
+                        mode="remove_selected", parent=self, target_widget=self.UpsList
                     )),
                     ("忽略全部项", lambda: ui_utils.remove_entry(
-                        mode="remove_all", log_widget=self.UniLog, target_widget=self.UpsList
+                        mode="remove_all", parent=self, target_widget=self.UpsList
                     )),
                     ("忽略透明项", lambda: ui_utils.remove_entry(
-                        mode="remove_matched", log_widget=self.UniLog, target_widget=self.UpsList,
+                        mode="remove_matched", parent=self, target_widget=self.UpsList,
                         pattern=r"(T |TL ).*", substring=["T ", "L ", "TL "], remove_type="prefix"
                     ))
                 ]
@@ -95,8 +96,9 @@ class MyWindow(QWidget, Ui_Form):
         self.CropTextInPathOpen.clicked.connect(lambda: self.select_file(self.CropTextInPath))
         self.CropTextOutPathOpen.clicked.connect(lambda: self.select_file(self.CropTextOutPath))
         self.CroptextRun.clicked.connect(self.crop_text_run)
-        # 设置主题信号
+        # 设置页面信号
         self.ThemeConfirm.clicked.connect(self.set_stylesheet)
+        self.ClearLog.clicked.connect(self.clear_log)
         # 计算相似度信号
         self.CalSimModelRefresh.clicked.connect(
             lambda: ui_utils.refresh_combobox(
@@ -233,13 +235,24 @@ class MyWindow(QWidget, Ui_Form):
         if res[0]:
             ui_utils.show_message_box(self, "错误", res[1], QMessageBox.Icon.Critical)
         else:
-            ui_utils.show_message_box(self, "成功",f"裁剪后的文本已保存到 {res[1]}",
+            ui_utils.show_message_box(self, "成功", f"裁剪后的文本已保存到 {res[1]}",
                                       QMessageBox.Icon.Information)
 
     def set_stylesheet(self):
         with open(self.ThemeDropdown.currentText(), "r", encoding="utf-8") as style:
             style = style.read()
         self.setStyleSheet(style)
+
+    def clear_log(self):
+        try:
+            logs = [os.path.join("logs", file) for file in os.listdir("logs") if file.endswith(".zip")]
+            if logs:
+                send2trash.send2trash(logs)
+                ui_utils.show_message_box(self, "成功", "日志文件已删除", QMessageBox.Icon.Information)
+            else:
+                ui_utils.show_message_box(self, "错误", "没有日志文件", QMessageBox.Icon.Warning)
+        except Exception as e:
+            ui_utils.show_message_box(self, "错误", f"无法删除日志：{e}", QMessageBox.Icon.Critical)
 
     def cal_similarity_run(self):
         similarity = CalSimilarity.main(
@@ -249,7 +262,7 @@ class MyWindow(QWidget, Ui_Form):
             persistent_model=self.CalSimPersistentModel.isChecked()
         )
         if similarity[0]:
-            ui_utils.show_message_box(self,"错误", similarity[1], QMessageBox.Icon.Critical)
+            ui_utils.show_message_box(self, "错误", similarity[1], QMessageBox.Icon.Critical)
         else:
             ui_utils.show_message_box(self, "计算结果", f"输入内容的相似度为 {similarity[1]}",
                                       QMessageBox.Icon.Information)

@@ -3,7 +3,7 @@ import re
 from typing import List, Tuple, Callable
 
 import send2trash
-from PySide6.QtWidgets import QComboBox, QPlainTextEdit, QMenu, QListWidget, QMessageBox, QWidget
+from PySide6.QtWidgets import QComboBox, QMenu, QListWidget, QMessageBox, QWidget
 
 from Core import log_manager
 from Tools.Utils import utils
@@ -11,7 +11,7 @@ from Tools.Utils import utils
 logger = log_manager.get_logger(__name__)
 
 
-def show_message_box(parent=None, title: str = "提示", content: str = "",
+def show_message_box(parent: QWidget = None, title: str = "提示", content: str = "",
                      icon: QMessageBox.Icon = QMessageBox.Icon.NoIcon):
     """
     显示一个只有一个"确定"按钮的带图标的消息框
@@ -96,10 +96,10 @@ def refresh_combobox(target_widget: QComboBox, path: str, parent: QWidget = None
         return
 
 
-def remove_entry(target_widget: QListWidget, mode: str, log_widget: QPlainTextEdit, pattern: str = "",
+def remove_entry(target_widget: QListWidget, mode: str, parent: QWidget, pattern: str = "",
                  substring: str | list = "", remove_type: str = "generic"):
     """
-    从ListWidget中移除项，若此项对应一个文件系统中的路径，还可选择是否将其移动到回收站
+    从ListWidget中移除项，若此项对应一个文件系统中的路径，还可选择是否将其移动到回收站。
 
     可用移除模式：
     delete_all - 移除并删除全部
@@ -116,9 +116,9 @@ def remove_entry(target_widget: QListWidget, mode: str, log_widget: QPlainTextEd
 
     :param target_widget: 要移除项的ListWidget
     :param mode: 移除模式
-    :param log_widget: 日志输出目标
+    :param parent: 父窗口，用于显示消息框
     :param pattern: 用于匹配的正则表达式项
-    :param substring: 在删除前，从项的文本中移除的子串，例如此参数为[test]，则[test]1.txt会被当成1.txt删除，此参数不会修改ListWidget
+    :param substring: 在删除前，从项的文本中移除的子串
     :param remove_type: 移除子串的模式
     :return:
     """
@@ -134,13 +134,18 @@ def remove_entry(target_widget: QListWidget, mode: str, log_widget: QPlainTextEd
             if re.search(pattern, target_widget.item(i).text())
         ]
     else:
-        log_widget.appendPlainText(f"未知的模式: {mode}")
+        logger.error(f"未知的移除模式：{mode}")
+        show_message_box(parent, "内部错误", f"未知的模式: {mode}", QMessageBox.Icon.Warning)
         return
 
     if not items_to_process:
+        show_message_box(parent, "提示", "没有匹配的项可供处理", QMessageBox.Icon.Information)
         return
 
-    # 删除文件
+    deleted_files_count = 0
+    delete_error_occurred = False
+
+    # 删除文件逻辑
     if mode.startswith("delete_"):
         paths_to_delete = [
             os.path.normpath(utils.remove_substring(item.text(), substring, remove_type))
@@ -148,29 +153,50 @@ def remove_entry(target_widget: QListWidget, mode: str, log_widget: QPlainTextEd
         ]
 
         try:
+            logger.info(f"正在删除 {len(paths_to_delete)} 项文件")
             send2trash.send2trash(paths_to_delete)
-            log_widget.appendPlainText(f"已将 {len(paths_to_delete)} 个文件移动到回收站。")
+            deleted_files_count = len(paths_to_delete)
+            logger.info(f"成功移动 {deleted_files_count} 项到回收站")
         except Exception as e:
-            log_widget.appendPlainText(f"移动到回收站时出错: {e}")
+            delete_error_occurred = True
+            logger.error(f"Error moving files to trash: {e}")
+            show_message_box(parent, "删除错误", f"移动文件到回收站时出错:\n{e}", QMessageBox.Icon.Critical)
 
-    # 移除项
+    # 移除列表项逻辑
     rows_to_remove = sorted([target_widget.row(item) for item in items_to_process], reverse=True)
+    removed_items_count = len(rows_to_remove)
 
     for row in rows_to_remove:
         target_widget.takeItem(row)
 
-    log_widget.appendPlainText(f"已从列表中移除 {len(rows_to_remove)} 项")
+    logger.info(f"已从 {target_widget.objectName()} 中移除 {removed_items_count} 项")
+
+    # 反馈总结
+    if not delete_error_occurred:
+        msg_parts = []
+        if removed_items_count > 0:
+            msg_parts.append(f"已从列表中移除 {removed_items_count} 项")
+        if deleted_files_count > 0:
+            msg_parts.append(f"已将 {deleted_files_count} 个文件移动到回收站")
+
+        full_msg = "\n".join(msg_parts) if msg_parts else "操作完成，无变动"
+        show_message_box(parent, "操作完成", full_msg, QMessageBox.Icon.Information)
 
 
-def add_double_click_open(item, log_widget: QPlainTextEdit, substring: str | list, remove_type: str):
+def add_double_click_open(item, parent: QWidget, substring: str | list, remove_type: str):
+    """
+    双击打开文件。
+    """
     display_path = item.text()
     real_path = utils.remove_substring(display_path, substring, remove_type)
 
     try:
         os.startfile(real_path)
-        log_widget.appendPlainText(f"已打开：{display_path}")
+        logger.info(f"已打开 {display_path} -> {real_path}")
     except Exception as e:
-        log_widget.appendPlainText(f"打开失败：{e}")
+        logger.error(f"无法打开 {real_path}: {e}")
+        show_message_box(parent, "打开失败", f"无法打开文件:\n{display_path}\n\n错误信息:\n{e}",
+                         QMessageBox.Icon.Critical)
 
 
 def show_context_menu(list_widget, position, menu_items: List[Tuple[str, Callable[[], None]]]):

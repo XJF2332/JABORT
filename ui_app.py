@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appJSFEDf.ui'
+## Form generated from reading UI file 'apprczofk.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -18,9 +18,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication, QComboBox,
     QDoubleSpinBox, QFormLayout, QGridLayout, QHBoxLayout,
     QLabel, QLineEdit, QListWidget, QListWidgetItem,
-    QPlainTextEdit, QProgressBar, QPushButton, QSizePolicy,
-    QSlider, QSpacerItem, QSpinBox, QTabWidget,
-    QVBoxLayout, QWidget)
+    QProgressBar, QPushButton, QSizePolicy, QSlider,
+    QSpacerItem, QSpinBox, QTabWidget, QVBoxLayout,
+    QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -772,16 +772,10 @@ class Ui_Form(object):
 
         self.verticalLayout_8.addLayout(self.ThemeChoose)
 
-        self.LogLabel = QLabel(self.SettingLayout)
-        self.LogLabel.setObjectName(u"LogLabel")
+        self.ClearLog = QPushButton(self.SettingLayout)
+        self.ClearLog.setObjectName(u"ClearLog")
 
-        self.verticalLayout_8.addWidget(self.LogLabel)
-
-        self.UniLog = QPlainTextEdit(self.SettingLayout)
-        self.UniLog.setObjectName(u"UniLog")
-        self.UniLog.setReadOnly(True)
-
-        self.verticalLayout_8.addWidget(self.UniLog)
+        self.verticalLayout_8.addWidget(self.ClearLog)
 
         self.SettingsSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -926,7 +920,7 @@ class Ui_Form(object):
         self.MainPage.setTabText(self.MainPage.indexOf(self.TestingLayout), QCoreApplication.translate("Form", u"\u6d4b\u8bd5\u7528", None))
         self.ThemeLabel.setText(QCoreApplication.translate("Form", u"\u9009\u62e9\u4e3b\u9898\uff08\u4e3b\u9898\u8def\u5f84\uff1a./Style\uff09", None))
         self.ThemeConfirm.setText(QCoreApplication.translate("Form", u"\u786e\u5b9a", None))
-        self.LogLabel.setText(QCoreApplication.translate("Form", u"\u8be6\u7ec6\u4fe1\u606f", None))
+        self.ClearLog.setText(QCoreApplication.translate("Form", u"\u6e05\u9664\u65e5\u5fd7", None))
         self.MainPage.setTabText(self.MainPage.indexOf(self.SettingLayout), QCoreApplication.translate("Form", u"\u8bbe\u7f6e", None))
     # retranslateUi
 
