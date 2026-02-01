@@ -953,6 +953,9 @@
           <attribute name="title">
            <string>计算相似度</string>
           </attribute>
+          <attribute name="toolTip">
+           <string>使用嵌入模型计算两个字符串的语义相似度</string>
+          </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_14">
            <item>
             <layout class="QHBoxLayout" name="CalSimModel">
@@ -965,14 +968,14 @@
                 </sizepolicy>
                </property>
                <property name="placeholderText">
-                <string>尝试刷新列表</string>
+                <string>需要刷新</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="CalSimModelRefresh">
                <property name="text">
-                <string>刷新列表</string>
+                <string>刷新</string>
                </property>
               </widget>
              </item>
@@ -1014,13 +1017,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QPlainTextEdit" name="CalSimOutput">
-             <property name="plainText">
-              <string>使用嵌入模型计算两个字符串的语义相似度</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <spacer name="CalSimSpacer">
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
@@ -1038,6 +1034,9 @@
          <widget class="QWidget" name="JsonSorter">
           <attribute name="title">
            <string>JSON 排序</string>
+          </attribute>
+          <attribute name="toolTip">
+           <string>将JSON的键值对按键的顺序排序</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_15">
            <item>
@@ -1062,16 +1061,6 @@
             <widget class="QPushButton" name="JsonSorterRun">
              <property name="text">
               <string>运行</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="JsonSorterOutput">
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-             <property name="plainText">
-              <string>将JSON的键值对按键的顺序排序</string>
              </property>
             </widget>
            </item>

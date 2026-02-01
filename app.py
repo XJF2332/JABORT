@@ -101,9 +101,7 @@ class MyWindow(QWidget, Ui_Form):
         self.CalSimModelRefresh.clicked.connect(
             lambda: ui_utils.refresh_combobox(
                 target_widget=self.CalSimModelDropdown,
-                path="Models",
-                include_path=True,
-                parent=self
+                path="models", include_path=True, parent=self
             )
         )
         self.CalSimRun.clicked.connect(self.cal_similarity_run)
@@ -235,8 +233,8 @@ class MyWindow(QWidget, Ui_Form):
         if res[0]:
             ui_utils.show_message_box(self, "错误", res[1], QMessageBox.Icon.Critical)
         else:
-            ui_utils.show_message_box(self, "成功",
-                                      f"裁剪后的文本已保存到 {res[1]}", QMessageBox.Icon.Information)
+            ui_utils.show_message_box(self, "成功",f"裁剪后的文本已保存到 {res[1]}",
+                                      QMessageBox.Icon.Information)
 
     def set_stylesheet(self):
         with open(self.ThemeDropdown.currentText(), "r", encoding="utf-8") as style:
@@ -250,11 +248,15 @@ class MyWindow(QWidget, Ui_Form):
             model=self.CalSimModelDropdown.currentText(),
             persistent_model=self.CalSimPersistentModel.isChecked()
         )
-        self.CalSimOutput.appendPlainText(str(similarity))
+        if similarity[0]:
+            ui_utils.show_message_box(self,"错误", similarity[1], QMessageBox.Icon.Critical)
+        else:
+            ui_utils.show_message_box(self, "计算结果", f"输入内容的相似度为 {similarity[1]}",
+                                      QMessageBox.Icon.Information)
 
     def json_sorter_run(self):
         res = JsonSorter.main(self.JsonSorterInPath.text())
-        self.JsonSorterOutput.appendPlainText(res)
+        self.UniLog.appendPlainText(res)
 
 
 if __name__ == '__main__':

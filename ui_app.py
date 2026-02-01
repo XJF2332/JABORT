@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appjdFTng.ui'
+## Form generated from reading UI file 'appJSFEDf.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -617,11 +617,6 @@ class Ui_Form(object):
 
         self.verticalLayout_14.addWidget(self.CalSimRun)
 
-        self.CalSimOutput = QPlainTextEdit(self.CalSim)
-        self.CalSimOutput.setObjectName(u"CalSimOutput")
-
-        self.verticalLayout_14.addWidget(self.CalSimOutput)
-
         self.CalSimSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_14.addItem(self.CalSimSpacer)
@@ -650,12 +645,6 @@ class Ui_Form(object):
         self.JsonSorterRun.setObjectName(u"JsonSorterRun")
 
         self.verticalLayout_15.addWidget(self.JsonSorterRun)
-
-        self.JsonSorterOutput = QPlainTextEdit(self.JsonSorter)
-        self.JsonSorterOutput.setObjectName(u"JsonSorterOutput")
-        self.JsonSorterOutput.setReadOnly(True)
-
-        self.verticalLayout_15.addWidget(self.JsonSorterOutput)
 
         self.JsonSorterSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -906,19 +895,23 @@ class Ui_Form(object):
         self.TextProcChildTab.setTabToolTip(self.TextProcChildTab.indexOf(self.CropText), QCoreApplication.translate("Form", u"\u622a\u53d6\u6587\u672c\u7684\u5c3e\u90e8\n"
 "\u901a\u5e38\u7528\u4e8e\u91cd\u8981\u5185\u5bb9\u5728\u6587\u672c\u5c3e\u90e8\u7684\u60c5\u51b5\uff0c\u5982\u62a5\u9519\u65f6\u7684\u65e5\u5fd7", None))
 #endif // QT_CONFIG(tooltip)
-        self.CalSimModelDropdown.setPlaceholderText(QCoreApplication.translate("Form", u"\u5c1d\u8bd5\u5237\u65b0\u5217\u8868", None))
-        self.CalSimModelRefresh.setText(QCoreApplication.translate("Form", u"\u5237\u65b0\u5217\u8868", None))
+        self.CalSimModelDropdown.setPlaceholderText(QCoreApplication.translate("Form", u"\u9700\u8981\u5237\u65b0", None))
+        self.CalSimModelRefresh.setText(QCoreApplication.translate("Form", u"\u5237\u65b0", None))
         self.CalSimPersistentModel.setText(QCoreApplication.translate("Form", u"\u6301\u4e45\u6a21\u578b", None))
         self.CalSimIn1.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u5165\u6587\u672c 1", None))
         self.CalSimIn2.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u5165\u6587\u672c 2", None))
         self.CalSimRun.setText(QCoreApplication.translate("Form", u"\u8ba1\u7b97", None))
-        self.CalSimOutput.setPlainText(QCoreApplication.translate("Form", u"\u4f7f\u7528\u5d4c\u5165\u6a21\u578b\u8ba1\u7b97\u4e24\u4e2a\u5b57\u7b26\u4e32\u7684\u8bed\u4e49\u76f8\u4f3c\u5ea6", None))
         self.TextProcChildTab.setTabText(self.TextProcChildTab.indexOf(self.CalSim), QCoreApplication.translate("Form", u"\u8ba1\u7b97\u76f8\u4f3c\u5ea6", None))
+#if QT_CONFIG(tooltip)
+        self.TextProcChildTab.setTabToolTip(self.TextProcChildTab.indexOf(self.CalSim), QCoreApplication.translate("Form", u"\u4f7f\u7528\u5d4c\u5165\u6a21\u578b\u8ba1\u7b97\u4e24\u4e2a\u5b57\u7b26\u4e32\u7684\u8bed\u4e49\u76f8\u4f3c\u5ea6", None))
+#endif // QT_CONFIG(tooltip)
         self.JsonSorterInOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.JsonSorterInPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u5165\u6587\u4ef6\u8def\u5f84", None))
         self.JsonSorterRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
-        self.JsonSorterOutput.setPlainText(QCoreApplication.translate("Form", u"\u5c06JSON\u7684\u952e\u503c\u5bf9\u6309\u952e\u7684\u987a\u5e8f\u6392\u5e8f", None))
         self.TextProcChildTab.setTabText(self.TextProcChildTab.indexOf(self.JsonSorter), QCoreApplication.translate("Form", u"JSON \u6392\u5e8f", None))
+#if QT_CONFIG(tooltip)
+        self.TextProcChildTab.setTabToolTip(self.TextProcChildTab.indexOf(self.JsonSorter), QCoreApplication.translate("Form", u"\u5c06JSON\u7684\u952e\u503c\u5bf9\u6309\u952e\u7684\u987a\u5e8f\u6392\u5e8f", None))
+#endif // QT_CONFIG(tooltip)
         self.MainPage.setTabText(self.MainPage.indexOf(self.TextProcessingLayout), QCoreApplication.translate("Form", u"\u6587\u672c\u5904\u7406", None))
         self.ImageSeqItemAmount.setSuffix(QCoreApplication.translate("Form", u" \u5f20\u56fe\u7247", None))
         self.ImageSeqItemAmount.setPrefix(QCoreApplication.translate("Form", u"\u751f\u6210 ", None))
