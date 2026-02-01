@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appCeLZnr.ui'
+## Form generated from reading UI file 'appjdFTng.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -47,12 +47,6 @@ class Ui_Form(object):
         self.FlattenLayoyt.setObjectName(u"FlattenLayoyt")
         self.verticalLayout_13 = QVBoxLayout(self.FlattenLayoyt)
         self.verticalLayout_13.setObjectName(u"verticalLayout_13")
-        self.FlattenLabel = QLabel(self.FlattenLayoyt)
-        self.FlattenLabel.setObjectName(u"FlattenLabel")
-        self.FlattenLabel.setWordWrap(True)
-
-        self.verticalLayout_13.addWidget(self.FlattenLabel)
-
         self.FlattenDir = QHBoxLayout()
         self.FlattenDir.setObjectName(u"FlattenDir")
         self.FlattenDirOpen = QPushButton(self.FlattenLayoyt)
@@ -104,12 +98,6 @@ class Ui_Form(object):
         self.NewFlattenLayout.setObjectName(u"NewFlattenLayout")
         self.verticalLayout_17 = QVBoxLayout(self.NewFlattenLayout)
         self.verticalLayout_17.setObjectName(u"verticalLayout_17")
-        self.NewFlattenLabel = QLabel(self.NewFlattenLayout)
-        self.NewFlattenLabel.setObjectName(u"NewFlattenLabel")
-        self.NewFlattenLabel.setWordWrap(True)
-
-        self.verticalLayout_17.addWidget(self.NewFlattenLabel)
-
         self.NewFlattenDir = QHBoxLayout()
         self.NewFlattenDir.setObjectName(u"NewFlattenDir")
         self.NewFlattenDirOpen = QPushButton(self.NewFlattenLayout)
@@ -285,12 +273,6 @@ class Ui_Form(object):
         self.Seq2PDF.setObjectName(u"Seq2PDF")
         self.verticalLayout_18 = QVBoxLayout(self.Seq2PDF)
         self.verticalLayout_18.setObjectName(u"verticalLayout_18")
-        self.Seq2PDFDesc = QLabel(self.Seq2PDF)
-        self.Seq2PDFDesc.setObjectName(u"Seq2PDFDesc")
-        self.Seq2PDFDesc.setWordWrap(True)
-
-        self.verticalLayout_18.addWidget(self.Seq2PDFDesc)
-
         self.Seq2PDFPath = QHBoxLayout()
         self.Seq2PDFPath.setObjectName(u"Seq2PDFPath")
         self.Seq2PDFPathOpen = QPushButton(self.Seq2PDF)
@@ -366,12 +348,6 @@ class Ui_Form(object):
         self.UpsLayout.setObjectName(u"UpsLayout")
         self.verticalLayout_4 = QVBoxLayout(self.UpsLayout)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.label = QLabel(self.UpsLayout)
-        self.label.setObjectName(u"label")
-        self.label.setWordWrap(True)
-
-        self.verticalLayout_4.addWidget(self.label)
-
         self.UpsComfyUrl = QLineEdit(self.UpsLayout)
         self.UpsComfyUrl.setObjectName(u"UpsComfyUrl")
         sizePolicy.setHeightForWidth(self.UpsComfyUrl.sizePolicy().hasHeightForWidth())
@@ -458,8 +434,8 @@ class Ui_Form(object):
 
         self.UpsCheckIntevalSpin = QDoubleSpinBox(self.UpsLayout)
         self.UpsCheckIntevalSpin.setObjectName(u"UpsCheckIntevalSpin")
-        sizePolicy1.setHeightForWidth(self.UpsCheckIntevalSpin.sizePolicy().hasHeightForWidth())
-        self.UpsCheckIntevalSpin.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.UpsCheckIntevalSpin.sizePolicy().hasHeightForWidth())
+        self.UpsCheckIntevalSpin.setSizePolicy(sizePolicy)
         self.UpsCheckIntevalSpin.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
         self.UpsCheckIntevalSpin.setMinimum(0.100000000000000)
         self.UpsCheckIntevalSpin.setMaximum(3.000000000000000)
@@ -844,18 +820,22 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Toolbox", None))
-        self.FlattenLabel.setText(QCoreApplication.translate("Form", u"\u5982\u679c\u4e00\u4e2a\u6587\u4ef6\u5939\u53ea\u6709\u4e00\u4e2a\u6587\u4ef6\uff0c\u90a3\u4e48\u628a\u8fd9\u4e2a\u6587\u4ef6\u79fb\u52a8\u5230\u5176\u7236\u7ea7\u6587\u4ef6\u5939\uff0c\u5e76\u91cd\u547d\u540d\u4e3a\u6e90\u6587\u4ef6\u5939\u7684\u540d\u79f0\uff0c\u91cd\u590d\u8fd0\u884c\u76f4\u5230\u6ca1\u6709\u53ef\u5904\u7406\u7684\u6587\u4ef6", None))
         self.FlattenDirOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.FlattenDirInput.setPlaceholderText(QCoreApplication.translate("Form", u"\u4ece\u6b64\u5904\u5f00\u59cb\u67e5\u627e\u6587\u4ef6\u5939", None))
         self.FlattenRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
         self.FlattenStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
         self.FileMgrChildTab.setTabText(self.FileMgrChildTab.indexOf(self.FlattenLayoyt), QCoreApplication.translate("Form", u"\u5c55\u5e73", None))
-        self.NewFlattenLabel.setText(QCoreApplication.translate("Form", u"\u57fa\u4e8e\u6811\u7684\u65b0\u5c55\u5e73\u65b9\u5f0f\uff0c\u4ee5\u5185\u5b58\u5360\u7528\u4e3a\u4ee3\u4ef7\uff0c\u63d0\u9ad8\u5c55\u5e73\u901f\u5ea6", None))
+#if QT_CONFIG(tooltip)
+        self.FileMgrChildTab.setTabToolTip(self.FileMgrChildTab.indexOf(self.FlattenLayoyt), QCoreApplication.translate("Form", u"\u5982\u679c\u4e00\u4e2a\u6587\u4ef6\u5939\u53ea\u6709\u4e00\u4e2a\u6587\u4ef6\uff0c\u90a3\u4e48\u628a\u8fd9\u4e2a\u6587\u4ef6\u79fb\u52a8\u5230\u5176\u7236\u7ea7\u6587\u4ef6\u5939\uff0c\u5e76\u91cd\u547d\u540d\u4e3a\u6e90\u6587\u4ef6\u5939\u7684\u540d\u79f0\uff0c\u91cd\u590d\u8fd0\u884c\u76f4\u5230\u6ca1\u6709\u53ef\u5904\u7406\u7684\u6587\u4ef6", None))
+#endif // QT_CONFIG(tooltip)
         self.NewFlattenDirOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.NewFlattenDirInput.setPlaceholderText(QCoreApplication.translate("Form", u"\u4ece\u6b64\u5904\u5f00\u59cb\u67e5\u627e\u6587\u4ef6\u5939", None))
         self.NewFlattenRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
         self.NewFlattenStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
         self.FileMgrChildTab.setTabText(self.FileMgrChildTab.indexOf(self.NewFlattenLayout), QCoreApplication.translate("Form", u"\u5c55\u5e73\uff08\u65b0\uff09", None))
+#if QT_CONFIG(tooltip)
+        self.FileMgrChildTab.setTabToolTip(self.FileMgrChildTab.indexOf(self.NewFlattenLayout), QCoreApplication.translate("Form", u"\u57fa\u4e8e\u6811\u7684\u65b0\u5c55\u5e73\u65b9\u5f0f\uff0c\u4ee5\u5185\u5b58\u5360\u7528\u4e3a\u4ee3\u4ef7\uff0c\u63d0\u9ad8\u5c55\u5e73\u901f\u5ea6", None))
+#endif // QT_CONFIG(tooltip)
         self.MainPage.setTabText(self.MainPage.indexOf(self.FileMgrLayout), QCoreApplication.translate("Form", u"\u6587\u4ef6\u7ba1\u7406", None))
         self.PNG2JPGFindDir.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.PNG2JPGDirTxt.setPlaceholderText(QCoreApplication.translate("Form", u"\u4ece\u6b64\u5904\u5f00\u59cb\u67e5\u627e\u56fe\u50cf", None))
@@ -874,7 +854,9 @@ class Ui_Form(object):
         self.PNG2JPGRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
         self.PNG2JPGStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
         self.ConvertorChildTab.setTabText(self.ConvertorChildTab.indexOf(self.PNG2JPG), QCoreApplication.translate("Form", u"PNG \u8f6c JPG", None))
-        self.Seq2PDFDesc.setText(QCoreApplication.translate("Form", u"\u5c06\u4e00\u4e2a\u6587\u4ef6\u5939\u4e2d\u7684\u56fe\u50cf\u5e8f\u5217\u8f6c\u6362\u4e3a\u5355\u4e2a PDF \u6587\u4ef6\uff0c\u4ee5\u7236\u6587\u4ef6\u5939\u547d\u540d\uff0c\u4fdd\u5b58\u5728\u56fe\u50cf\u5e8f\u5217\u6240\u5728\u7684\u4e0a\u4e00\u7ea7\u6587\u4ef6\u5939", None))
+#if QT_CONFIG(tooltip)
+        self.ConvertorChildTab.setTabToolTip(self.ConvertorChildTab.indexOf(self.PNG2JPG), QCoreApplication.translate("Form", u"\u6279\u91cf\u7684\u5c06 PNG \u56fe\u50cf\u8f6c\u6362\u4e3a JPG \u56fe\u50cf", None))
+#endif // QT_CONFIG(tooltip)
         self.Seq2PDFPathOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.Seq2PDFPathInput.setPlaceholderText(QCoreApplication.translate("Form", u"\u4ece\u6b64\u5904\u5f00\u59cb\u67e5\u627e\u56fe\u50cf", None))
         self.Seq2PDFDel.setText(QCoreApplication.translate("Form", u"\u5220\u9664\u539f\u6587\u4ef6", None))
@@ -882,9 +864,10 @@ class Ui_Form(object):
         self.Seq2PDFRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
         self.Seq2PDFStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
         self.ConvertorChildTab.setTabText(self.ConvertorChildTab.indexOf(self.Seq2PDF), QCoreApplication.translate("Form", u"\u56fe\u50cf\u5e8f\u5217\u8f6c PDF", None))
+#if QT_CONFIG(tooltip)
+        self.ConvertorChildTab.setTabToolTip(self.ConvertorChildTab.indexOf(self.Seq2PDF), QCoreApplication.translate("Form", u"\u5c06\u4e00\u4e2a\u6587\u4ef6\u5939\u4e2d\u7684\u56fe\u50cf\u5e8f\u5217\u8f6c\u6362\u4e3a\u5355\u4e2a PDF \u6587\u4ef6\uff0c\u4ee5\u7236\u6587\u4ef6\u5939\u547d\u540d\uff0c\u4fdd\u5b58\u5728\u56fe\u50cf\u5e8f\u5217\u6240\u5728\u7684\u4e0a\u4e00\u7ea7\u6587\u4ef6\u5939", None))
+#endif // QT_CONFIG(tooltip)
         self.MainPage.setTabText(self.MainPage.indexOf(self.ConvertorLayout), QCoreApplication.translate("Form", u"\u8f6c\u6362\u5de5\u5177", None))
-        self.label.setText(QCoreApplication.translate("Form", u"\u4f7f\u7528 ComfyUI API \u6279\u91cf\u653e\u5927\u56fe\u7247\n"
-"\u56fe\u50cf\u8def\u5f84\u524d\u7684 T \u4ee3\u8868\u8fd9\u4e2a\u56fe\u7247\u5305\u542b\u900f\u660e\u901a\u9053\uff0cL \u4ee3\u8868\u8fd9\u4e2a\u56fe\u7247\u7684\u957f\u5bbd\u6bd4\u6709\u4e9b\u5947\u602a\uff0c\u53ef\u80fd\u662f\u957f\u622a\u56fe\u6216\u5168\u666f\u56fe", None))
         self.UpsComfyUrl.setText(QCoreApplication.translate("Form", u"http://127.0.0.1:8188", None))
         self.UpsModelDropdown.setCurrentText("")
         self.UpsModelDropdown.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u5165URL\u6216\u5237\u65b0\u5217\u8868", None))
@@ -906,6 +889,10 @@ class Ui_Form(object):
         self.UpsListImg.setText(QCoreApplication.translate("Form", u"\u67e5\u627e\u56fe\u50cf", None))
         self.UpsStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
         self.ImgProcessingChildTab.setTabText(self.ImgProcessingChildTab.indexOf(self.UpsLayout), QCoreApplication.translate("Form", u"ComfyUI \u56fe\u50cf\u653e\u5927", None))
+#if QT_CONFIG(tooltip)
+        self.ImgProcessingChildTab.setTabToolTip(self.ImgProcessingChildTab.indexOf(self.UpsLayout), QCoreApplication.translate("Form", u"\u4f7f\u7528 ComfyUI API \u6279\u91cf\u653e\u5927\u56fe\u7247\n"
+"\u56fe\u50cf\u8def\u5f84\u524d\u7684 T \u4ee3\u8868\u8fd9\u4e2a\u56fe\u7247\u5305\u542b\u900f\u660e\u901a\u9053\uff0cL \u4ee3\u8868\u8fd9\u4e2a\u56fe\u7247\u7684\u957f\u5bbd\u6bd4\u6709\u4e9b\u5947\u602a\uff0c\u53ef\u80fd\u662f\u957f\u622a\u56fe\u6216\u5168\u666f\u56fe", None))
+#endif // QT_CONFIG(tooltip)
         self.MainPage.setTabText(self.MainPage.indexOf(self.ImgProcessingLayout), QCoreApplication.translate("Form", u"\u5a92\u4f53\u5904\u7406", None))
         self.CropTextInPathOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.CropTextInPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u5165\u6587\u4ef6\u8def\u5f84", None))
@@ -915,6 +902,10 @@ class Ui_Form(object):
         self.CropTextOutPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u51fa\u6587\u4ef6\u8def\u5f84\uff08\u7559\u7a7a\u4ee5\u4fdd\u5b58\u5230\u6e90\u6587\u4ef6\u5939\uff09", None))
         self.CroptextRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
         self.TextProcChildTab.setTabText(self.TextProcChildTab.indexOf(self.CropText), QCoreApplication.translate("Form", u"\u622a\u53d6\u6587\u672c", None))
+#if QT_CONFIG(tooltip)
+        self.TextProcChildTab.setTabToolTip(self.TextProcChildTab.indexOf(self.CropText), QCoreApplication.translate("Form", u"\u622a\u53d6\u6587\u672c\u7684\u5c3e\u90e8\n"
+"\u901a\u5e38\u7528\u4e8e\u91cd\u8981\u5185\u5bb9\u5728\u6587\u672c\u5c3e\u90e8\u7684\u60c5\u51b5\uff0c\u5982\u62a5\u9519\u65f6\u7684\u65e5\u5fd7", None))
+#endif // QT_CONFIG(tooltip)
         self.CalSimModelDropdown.setPlaceholderText(QCoreApplication.translate("Form", u"\u5c1d\u8bd5\u5237\u65b0\u5217\u8868", None))
         self.CalSimModelRefresh.setText(QCoreApplication.translate("Form", u"\u5237\u65b0\u5217\u8868", None))
         self.CalSimPersistentModel.setText(QCoreApplication.translate("Form", u"\u6301\u4e45\u6a21\u578b", None))

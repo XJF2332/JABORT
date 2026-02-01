@@ -46,17 +46,10 @@
           <attribute name="title">
            <string>展平</string>
           </attribute>
+          <attribute name="toolTip">
+           <string>如果一个文件夹只有一个文件，那么把这个文件移动到其父级文件夹，并重命名为源文件夹的名称，重复运行直到没有可处理的文件</string>
+          </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_13">
-           <item>
-            <widget class="QLabel" name="FlattenLabel">
-             <property name="text">
-              <string>如果一个文件夹只有一个文件，那么把这个文件移动到其父级文件夹，并重命名为源文件夹的名称，重复运行直到没有可处理的文件</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
            <item>
             <layout class="QHBoxLayout" name="FlattenDir">
              <item>
@@ -130,17 +123,10 @@
           <attribute name="title">
            <string>展平（新）</string>
           </attribute>
+          <attribute name="toolTip">
+           <string>基于树的新展平方式，以内存占用为代价，提高展平速度</string>
+          </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_17">
-           <item>
-            <widget class="QLabel" name="NewFlattenLabel">
-             <property name="text">
-              <string>基于树的新展平方式，以内存占用为代价，提高展平速度</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
            <item>
             <layout class="QHBoxLayout" name="NewFlattenDir">
              <item>
@@ -228,6 +214,9 @@
          <widget class="QWidget" name="PNG2JPG">
           <attribute name="title">
            <string>PNG 转 JPG</string>
+          </attribute>
+          <attribute name="toolTip">
+           <string>批量的将 PNG 图像转换为 JPG 图像</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
@@ -428,17 +417,10 @@
           <attribute name="title">
            <string>图像序列转 PDF</string>
           </attribute>
+          <attribute name="toolTip">
+           <string>将一个文件夹中的图像序列转换为单个 PDF 文件，以父文件夹命名，保存在图像序列所在的上一级文件夹</string>
+          </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_18">
-           <item>
-            <widget class="QLabel" name="Seq2PDFDesc">
-             <property name="text">
-              <string>将一个文件夹中的图像序列转换为单个 PDF 文件，以父文件夹命名，保存在图像序列所在的上一级文件夹</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
            <item>
             <layout class="QHBoxLayout" name="Seq2PDFPath">
              <item>
@@ -517,6 +499,12 @@
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
              </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
             </spacer>
            </item>
           </layout>
@@ -542,18 +530,11 @@
           <attribute name="title">
            <string>ComfyUI 图像放大</string>
           </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>使用 ComfyUI API 批量放大图片
+          <attribute name="toolTip">
+           <string>使用 ComfyUI API 批量放大图片
 图像路径前的 T 代表这个图片包含透明通道，L 代表这个图片的长宽比有些奇怪，可能是长截图或全景图</string>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <widget class="QLineEdit" name="UpsComfyUrl">
              <property name="sizePolicy">
@@ -726,7 +707,7 @@
              <item row="1" column="1">
               <widget class="QDoubleSpinBox" name="UpsCheckIntevalSpin">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -879,6 +860,10 @@
          <widget class="QWidget" name="CropText">
           <attribute name="title">
            <string>截取文本</string>
+          </attribute>
+          <attribute name="toolTip">
+           <string>截取文本的尾部
+通常用于重要内容在文本尾部的情况，如报错时的日志</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
@@ -1040,6 +1025,12 @@
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
              </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
             </spacer>
            </item>
           </layout>
@@ -1088,6 +1079,12 @@
             <spacer name="JsonSorterSpacer">
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
              </property>
             </spacer>
            </item>
