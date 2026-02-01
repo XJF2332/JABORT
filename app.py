@@ -256,7 +256,11 @@ class MyWindow(QWidget, Ui_Form):
 
     def json_sorter_run(self):
         res = JsonSorter.main(self.JsonSorterInPath.text())
-        self.UniLog.appendPlainText(res)
+        if res[0]:
+            ui_utils.show_message_box(self, "错误", res[1], QMessageBox.Icon.Critical)
+        else:
+            ui_utils.show_message_box(self, "信息", "排序已完成，结果已保存到原文件",
+                                      QMessageBox.Icon.Information)
 
 
 if __name__ == '__main__':
