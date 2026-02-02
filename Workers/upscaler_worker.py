@@ -13,6 +13,7 @@ logger = log_manager.get_logger(__name__)
 class UpscalerWorker(QThread):
     progress_updated = Signal(int)
     image_list_got = Signal(list)
+    output_path_updated = Signal(str)
     worker_finished = Signal(tuple)
 
     def __init__(
@@ -78,6 +79,9 @@ class UpscalerWorker(QThread):
             logger.exception("初始化放大器失败")
             self.worker_finished.emit(("错误", f"初始化放大器失败: {e}", QMessageBox.Icon.Critical))
             return
+
+        # 输出路径
+        self.output_path_updated.emit(os.path.join(self.img_dir, "Upscaled"))
 
         # 运行模式：查找图像
         if self.mode == "find":

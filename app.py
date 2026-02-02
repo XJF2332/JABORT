@@ -211,6 +211,7 @@ class MyWindow(QWidget, Ui_Form):
         self.upscaler_worker.progress_updated.connect(lambda v: self.UpsProgress.setValue(v))
         self.upscaler_worker.image_list_got.connect(lambda lst: ui_utils.set_widget_items(self.UpsList, lst))
         self.upscaler_worker.image_list_got.connect(lambda lst: setattr(self, 'ups_image_list', lst))
+        self.upscaler_worker.output_path_updated.connect(lambda t: self.UpsSavePath.setText(os.path.normpath(t)))
         self.upscaler_worker.start()
 
     def image_seq_gen_run(self):
