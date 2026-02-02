@@ -565,7 +565,7 @@
                 <number>-1</number>
                </property>
                <property name="placeholderText">
-                <string>输入URL或刷新列表</string>
+                <string>需要刷新</string>
                </property>
                <property name="frame">
                 <bool>true</bool>

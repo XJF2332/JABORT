@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appxFvfQw.ui'
+## Form generated from reading UI file 'appXMmggm.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -856,7 +856,7 @@ class Ui_Form(object):
         self.MainPage.setTabText(self.MainPage.indexOf(self.ConvertorLayout), QCoreApplication.translate("Form", u"\u8f6c\u6362\u5de5\u5177", None))
         self.UpsComfyUrl.setText(QCoreApplication.translate("Form", u"http://127.0.0.1:8188", None))
         self.UpsModelDropdown.setCurrentText("")
-        self.UpsModelDropdown.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u5165URL\u6216\u5237\u65b0\u5217\u8868", None))
+        self.UpsModelDropdown.setPlaceholderText(QCoreApplication.translate("Form", u"\u9700\u8981\u5237\u65b0", None))
         self.UpsRefreshModel.setText(QCoreApplication.translate("Form", u"\u5237\u65b0", None))
         self.UpsChooseImagePath.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.UpsImagePath.setPlaceholderText(QCoreApplication.translate("Form", u"\u4ece\u6b64\u5904\u5f00\u59cb\u67e5\u627e\u56fe\u50cf", None))
