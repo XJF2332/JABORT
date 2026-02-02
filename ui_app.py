@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'apprczofk.ui'
+## Form generated from reading UI file 'appxFvfQw.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -400,8 +400,23 @@ class Ui_Form(object):
 
         self.verticalLayout_4.addLayout(self.UpsImg)
 
-        self.gridLayout_2 = QGridLayout()
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.UpsSaves = QHBoxLayout()
+        self.UpsSaves.setObjectName(u"UpsSaves")
+        self.UpsSavePathOpen = QPushButton(self.UpsLayout)
+        self.UpsSavePathOpen.setObjectName(u"UpsSavePathOpen")
+
+        self.UpsSaves.addWidget(self.UpsSavePathOpen)
+
+        self.UpsSavePath = QLineEdit(self.UpsLayout)
+        self.UpsSavePath.setObjectName(u"UpsSavePath")
+
+        self.UpsSaves.addWidget(self.UpsSavePath)
+
+
+        self.verticalLayout_4.addLayout(self.UpsSaves)
+
+        self.UpsOptions = QGridLayout()
+        self.UpsOptions.setObjectName(u"UpsOptions")
         self.UpsHeightThresholdSpin = QSpinBox(self.UpsLayout)
         self.UpsHeightThresholdSpin.setObjectName(u"UpsHeightThresholdSpin")
         sizePolicy.setHeightForWidth(self.UpsHeightThresholdSpin.sizePolicy().hasHeightForWidth())
@@ -410,7 +425,7 @@ class Ui_Form(object):
         self.UpsHeightThresholdSpin.setMaximum(3000)
         self.UpsHeightThresholdSpin.setValue(1500)
 
-        self.gridLayout_2.addWidget(self.UpsHeightThresholdSpin, 0, 0, 1, 1)
+        self.UpsOptions.addWidget(self.UpsHeightThresholdSpin, 0, 0, 1, 1)
 
         self.UpsJPGThresholdSpin = QSpinBox(self.UpsLayout)
         self.UpsJPGThresholdSpin.setObjectName(u"UpsJPGThresholdSpin")
@@ -420,7 +435,7 @@ class Ui_Form(object):
         self.UpsJPGThresholdSpin.setMaximum(3000)
         self.UpsJPGThresholdSpin.setValue(500)
 
-        self.gridLayout_2.addWidget(self.UpsJPGThresholdSpin, 1, 0, 1, 1)
+        self.UpsOptions.addWidget(self.UpsJPGThresholdSpin, 1, 0, 1, 1)
 
         self.UpsWidthThresholdSpin = QSpinBox(self.UpsLayout)
         self.UpsWidthThresholdSpin.setObjectName(u"UpsWidthThresholdSpin")
@@ -430,19 +445,7 @@ class Ui_Form(object):
         self.UpsWidthThresholdSpin.setMaximum(3000)
         self.UpsWidthThresholdSpin.setValue(1500)
 
-        self.gridLayout_2.addWidget(self.UpsWidthThresholdSpin, 0, 1, 1, 1)
-
-        self.UpsCheckIntevalSpin = QDoubleSpinBox(self.UpsLayout)
-        self.UpsCheckIntevalSpin.setObjectName(u"UpsCheckIntevalSpin")
-        sizePolicy.setHeightForWidth(self.UpsCheckIntevalSpin.sizePolicy().hasHeightForWidth())
-        self.UpsCheckIntevalSpin.setSizePolicy(sizePolicy)
-        self.UpsCheckIntevalSpin.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
-        self.UpsCheckIntevalSpin.setMinimum(0.100000000000000)
-        self.UpsCheckIntevalSpin.setMaximum(3.000000000000000)
-        self.UpsCheckIntevalSpin.setSingleStep(0.100000000000000)
-        self.UpsCheckIntevalSpin.setValue(0.100000000000000)
-
-        self.gridLayout_2.addWidget(self.UpsCheckIntevalSpin, 1, 1, 1, 1)
+        self.UpsOptions.addWidget(self.UpsWidthThresholdSpin, 0, 1, 1, 1)
 
         self.UpsDownscaleSpin = QDoubleSpinBox(self.UpsLayout)
         self.UpsDownscaleSpin.setObjectName(u"UpsDownscaleSpin")
@@ -454,10 +457,10 @@ class Ui_Form(object):
         self.UpsDownscaleSpin.setSingleStep(0.010000000000000)
         self.UpsDownscaleSpin.setValue(1.000000000000000)
 
-        self.gridLayout_2.addWidget(self.UpsDownscaleSpin, 2, 0, 1, 2)
+        self.UpsOptions.addWidget(self.UpsDownscaleSpin, 1, 1, 1, 1)
 
 
-        self.verticalLayout_4.addLayout(self.gridLayout_2)
+        self.verticalLayout_4.addLayout(self.UpsOptions)
 
         self.UpsProgress = QProgressBar(self.UpsLayout)
         self.UpsProgress.setObjectName(u"UpsProgress")
@@ -858,14 +861,14 @@ class Ui_Form(object):
         self.UpsChooseImagePath.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.UpsImagePath.setPlaceholderText(QCoreApplication.translate("Form", u"\u4ece\u6b64\u5904\u5f00\u59cb\u67e5\u627e\u56fe\u50cf", None))
         self.UpsRecursive.setText(QCoreApplication.translate("Form", u"\u9012\u5f52\u67e5\u627e", None))
+        self.UpsSavePathOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
+        self.UpsSavePath.setPlaceholderText(QCoreApplication.translate("Form", u"\u5c06\u56fe\u50cf\u4fdd\u5b58\u5230\u6b64\u5904", None))
         self.UpsHeightThresholdSpin.setSuffix(QCoreApplication.translate("Form", u" \u50cf\u7d20", None))
         self.UpsHeightThresholdSpin.setPrefix(QCoreApplication.translate("Form", u"\u9ad8\u5ea6\u9608\u503c\uff1a", None))
         self.UpsJPGThresholdSpin.setSuffix(QCoreApplication.translate("Form", u" KB", None))
         self.UpsJPGThresholdSpin.setPrefix(QCoreApplication.translate("Form", u"\u5927\u5c0f\u9608\u503c\uff1a", None))
         self.UpsWidthThresholdSpin.setSuffix(QCoreApplication.translate("Form", u" \u50cf\u7d20", None))
         self.UpsWidthThresholdSpin.setPrefix(QCoreApplication.translate("Form", u"\u5bbd\u5ea6\u9608\u503c\uff1a", None))
-        self.UpsCheckIntevalSpin.setPrefix(QCoreApplication.translate("Form", u"\u6bcf ", None))
-        self.UpsCheckIntevalSpin.setSuffix(QCoreApplication.translate("Form", u" \u79d2\u67e5\u8be2\u961f\u5217\u72b6\u6001", None))
         self.UpsDownscaleSpin.setPrefix(QCoreApplication.translate("Form", u"\u56fe\u50cf\u7f29\u653e\u4e3a\uff1a", None))
         self.UpsDownscaleSpin.setSuffix(QCoreApplication.translate("Form", u" \u500d", None))
         self.UpsRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))

@@ -1,18 +1,21 @@
+import json
 import os
-import time
+import uuid
 from typing import Generator
 
 import requests
+import websocket
 from PIL import Image
 
 from Core import log_manager
+from Tools.Utils import utils
 
 logger = log_manager.get_logger(__name__)
 
 
 class ImageUpscaler:
     def __init__(self, height_thresh: int, width_thresh: int, size_thresh: int, img_dir: str, model_name: str,
-                 url: str, downscale: float, get_interval: float, recursive: bool):
+                 url: str, downscale: float, recursive: bool, save_dir: str):
         """
         使用ComfyUI API放大图片
         :param height_thresh: 查找图片时，高度小于此值的图像会被视为需要放大
@@ -22,38 +25,32 @@ class ImageUpscaler:
         :param model_name: 使用此模型放大图像
         :param url: ComfyUI API的URL
         :param downscale: 在使用模型放大后，再缩小为此倍数 - 可以增加一些锐度
-        :param get_interval: 每隔此时间查询一次放大队列状态，查询到任务队列为空时认为放大成功
         :param recursive: 查找图片时，是否要查找img_dir的子文件夹
+        :param save_dir: 图像放大后，保存到此处
         """
         self.prompt_text = {
             "1": {
                 "inputs": {
-                    "image": "example.jpg",
-                    "upload": "image"
+                    "image": "example.png"
                 },
                 "class_type": "LoadImage",
                 "_meta": {
                     "title": "加载图像"
                 }
             },
-            "6": {
+            "2": {
                 "inputs": {
-                    "upscale_method": "lanczos",
-                    "scale_by": downscale,
-                    "image": [
-                        "10",
-                        0
-                    ]
+                    "model_name": "1x-Bendel-Halftone.pth"
                 },
-                "class_type": "ImageScaleBy",
+                "class_type": "UpscaleModelLoader",
                 "_meta": {
-                    "title": "图像按系数缩放"
+                    "title": "加载放大模型"
                 }
             },
-            "10": {
+            "4": {
                 "inputs": {
                     "upscale_model": [
-                        "11",
+                        "2",
                         0
                     ],
                     "image": [
@@ -63,29 +60,33 @@ class ImageUpscaler:
                 },
                 "class_type": "ImageUpscaleWithModel",
                 "_meta": {
-                    "title": "图像通过模型放大"
+                    "title": "使用模型放大图像"
                 }
             },
-            "11": {
+            "5": {
                 "inputs": {
-                    "model_name": "4x-WTP-UDS-Esrgan.pth"
-                },
-                "class_type": "UpscaleModelLoader",
-                "_meta": {
-                    "title": "放大模型加载器"
-                }
-            },
-            "15": {
-                "inputs": {
-                    "filename_prefix": "Upscale",
-                    "images": [
-                        "6",
+                    "upscale_method": "lanczos",
+                    "scale_by": 1,
+                    "image": [
+                        "4",
                         0
                     ]
                 },
-                "class_type": "SaveImage",
+                "class_type": "ImageScaleBy",
                 "_meta": {
-                    "title": "保存图像"
+                    "title": "缩放图像（比例）"
+                }
+            },
+            "6": {
+                "inputs": {
+                    "images": [
+                        "5",
+                        0
+                    ]
+                },
+                "class_type": "SaveImageWebsocket",
+                "_meta": {
+                    "title": "保存图像（网络接口）"
                 }
             }
         }
@@ -95,9 +96,12 @@ class ImageUpscaler:
         self.img_dir = img_dir
         self.model_name = model_name
         self.api_url = url
-        self.get_interval = get_interval
+        self.downscale = downscale
         self.recursive_search = recursive
+        self.save_dir = save_dir
         self.supported_types = ('.png', '.jpg', '.jpeg', '.bmp', '.tiff', '.webp')
+        self.client_id = str(uuid.uuid4())
+        self._temp_image_data = None
 
     def _is_supported_filetype(self, path: str):
         return path.lower().endswith(self.supported_types) and not path.lower().endswith('.gif')
@@ -174,23 +178,54 @@ class ImageUpscaler:
             except Exception as e:
                 logger.error(f"遍历目录失败: {e}")
 
+    def _upload_image(self, image_path: str) -> str:
+        """
+        辅助函数，上传图片到 ComfyUI 以便 LoadImage 节点使用
+        """
+        try:
+            with open(image_path, 'rb') as f:
+                response = requests.post(f"{self.api_url}/upload/image", files={'image': f})
+                response.raise_for_status()
+                # 上传后的文件名
+                return response.json().get("name")
+        except Exception as e:
+            logger.error(f"上传图片失败: {e}")
+            return ""
+
     def send_request_single(self, image_path: str) -> int:
         """
         发送单个放大请求
         :return: 0 成功, 1 失败
         """
-        self.prompt_text["1"]["inputs"]["image"] = image_path
-        self.prompt_text["1"]["inputs"]["upload"] = "image"
-        self.prompt_text["11"]["inputs"]["model_name"] = self.model_name
-        self.prompt_text["15"]["inputs"]["filename_prefix"] = os.path.splitext(os.path.basename(image_path))[0]
+        # 上传图片
+        uploaded_filename = self._upload_image(image_path)
+        if not uploaded_filename:
+            return 1
 
+        # 修改 Prompt
+        # LoadImage
+        self.prompt_text["1"]["inputs"]["image"] = uploaded_filename
+        # UpscaleModelLoader
+        self.prompt_text["2"]["inputs"]["model_name"] = self.model_name
+        # ImageScaleBy
+        self.prompt_text["5"]["inputs"]["scale_by"] = self.downscale  # type: ignore
+
+        # 清空临时数据
+        self._temp_image_data = None
+
+        # 执行任务
         result_code = self.queue_prompt(self.prompt_text)
-
         if result_code != 0:
             logger.error(f"请求发送失败 (Code {result_code}) - 图片: {image_path}")
             return 1
-        else:
+        elif self._temp_image_data:
+            # 保存文件到本地
             try:
+                save_file_path = os.path.join(self.save_dir, os.path.basename(image_path))
+                save_file_path = utils.get_unique_filename(save_file_path)
+                with open(save_file_path, 'wb') as f:
+                    f.write(self._temp_image_data)
+
                 current_image = Image.open(image_path)
                 logger.info(
                     f"已放大图片: {os.path.basename(image_path)} | "
@@ -199,44 +234,67 @@ class ImageUpscaler:
                 )
                 return 0
             except Exception as e:
-                logger.error(f"处理图片 {image_path} 时出错: {e}")
+                logger.error(f"保存或读取处理后的图片 {image_path} 时出错: {e}")
                 return 1
+        else:
+            logger.error(f"任务完成但未收到图像数据: {image_path}")
+            return 1
 
     def queue_prompt(self, prompt) -> int:
         """
+        使用 WebSocket 提交任务并接收结果
         向ComfyUI API发送任务并等待完成
         :return: 0 成功, 1 节点错误, 2 API请求/网络错误
         """
+        ws = websocket.WebSocket()
         try:
-            p = {"prompt": prompt}
+            # 构造 WebSocket URL
+            ws_url = self.api_url.replace("http://", "ws://").replace("https://", "wss://")
+            ws.connect(f"{ws_url}/ws?clientId={self.client_id}")
+
+            # 发送 Prompt (HTTP)
+            p = {"prompt": prompt, "client_id": self.client_id}
             response = requests.post(f"{self.api_url}/prompt", json=p)
             response.raise_for_status()
             result = response.json()
 
-            # 检查节点错误
+            # 检查即时节点错误
             if result.get("node_errors"):
                 logger.error(f"工作流节点错误: {result['node_errors']}")
+                ws.close()
                 return 1
 
-            # 查询任务队列
-            current_retries = 0
-            max_retries = 2
+            # 循环监听 WebSocket 消息
+            current_node = ""
             while True:
-                time.sleep(self.get_interval)
-                try:
-                    remaining_queue_resp = requests.get(f"{self.api_url}/prompt").json()
-                    remaining_queue = remaining_queue_resp.get("exec_info", {}).get("queue_remaining", 0)
-                    current_retries = 0
-                    if remaining_queue == 0:
-                        break
-                except Exception as e:
-                    logger.warning(f"查询队列状态出错: {e}，剩余重试次数：{max_retries - current_retries}")
-                    current_retries += 1
-                    time.sleep(1)
-                    if current_retries > max_retries:
-                        logger.error("查询队列状态超时或失败")
-                        return 2
+                out = ws.recv()
+                # 文本消息
+                if isinstance(out, str):
+                    message = json.loads(out)
+                    if message['type'] == 'executing':
+                        data = message['data']
+                        if data['node'] is None:
+                            break
+                        else:
+                            current_node = data['node']
+                # 二进制消息
+                elif isinstance(out, bytes):
+                    # 检查节点ID 6 (websocket保存节点)
+                    if current_node == "6":
+                        self._temp_image_data = out[8:]
+
+            ws.close()
             return 0
-        except Exception as e:
+
+        except websocket.WebSocketException as e:
+            logger.error(f"WebSocket 连接错误: {e}")
+            return 2
+        except requests.exceptions.RequestException as e:
             logger.error(f"无法发送API请求: {e}")
             return 2
+        except Exception as e:
+            logger.error(f"任务执行期间发生未知错误: {e}")
+            return 2
+        finally:
+            if ws.connected:
+                ws.close()

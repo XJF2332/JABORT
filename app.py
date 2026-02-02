@@ -47,6 +47,7 @@ class MyWindow(QWidget, Ui_Form):
         self.Seq2PDFPathOpen.clicked.connect(lambda: self.select_folder(self.Seq2PDFPathInput))
         # 放大信号
         self.UpsChooseImagePath.clicked.connect(lambda: self.select_folder(self.UpsImagePath))
+        self.UpsSavePathOpen.clicked.connect(lambda: self.select_folder(self.UpsSavePath))
         self.UpsRun.clicked.connect(lambda: self.ups_run(mode="upscale"))
         self.UpsStop.clicked.connect(lambda: self.upscaler_worker.stop())
         self.UpsRefreshModel.clicked.connect(
@@ -198,9 +199,9 @@ class MyWindow(QWidget, Ui_Form):
             jpg_size_threshold=self.UpsJPGThresholdSpin.value(),
             post_downscale_scale=self.UpsDownscaleSpin.value(),
             url=self.UpsComfyUrl.text(),
-            get_interval=self.UpsCheckIntevalSpin.value(),
             image_list=[self.UpsList.item(i).text() for i in range(self.UpsList.count())],
-            mode=mode
+            save_dir=self.UpsSavePath.text(),
+            mode=mode,
         )
         self.upscaler_worker.worker_finished.connect(lambda: self.UpsRun.setEnabled(True))
         self.upscaler_worker.worker_finished.connect(lambda: self.UpsListImg.setEnabled(True))

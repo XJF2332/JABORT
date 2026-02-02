@@ -25,9 +25,9 @@ class UpscalerWorker(QThread):
             jpg_size_threshold: int,
             post_downscale_scale: float,
             url: str,
-            get_interval: float,
             image_list: list,
-            mode: str = "upscale"
+            save_dir: str,
+            mode: str = "upscale",
     ):
         """
         初始化放大器
@@ -41,10 +41,10 @@ class UpscalerWorker(QThread):
         self.jpg_size_threshold = jpg_size_threshold
         self.post_downscale_scale = post_downscale_scale
         self.api_url = url
-        self.get_interval = get_interval
         self.image_list = image_list
         self.upscaler = None
         self.mode = mode
+        self.save_dir = save_dir
         self._stop = False
 
     def run(self):
@@ -72,7 +72,7 @@ class UpscalerWorker(QThread):
                 model_name=self.model_name,
                 recursive=self.recursive_search,
                 downscale=self.post_downscale_scale,
-                get_interval=self.get_interval
+                save_dir=self.save_dir
             )
         except Exception as e:
             logger.exception("初始化放大器失败")
@@ -84,7 +84,6 @@ class UpscalerWorker(QThread):
             logger.info("开始查找图像...")
             found_images = []
 
-            # 适配修改：get_image_files 现在只生成路径字符串，不返回错误信息（错误已内部记录）
             for file_path in self.upscaler.get_image_files():
                 if self._stop:
                     logger.warning("图像查找已终止")
@@ -130,8 +129,6 @@ class UpscalerWorker(QThread):
 
                 # 处理前缀
                 clean_image_path = utils.remove_substring(image, ["T ", "L ", "TL "], "prefix")
-
-                # 适配修改：send_request_single 返回 int 状态码 (0=成功)
                 result_code = self.upscaler.send_request_single(clean_image_path)
 
                 if result_code == 0:

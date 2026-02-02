@@ -628,7 +628,25 @@
             </layout>
            </item>
            <item>
-            <layout class="QGridLayout" name="gridLayout_2">
+            <layout class="QHBoxLayout" name="UpsSaves">
+             <item>
+              <widget class="QPushButton" name="UpsSavePathOpen">
+               <property name="text">
+                <string>打开</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="UpsSavePath">
+               <property name="placeholderText">
+                <string>将图像保存到此处</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QGridLayout" name="UpsOptions">
              <item row="0" column="0">
               <widget class="QSpinBox" name="UpsHeightThresholdSpin">
                <property name="sizePolicy">
@@ -705,37 +723,6 @@
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QDoubleSpinBox" name="UpsCheckIntevalSpin">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-               </property>
-               <property name="prefix">
-                <string>每 </string>
-               </property>
-               <property name="suffix">
-                <string> 秒查询队列状态</string>
-               </property>
-               <property name="minimum">
-                <double>0.100000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>3.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.100000000000000</double>
-               </property>
-               <property name="value">
-                <double>0.100000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0" colspan="2">
               <widget class="QDoubleSpinBox" name="UpsDownscaleSpin">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -1214,6 +1201,12 @@
             <spacer name="QtIconsSpacer">
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
              </property>
             </spacer>
            </item>
