@@ -257,16 +257,16 @@ class MyWindow(QWidget, Ui_Form):
             ui_utils.show_message_box(self, "错误", f"无法删除日志：{e}", QMessageBox.Icon.Critical)
 
     def cal_similarity_run(self):
-        similarity = CalSimilarity.main(
+        res = CalSimilarity.main(
             str1=self.CalSimIn1.text(),
             str2=self.CalSimIn2.text(),
             model=self.CalSimModelDropdown.currentText(),
             persistent_model=self.CalSimPersistentModel.isChecked()
         )
-        if similarity[0]:
-            ui_utils.show_message_box(self, "错误", similarity[1], QMessageBox.Icon.Critical)
+        if res[0].code:
+            ui_utils.show_message_box(self, "错误", res[0].generic, QMessageBox.Icon.Critical)
         else:
-            ui_utils.show_message_box(self, "计算结果", f"输入内容的相似度为 {similarity[1]}",
+            ui_utils.show_message_box(self, "计算结果", f"输入内容的相似度为 {res[1]}",
                                       QMessageBox.Icon.Information)
 
     def json_sorter_run(self):
