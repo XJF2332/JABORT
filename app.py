@@ -230,12 +230,12 @@ class MyWindow(QWidget, Ui_Form):
     # 在当前线程运行的函数
     def crop_text_run(self):
         res = CropText.crop_text_file(
-            source_path=self.CropTextInPath.text(),
+            input_path=self.CropTextInPath.text(),
             output_path=self.CropTextOutPath.text(),
             percentage=self.CropTextRatioSpinbox.value(),
         )
-        if res[0]:
-            ui_utils.show_message_box(self, "错误", res[1], QMessageBox.Icon.Critical)
+        if res[0].code:
+            ui_utils.show_message_box(self, "错误", res[0].generic, QMessageBox.Icon.Critical)
         else:
             ui_utils.show_message_box(self, "成功", f"裁剪后的文本已保存到 {res[1]}",
                                       QMessageBox.Icon.Information)

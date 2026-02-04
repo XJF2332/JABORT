@@ -46,7 +46,6 @@ def remove_substring(source_string: str, substring: str | list, remove_type: str
         return source_string
 
 
-
 def get_unique_filename(path: str) -> str:
     """
     获取唯一的文件名，为重名的文件添加序号
@@ -82,6 +81,23 @@ def get_unique_filename(path: str) -> str:
 
     return os.path.join(dir_path, new_filename)
 
+
+def filename_deduplicate(mode: int, path: str) -> str | None:
+    """
+    对get_unique_filename的简单封装，以适配UI的三种去重模式
+    Args:
+        mode: 去重模式，0 - 覆盖，1 - 跳过，2 - 保留两者（会添加序号）
+        path: 要去重的路径
+
+    Returns:
+        去重后的文件名
+    """
+    if mode == 0:
+        return path
+    elif mode == 2:
+        return get_unique_filename(path)
+    else:
+        return None
 
 def get_list(path: str, include_path: bool = False, scan_type: str = "local",
              sub_url: str = "", location: Any = None) -> Tuple[int, str | list[str]]:

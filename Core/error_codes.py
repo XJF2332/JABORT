@@ -46,3 +46,7 @@ class ErrorCode(ErrorCodeBase):
     ZeroDivision = (2, "出现了除零错误，因为 {item}", "除零错误")
     EmptyString = (3, "输入包含空字符串")
     InvalidPath = (4, "输入路径为空或不存在：{item}", "输入路径为空或不存在")
+    InvalidRatio = (5, "无效的比例值：{item}", "输入的比例无效")
+    FileExists = (6, "文件 {item} 已存在，跳过此项", "输出文件已存在")
+    CannotReadFile = (7, "无法读取文件：{item}", "无法读取文件")
+    CannotWriteFile = (8, "无法写入文件：{item}", "无法写入文件")
