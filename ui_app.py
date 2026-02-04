@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appXMmggm.ui'
+## Form generated from reading UI file 'appVobDKU.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -535,6 +535,8 @@ class Ui_Form(object):
 
         self.verticalLayout_6.addLayout(self.CropTextInput)
 
+        self.CropTextOptions = QHBoxLayout()
+        self.CropTextOptions.setObjectName(u"CropTextOptions")
         self.CropTextRatioSpinbox = QSpinBox(self.CropText)
         self.CropTextRatioSpinbox.setObjectName(u"CropTextRatioSpinbox")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
@@ -546,7 +548,20 @@ class Ui_Form(object):
         self.CropTextRatioSpinbox.setMinimum(1)
         self.CropTextRatioSpinbox.setMaximum(100)
 
-        self.verticalLayout_6.addWidget(self.CropTextRatioSpinbox)
+        self.CropTextOptions.addWidget(self.CropTextRatioSpinbox)
+
+        self.CropTextDedup = QComboBox(self.CropText)
+        self.CropTextDedup.addItem("")
+        self.CropTextDedup.addItem("")
+        self.CropTextDedup.addItem("")
+        self.CropTextDedup.setObjectName(u"CropTextDedup")
+        sizePolicy2.setHeightForWidth(self.CropTextDedup.sizePolicy().hasHeightForWidth())
+        self.CropTextDedup.setSizePolicy(sizePolicy2)
+
+        self.CropTextOptions.addWidget(self.CropTextDedup)
+
+
+        self.verticalLayout_6.addLayout(self.CropTextOptions)
 
         self.CropTextOutput = QHBoxLayout()
         self.CropTextOutput.setObjectName(u"CropTextOutput")
@@ -798,6 +813,7 @@ class Ui_Form(object):
         self.ImgProcessingChildTab.setCurrentIndex(0)
         self.UpsModelDropdown.setCurrentIndex(-1)
         self.TextProcChildTab.setCurrentIndex(0)
+        self.CropTextDedup.setCurrentIndex(2)
         self.TestChildTab.setCurrentIndex(0)
 
 
@@ -884,6 +900,11 @@ class Ui_Form(object):
         self.CropTextInPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u5165\u6587\u4ef6\u8def\u5f84", None))
         self.CropTextRatioSpinbox.setSuffix(QCoreApplication.translate("Form", u" %", None))
         self.CropTextRatioSpinbox.setPrefix(QCoreApplication.translate("Form", u"\u622a\u53d6\u6587\u672c\u7684\u540e ", None))
+        self.CropTextDedup.setItemText(0, QCoreApplication.translate("Form", u"\u91cd\u590d\u7684\u6587\u4ef6\uff1a\u8986\u76d6", None))
+        self.CropTextDedup.setItemText(1, QCoreApplication.translate("Form", u"\u91cd\u590d\u7684\u6587\u4ef6\uff1a\u8df3\u8fc7", None))
+        self.CropTextDedup.setItemText(2, QCoreApplication.translate("Form", u"\u91cd\u590d\u7684\u6587\u4ef6\uff1a\u589e\u52a0\u5e8f\u53f7", None))
+
+        self.CropTextDedup.setPlaceholderText(QCoreApplication.translate("Form", u"\u91cd\u590d\u7684\u6587\u4ef6", None))
         self.CropTextOutPathOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.CropTextOutPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u51fa\u6587\u4ef6\u8def\u5f84\uff08\u7559\u7a7a\u4ee5\u4fdd\u5b58\u5230\u6e90\u6587\u4ef6\u5939\uff09", None))
         self.CroptextRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))

@@ -43,11 +43,13 @@ def crop_text_file(input_path: str, output_path: str = None, percentage: int = 5
         logger.debug(f"未提供输出路径，生成：{output_path}")
 
     # 去重
-    if deduplicate == 1:
+    dedup_res = utils.filename_deduplicate(deduplicate, output_path)
+    logger.debug(f"去重结果：{dedup_res}")
+    if dedup_res is None:
         logger.error(ErrorCode.FileExists.format(output_path))
         return ErrorCode.FileExists, ""
     else:
-        output_path = utils.filename_deduplicate(deduplicate, output_path)
+        output_path = dedup_res
 
     # 读取源文件内容
     best_match = from_path(input_path).best()

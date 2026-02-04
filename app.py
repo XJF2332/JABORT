@@ -233,6 +233,7 @@ class MyWindow(QWidget, Ui_Form):
             input_path=self.CropTextInPath.text(),
             output_path=self.CropTextOutPath.text(),
             percentage=self.CropTextRatioSpinbox.value(),
+            deduplicate=self.CropTextDedup.currentIndex()
         )
         if res[0].code:
             ui_utils.show_message_box(self, "错误", res[0].generic, QMessageBox.Icon.Critical)

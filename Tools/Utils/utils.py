@@ -90,12 +90,15 @@ def filename_deduplicate(mode: int, path: str) -> str | None:
         path: 要去重的路径
 
     Returns:
-        去重后的文件名
+        去重后的文件名（如果当前输入无法满足去重要求，即文件名存在重复但即不允许覆盖也不允许保留两者，返回的是None）
     """
-    if mode == 0:
+    # 覆盖模式 或 跳过模式但文件当前不存在 - 输入本身
+    if mode == 0 or (mode == 1 and not os.path.exists(path)):
         return path
+    # 保留两者 - 去重
     elif mode == 2:
         return get_unique_filename(path)
+    # 跳过模式且文件当前存在 或 其他模式 - 返回 None
     else:
         return None
 

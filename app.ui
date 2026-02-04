@@ -872,29 +872,64 @@
             </layout>
            </item>
            <item>
-            <widget class="QSpinBox" name="CropTextRatioSpinbox">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
-             </property>
-             <property name="suffix">
-              <string> %</string>
-             </property>
-             <property name="prefix">
-              <string>截取文本的后 </string>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="CropTextOptions">
+             <item>
+              <widget class="QSpinBox" name="CropTextRatioSpinbox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+               </property>
+               <property name="suffix">
+                <string> %</string>
+               </property>
+               <property name="prefix">
+                <string>截取文本的后 </string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="CropTextDedup">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="currentIndex">
+                <number>2</number>
+               </property>
+               <property name="placeholderText">
+                <string>重复的文件</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>重复的文件：覆盖</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>重复的文件：跳过</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>重复的文件：增加序号</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <layout class="QHBoxLayout" name="CropTextOutput">
