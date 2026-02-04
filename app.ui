@@ -272,9 +272,9 @@
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QPushButton" name="PNG2JPGIngoreAlpha">
+              <widget class="QPushButton" name="PNG2JPGSkipAlpha">
                <property name="text">
-                <string>无视透明度</string>
+                <string>跳过透明图</string>
                </property>
                <property name="checkable">
                 <bool>true</bool>

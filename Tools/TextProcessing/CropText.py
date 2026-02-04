@@ -21,7 +21,7 @@ def crop_text_file(input_path: str, output_path: str = None, percentage: int = 5
         percentage: 截取比例(0-100)，表示截取后x%的内容
 
     Returns:
-        输出文件路径
+        （错误码，输出文件路径）
     """
     # 验证参数
     logger.info(f"以 {percentage}% 截取 {input_path}")
@@ -45,11 +45,11 @@ def crop_text_file(input_path: str, output_path: str = None, percentage: int = 5
     # 去重
     dedup_res = utils.filename_deduplicate(deduplicate, output_path)
     logger.debug(f"去重结果：{dedup_res}")
-    if dedup_res is None:
-        logger.error(ErrorCode.FileExists.format(output_path))
-        return ErrorCode.FileExists, ""
+    if dedup_res[0] != ErrorCode.Success:
+        logger.error(dedup_res[0].format(output_path))
+        return dedup_res[0], ""
     else:
-        output_path = dedup_res
+        output_path = dedup_res[1]
 
     # 读取源文件内容
     best_match = from_path(input_path).best()

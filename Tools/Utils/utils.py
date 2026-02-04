@@ -3,6 +3,11 @@ from typing import Any, Tuple
 
 import requests
 
+from Core import log_manager
+from Core.error_codes import ErrorCode
+
+logger = log_manager.get_logger(__name__)
+
 
 def remove_substring(source_string: str, substring: str | list, remove_type: str) -> str:
     """
@@ -46,61 +51,63 @@ def remove_substring(source_string: str, substring: str | list, remove_type: str
         return source_string
 
 
-def get_unique_filename(path: str) -> str:
+def get_unique_filename(path: str) -> tuple[ErrorCode, str]:
     """
     获取唯一的文件名，为重名的文件添加序号
     :param path: 要处理的路径
     :return: 唯一文件路径
     """
+    logger.debug(f"为 {path} 获取唯一的文件名")
     dir_path = os.path.dirname(path) or '.'
-    full_filename = os.path.basename(path)
-    filename, ext = os.path.splitext(full_filename)
+    filename, ext = os.path.splitext(os.path.basename(path))
 
-    # 没有重名
+    # 文件不存在 - 没有重名
     if not os.path.exists(path):
-        return path
-
-    try:
-        files = os.listdir(dir_path)
-    except FileNotFoundError:
-        return path
-
+        logger.debug("没有检测到重复文件")
+        return ErrorCode.Success, path
+    # 文件存在 - 有重名
+    files = os.listdir(dir_path)
     pattern_str = f"^{re.escape(filename)}_(\\d+){re.escape(ext)}$"
+    logger.debug(f"检测到重复文件，构建正则表达式：{pattern_str}")
     pattern = re.compile(pattern_str)
 
-    indices = [
-        int(match.group(1))
-        for f in files
-        if (match := pattern.match(f))
-    ]
-
+    indices = [int(match.group(1)) for f in files if (match := pattern.match(f))]
+    logger.debug(f"检测到的序列：{indices}")
     max_index = max(indices, default=0)
 
     new_index = max_index + 1
     new_filename = f"{filename}_{new_index}{ext}"
+    logger.debug(f"唯一文件名：{new_filename}")
 
-    return os.path.join(dir_path, new_filename)
+    return ErrorCode.Success, os.path.join(dir_path, new_filename)
 
 
-def filename_deduplicate(mode: int, path: str) -> str | None:
+def filename_deduplicate(mode: int, path: str) -> tuple[ErrorCode, str]:
     """
     对get_unique_filename的简单封装，以适配UI的三种去重模式
+
+    可能的错误码：
+    Success
+    FileSkipped
+
     Args:
         mode: 去重模式，0 - 覆盖，1 - 跳过，2 - 保留两者（会添加序号）
         path: 要去重的路径
 
     Returns:
-        去重后的文件名（如果当前输入无法满足去重要求，即文件名存在重复但即不允许覆盖也不允许保留两者，返回的是None）
+        （错误码，去重后的文件名）
     """
+    logger.debug(f"使用 {mode} 进行文件名去重")
     # 覆盖模式 或 跳过模式但文件当前不存在 - 输入本身
     if mode == 0 or (mode == 1 and not os.path.exists(path)):
-        return path
+        return ErrorCode.Success, path
     # 保留两者 - 去重
     elif mode == 2:
         return get_unique_filename(path)
     # 跳过模式且文件当前存在 或 其他模式 - 返回 None
     else:
-        return None
+        return ErrorCode.FileSkipped, path
+
 
 def get_list(path: str, include_path: bool = False, scan_type: str = "local",
              sub_url: str = "", location: Any = None) -> Tuple[int, str | list[str]]:

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appVobDKU.ui'
+## Form generated from reading UI file 'appRvPQKm.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -190,11 +190,11 @@ class Ui_Form(object):
 
         self.PNG2JPGOptions.addWidget(self.PNG2JPGPreverveMeta, 0, 2, 1, 1)
 
-        self.PNG2JPGIngoreAlpha = QPushButton(self.PNG2JPG)
-        self.PNG2JPGIngoreAlpha.setObjectName(u"PNG2JPGIngoreAlpha")
-        self.PNG2JPGIngoreAlpha.setCheckable(True)
+        self.PNG2JPGSkipAlpha = QPushButton(self.PNG2JPG)
+        self.PNG2JPGSkipAlpha.setObjectName(u"PNG2JPGSkipAlpha")
+        self.PNG2JPGSkipAlpha.setCheckable(True)
 
-        self.PNG2JPGOptions.addWidget(self.PNG2JPGIngoreAlpha, 0, 1, 1, 1)
+        self.PNG2JPGOptions.addWidget(self.PNG2JPGSkipAlpha, 0, 1, 1, 1)
 
         self.PNG2JPGWalk = QPushButton(self.PNG2JPG)
         self.PNG2JPGWalk.setObjectName(u"PNG2JPGWalk")
@@ -843,7 +843,7 @@ class Ui_Form(object):
         self.PNG2JPGDirTxt.setPlaceholderText(QCoreApplication.translate("Form", u"\u4ece\u6b64\u5904\u5f00\u59cb\u67e5\u627e\u56fe\u50cf", None))
         self.PNG2JPGDelOri.setText(QCoreApplication.translate("Form", u"\u5220\u9664\u539f\u6587\u4ef6", None))
         self.PNG2JPGPreverveMeta.setText(QCoreApplication.translate("Form", u"\u4fdd\u7559\u5143\u6570\u636e", None))
-        self.PNG2JPGIngoreAlpha.setText(QCoreApplication.translate("Form", u"\u65e0\u89c6\u900f\u660e\u5ea6", None))
+        self.PNG2JPGSkipAlpha.setText(QCoreApplication.translate("Form", u"\u8df3\u8fc7\u900f\u660e\u56fe", None))
         self.PNG2JPGWalk.setText(QCoreApplication.translate("Form", u"\u9012\u5f52\u67e5\u627e", None))
         self.PNG2JPGDedup.setItemText(0, QCoreApplication.translate("Form", u"\u91cd\u590d\u7684\u6587\u4ef6\uff1a\u8986\u76d6", None))
         self.PNG2JPGDedup.setItemText(1, QCoreApplication.translate("Form", u"\u91cd\u590d\u7684\u6587\u4ef6\uff1a\u8df3\u8fc7", None))

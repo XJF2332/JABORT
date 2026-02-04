@@ -160,7 +160,7 @@ class MyWindow(QWidget, Ui_Form):
             image_dir=self.PNG2JPGDirTxt.text(),
             recursive=self.PNG2JPGWalk.isChecked(),
             quality=self.PNG2JPGQualitySlider.value(),
-            ignore_transparency=self.PNG2JPGIngoreAlpha.isChecked(),
+            skip_transparency=self.PNG2JPGSkipAlpha.isChecked(),
             preserve_metadata=self.PNG2JPGPreverveMeta.isChecked(),
             delete_origin=self.PNG2JPGDelOri.isChecked(),
             deduplicate=self.PNG2JPGDedup.currentIndex()
