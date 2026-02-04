@@ -55,7 +55,7 @@ def get_unique_filename(path: str) -> tuple[ErrorCode, str]:
     """
     获取唯一的文件名，为重名的文件添加序号
     :param path: 要处理的路径
-    :return: 唯一文件路径
+    :return: 元组，第一项为错误码，第二项为唯一文件路径
     """
     logger.debug(f"为 {path} 获取唯一的文件名")
     dir_path = os.path.dirname(path) or '.'

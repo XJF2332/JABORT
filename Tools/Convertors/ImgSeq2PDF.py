@@ -6,6 +6,7 @@ from typing import List, Dict, TypedDict, Generator
 import fitz
 import send2trash
 
+from Core.error_codes import ErrorCode
 from Tools.Utils import utils
 from Tools.Convertors import PNG2JPG
 from Core import log_manager
@@ -99,7 +100,7 @@ def create_pdf_from_sequence(sequence_info: SequenceInfo) -> tuple[int, list[str
     """
     将一个图像序列转换为一个PDF文件。
 
-    :return: 0 表示成功，1 表示失败， 后面的列表为遇到webp，转换后文件路径的列表
+    :return: 0 表示成功，1 表示失败，后面的列表为遇到webp，转换后文件路径的列表
     """
     folder_path = sequence_info["folder"]
     image_paths = sequence_info["sequence"]
@@ -114,32 +115,34 @@ def create_pdf_from_sequence(sequence_info: SequenceInfo) -> tuple[int, list[str
         logger.error(f"路径解析错误: {folder_path}")
         return 1, []
 
-    output_pdf_path = utils.get_unique_filename(os.path.join(parent_dir, f"{folder_name}.pdf"))
-
-    logger.debug(f"正在创建PDF: {output_pdf_path}, 源文件数: {len(image_paths)}")
+    res = utils.get_unique_filename(os.path.join(parent_dir, f"{folder_name}.pdf"))
+    if res[0] != ErrorCode.Success:
+        logger.error(f"无法创建输出文件名")
+        return 1, []
+    logger.debug(f"正在创建PDF: {res[1]}, 源文件数: {len(image_paths)}")
 
     try:
-        with fitz.open() as pdf_document:
-            for img_path in image_paths:
-                # 针对webp的转换
-                if img_path.endswith(".webp"):
-                    conv_res = PNG2JPG.convert_single(img_path, 80, False,
-                                                      2, "webp")[1]
-                    send2trash.send2trash(img_path)
-                    img_path = conv_res
-                    extras.append(conv_res)
-                    logger.debug(f"已将webp文件转换为 {img_path} ，当前extras列表：{extras}")
-                # 追加图像
-                img_doc = fitz.open(img_path)
-                pdf_bytes = img_doc.convert_to_pdf()
-                img_pdf = fitz.open("pdf", pdf_bytes)
-                pdf_document.insert_pdf(img_pdf)
-                img_pdf.close()
-                img_doc.close()
+        pdf_document = fitz.open()
+        for img_path in image_paths:
+            # 针对webp的转换
+            if img_path.endswith(".webp"):
+                conv_res = PNG2JPG.convert_single(img_path, 80, False,
+                                                  2, "webp")[1]
+                img_path = conv_res
+                extras.append(conv_res)
+                logger.debug(f"已将webp文件转换为 {img_path} ，当前extras列表：{extras}")
+            # 追加图像
+            img_doc = fitz.open(img_path)
+            pdf_bytes = img_doc.convert_to_pdf()
+            img_pdf = fitz.open("pdf", pdf_bytes)
+            pdf_document.insert_pdf(img_pdf)
+            img_pdf.close()
+            img_doc.close()
             # 保存 PDF
-            pdf_document.save(output_pdf_path)
+            pdf_document.save(res[1])
 
-        logger.info(f"成功创建PDF: {output_pdf_path}")
+        logger.info(f"成功创建PDF: {res[1]}")
+        pdf_document.close()
         return 0, extras
     except Exception as e:
         logger.error(f"无法创建PDF ({folder_name}): {str(e)}")
@@ -163,6 +166,7 @@ def cleanup_original_files(sequence_info: SequenceInfo, send_to_trash_flag: bool
 
     # 移除额外文件
     if extras:
+        extras = [os.path.normpath(item) for item in extras]
         send2trash.send2trash(extras)
         logger.info(f"已将 {len(extras)} 项额外文件移动到回收站")
 

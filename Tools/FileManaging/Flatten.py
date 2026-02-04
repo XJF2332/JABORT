@@ -50,11 +50,11 @@ def _lift_single_file_up(folder_path: str) -> bool:
     candidate_path = os.path.join(parent_folder, new_file_name + file_extension)
     new_file_path = utils.get_unique_filename(candidate_path)
 
-    shutil.move(os.path.join(folder_path, file_to_move), new_file_path)
+    shutil.move(os.path.join(folder_path, file_to_move), new_file_path[1])
     send2trash.send2trash(folder_path)
 
     logger.info(f"已移动文件 '{file_to_move}' 到父文件夹")
-    logger.info(f"    该文件已重命名为 '{os.path.basename(new_file_path)}'")
+    logger.info(f"    该文件已重命名为 '{os.path.basename(new_file_path[1])}'")
     logger.info(f"    删除文件夹 '{folder_path}'")
 
     return True

@@ -223,7 +223,7 @@ class ImageUpscaler:
             try:
                 save_file_path = os.path.join(self.save_dir, os.path.basename(image_path))
                 save_file_path = utils.get_unique_filename(save_file_path)
-                with open(save_file_path, 'wb') as f:
+                with open(save_file_path[1], 'wb') as f:
                     f.write(self._temp_image_data)
 
                 current_image = Image.open(image_path)
