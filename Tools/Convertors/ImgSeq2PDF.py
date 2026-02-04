@@ -4,9 +4,10 @@ from collections import defaultdict
 from typing import List, Dict, TypedDict, Generator
 
 import fitz
-from send2trash import send2trash
+import send2trash
 
 from Tools.Utils import utils
+from Tools.Convertors import PNG2JPG
 from Core import log_manager
 
 logger = log_manager.get_logger(__name__)
@@ -25,7 +26,7 @@ def _process_folder(dirpath: str, dirnames: List[str], filenames: List[str]) -> 
     处理单个文件夹中的图像序列，识别并分组序列文件。
     """
     sequence_groups: Dict[tuple, List[tuple]] = defaultdict(list)
-    IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.tif', '.webp', '.ico'}
+    IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.tif', '.webp'}
 
     # 正则表达式，用于匹配文件名中的前缀、数字和后缀
     pattern = re.compile(r"^(.*?)(\d+)(\.[^.]+)$")
@@ -94,14 +95,15 @@ def find_image_sequences(root_folder: str, recursive: bool = False) -> List[Sequ
     return all_sequences_info
 
 
-def create_pdf_from_sequence(sequence_info: SequenceInfo) -> int:
+def create_pdf_from_sequence(sequence_info: SequenceInfo) -> tuple[int, list[str]]:
     """
     将一个图像序列转换为一个PDF文件。
 
-    :return: 0 表示成功，1 表示失败
+    :return: 0 表示成功，1 表示失败， 后面的列表为遇到webp，转换后文件路径的列表
     """
     folder_path = sequence_info["folder"]
     image_paths = sequence_info["sequence"]
+    extras = []
 
     # 确定输出PDF的路径和名称
     parent_dir = os.path.dirname(folder_path)
@@ -110,7 +112,7 @@ def create_pdf_from_sequence(sequence_info: SequenceInfo) -> int:
     # 简单的防御性检查，防止路径错误
     if not parent_dir or not folder_name:
         logger.error(f"路径解析错误: {folder_path}")
-        return 1
+        return 1, []
 
     output_pdf_path = utils.get_unique_filename(os.path.join(parent_dir, f"{folder_name}.pdf"))
 
@@ -118,8 +120,16 @@ def create_pdf_from_sequence(sequence_info: SequenceInfo) -> int:
 
     try:
         with fitz.open() as pdf_document:
-            # 追加图像
             for img_path in image_paths:
+                # 针对webp的转换
+                if img_path.endswith(".webp"):
+                    conv_res = PNG2JPG.convert_single(img_path, 80, False,
+                                                      2, "webp")[1]
+                    send2trash.send2trash(img_path)
+                    img_path = conv_res
+                    extras.append(conv_res)
+                    logger.debug(f"已将webp文件转换为 {img_path} ，当前extras列表：{extras}")
+                # 追加图像
                 img_doc = fitz.open(img_path)
                 pdf_bytes = img_doc.convert_to_pdf()
                 img_pdf = fitz.open("pdf", pdf_bytes)
@@ -130,13 +140,13 @@ def create_pdf_from_sequence(sequence_info: SequenceInfo) -> int:
             pdf_document.save(output_pdf_path)
 
         logger.info(f"成功创建PDF: {output_pdf_path}")
-        return 0
+        return 0, extras
     except Exception as e:
         logger.error(f"无法创建PDF ({folder_name}): {str(e)}")
-        return 1
+        return 1, extras
 
 
-def cleanup_original_files(sequence_info: SequenceInfo, send_to_trash_flag: bool) -> int:
+def cleanup_original_files(sequence_info: SequenceInfo, send_to_trash_flag: bool, extras: list[str]) -> int:
     """
     根据用户选择和文件夹内容，将原文件或文件夹发送到回收站。
 
@@ -151,11 +161,16 @@ def cleanup_original_files(sequence_info: SequenceInfo, send_to_trash_flag: bool
     all_items_in_folder = set(sequence_info["all_files"])
     has_subfolder = sequence_info["has_subfolder"]
 
+    # 移除额外文件
+    if extras:
+        send2trash.send2trash(extras)
+        logger.info(f"已将 {len(extras)} 项额外文件移动到回收站")
+
     # 序列文件是文件夹的所有内容，且没有子文件夹 - 直接删除父文件夹更快
     if sequence_files == all_items_in_folder and not has_subfolder:
         try:
             norm_path = os.path.normpath(folder_path)
-            send2trash(norm_path)
+            send2trash.send2trash(norm_path)
             logger.info(f"文件夹已移至回收站: {norm_path}")
             return 0
         except Exception as e:
@@ -164,7 +179,7 @@ def cleanup_original_files(sequence_info: SequenceInfo, send_to_trash_flag: bool
     else:
         try:
             files_to_trash = [os.path.normpath(i) for i in sequence_info["sequence"]]
-            send2trash(files_to_trash)
+            send2trash.send2trash(files_to_trash)
             logger.info(f"序列文件已移至回收站，共 {len(files_to_trash)} 个文件")
             return 0
         except Exception as e:
@@ -173,11 +188,11 @@ def cleanup_original_files(sequence_info: SequenceInfo, send_to_trash_flag: bool
 
 
 def process_image_sequences(target_folder: str, recursive: bool = False,
-                            send_to_trash: bool = False) -> Generator[int, None, None]:
+                            send_to_trash: bool = False) -> Generator[tuple[int, int], None, None]:
     """
     处理图像序列转PDF的主函数。
 
-    :return: 进度生成器 (Yields int: 0-100)
+    :return: 包含状态码和进度的生成器
     """
     # 查找所有图像序列
     sequences = find_image_sequences(target_folder, recursive)
@@ -185,7 +200,7 @@ def process_image_sequences(target_folder: str, recursive: bool = False,
 
     if not sequences:
         logger.warning("未找到任何符合条件的图像序列")
-        yield 100
+        yield 0, 100
         return
 
     # 处理每个序列
@@ -193,17 +208,17 @@ def process_image_sequences(target_folder: str, recursive: bool = False,
         progress = int((i / seq_length) * 100)
 
         # 创建 PDF
-        result_code = create_pdf_from_sequence(seq_info)
+        res = create_pdf_from_sequence(seq_info)
 
-        if result_code != 0:
+        if res[0] != 0:
             # 如果创建失败，跳过后续清理步骤，继续下一个序列
             logger.warning(f"序列 {i} 处理失败，跳过清理")
-            yield progress
+            yield 1, progress
             continue
 
         # 清理原文件
-        cleanup_original_files(seq_info, send_to_trash)
+        cleanup_original_files(seq_info, send_to_trash, res[1])
 
-        yield progress
+        yield 0, progress
 
     return

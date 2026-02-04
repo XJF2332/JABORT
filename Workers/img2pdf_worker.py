@@ -44,8 +44,12 @@ class ImgSeq2PDFWorker(QThread):
                     logger.info("用户终止了图像序列转换任务")
                     self.worker_finished.emit(("提示", "操作已停止", QMessageBox.Icon.Information))
                     return
-
-                self.progress_updated.emit(progress)
+                elif progress[0]:
+                    logger.error("转换过程出错")
+                    self.worker_finished.emit(("错误", "转换失败", QMessageBox.Icon.Information))
+                    return
+                else:
+                    self.progress_updated.emit(progress[1])
 
             # 循环正常结束
             logger.info("图像序列转换任务完成")
@@ -54,6 +58,7 @@ class ImgSeq2PDFWorker(QThread):
         except Exception as e:
             logger.error(f"发生未知错误: {str(e)}")
             self.worker_finished.emit(("错误", f"发生未知错误: {str(e)}", QMessageBox.Icon.Critical))
+            return
 
     def stop(self):
         self._stop = True

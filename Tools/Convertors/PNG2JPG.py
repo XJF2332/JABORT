@@ -9,7 +9,8 @@ from Core import log_manager
 logger = log_manager.get_logger(__name__)
 
 
-def convert_single(path: str, quality: int, preserve_metadata: bool, deduplicate: int) -> int:
+def convert_single(path: str, quality: int, preserve_metadata: bool, deduplicate: int,
+                   old: str = "png") -> tuple[int, str]:
     """
     转换单个图像文件
 
@@ -21,7 +22,8 @@ def convert_single(path: str, quality: int, preserve_metadata: bool, deduplicate
     :param quality: 质量
     :param preserve_metadata: 保留元数据
     :param deduplicate: 去重模式，0 - 覆盖，1 - 跳过，2 - 保留两者（会添加序号）
-    :return: 状态码
+    :param old: 旧文件的扩展名，因为它不只能转PNG，也可以转别的，此处留下这个接口以便其他脚本调用
+    :return: 包含状态码和新文件路径的元组
     """
     logger.debug(f"正在转换：{path}")
     with Image.open(path) as image:
@@ -30,17 +32,15 @@ def convert_single(path: str, quality: int, preserve_metadata: bool, deduplicate
             image = image.convert('RGB')
 
         # 新图像路径
-        new_path = path.replace("png", "jpg")
-        if new_path.endswith(".jpg"):
-            pass
-        else:
+        new_path = path.replace(old, "jpg")
+        if not new_path.endswith(".jpg"):
             new_path = new_path + ".jpg"
 
         # 去重
         logger.debug(f"去重模式：{deduplicate}")
         if deduplicate == 1 and os.path.exists(new_path):
             logger.info(f"已跳过 {new_path} ，因为其已存在")
-            return 1
+            return 1, new_path
         elif deduplicate == 2:
             new_path = utils.get_unique_filename(new_path)
             logger.debug(f"唯一路径：{new_path}")
@@ -53,7 +53,7 @@ def convert_single(path: str, quality: int, preserve_metadata: bool, deduplicate
             image.save(new_path, 'JPEG', quality=quality)
 
         logger.info(f"已转换 {new_path}")
-        return 0
+        return 0, new_path
 
 
 def convert_batch(paths: list, quality: int, preserve_metadata: bool, deduplicate: int):
@@ -90,8 +90,8 @@ def convert_batch(paths: list, quality: int, preserve_metadata: bool, deduplicat
                     preserve_metadata=preserve_metadata,
                     deduplicate=deduplicate
                 )
-                logger.info(f"已跳过：{path}" if result else f"已转换：{path}")
-                yield int(((index + 1) / length) * 100), result
+                logger.info(f"已跳过：{path}" if result[0] else f"已转换：{path}")
+                yield int(((index + 1) / length) * 100), result[0]
             except Exception as e:
                 logger.error(f"转换失败：{str(e)}")
                 yield int(((index + 1) / length) * 100), 20
