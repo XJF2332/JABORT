@@ -2,6 +2,7 @@
 * {
     font-size: 13px;
     color: #2c4662;
+    background-color: #ffffff
 }
 
 /* ===== QTabWidget ===== */
