@@ -30,7 +30,7 @@ def convert_single(input_path: str, quality: int, preserve_metadata: bool, dedup
             image = image.convert('RGB')
 
         # 新图像路径
-        output_path = input_path.replace(old, "jpg")
+        output_path = utils.remove_substring(input_path, old, "suffix") + "jpg"
         if not output_path.endswith(".jpg"):
             output_path = output_path + ".jpg"
         dedup_res = utils.filename_deduplicate(deduplicate, output_path)
