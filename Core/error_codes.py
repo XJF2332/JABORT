@@ -41,16 +41,18 @@ class ErrorCode(ErrorCodeBase):
     """
     通用错误码类
     """
-    Success = (0, "操作成功完成")
-    Unknown = (1, "未知错误：{item}", "未知错误")
+    Success = (0, "操作 {item} 成功完成", "操作成功完成")
+    Unknown = (1, "未知错误：{item}", "未知错误，请查看日志以获取详细信息")
     ZeroDivision = (2, "出现了除零错误，因为 {item}", "除零错误")
     EmptyString = (3, "输入包含空字符串")
-    InvalidPath = (4, "路径为空或不存在：{item}", "输入路径为空或不存在")
+    InvalidPath = (4, "路径为空、不存在或不符合要求：{item}", "输入路径为空、不存在或不符合要求")
     InvalidRatio = (5, "无效的比例值：{item}", "输入的比例无效")
     FileSkipped = (6, "文件 {item} 已存在，跳过此项", "输出文件已存在，已跳过此次输出")
     CannotReadFile = (7, "无法读取文件：{item}", "无法读取文件")
     CannotWriteFile = (8, "无法写入文件：{item}", "无法写入文件")
     EmptyList = (9, "输入列表为空")
     NoImageFound = (10, "未找到符合要求的图像")
-    UserInterrupt = (11, "{item} 已被用户终止")
+    UserInterrupt = (11, "{item} 已被用户终止", "操作已被用户终止")
     BrokenImage = (12, "无法识别图像：{item}，此图像可能已经损坏", "遇到了可能损坏的图像")
+    CannotDelInputFile = (13, "无法删除原文件/文件夹：{item}", "无法删除原文件或文件夹")
+    CannotDelTempFile = (14, "无法删除临时文件/文件夹：{item}", "无法删除临时文件或文件夹")
