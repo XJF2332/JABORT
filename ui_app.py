@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appRvPQKm.ui'
+## Form generated from reading UI file 'appBLPmTW.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -170,6 +170,7 @@ class Ui_Form(object):
         self.PNG2JPGDirTxt.setObjectName(u"PNG2JPGDirTxt")
         sizePolicy.setHeightForWidth(self.PNG2JPGDirTxt.sizePolicy().hasHeightForWidth())
         self.PNG2JPGDirTxt.setSizePolicy(sizePolicy)
+        self.PNG2JPGDirTxt.setClearButtonEnabled(True)
 
         self.PNG2JPGDir.addWidget(self.PNG2JPGDirTxt)
 
@@ -282,6 +283,7 @@ class Ui_Form(object):
 
         self.Seq2PDFPathInput = QLineEdit(self.Seq2PDF)
         self.Seq2PDFPathInput.setObjectName(u"Seq2PDFPathInput")
+        self.Seq2PDFPathInput.setClearButtonEnabled(True)
 
         self.Seq2PDFPath.addWidget(self.Seq2PDFPathInput)
 
