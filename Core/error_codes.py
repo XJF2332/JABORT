@@ -56,3 +56,7 @@ class ErrorCode(ErrorCodeBase):
     BrokenImage = (12, "无法识别图像：{item}，此图像可能已经损坏", "遇到了可能损坏的图像")
     CannotDelInputFile = (13, "无法删除原文件/文件夹：{item}", "无法删除原文件或文件夹")
     CannotDelTempFile = (14, "无法删除临时文件/文件夹：{item}", "无法删除临时文件或文件夹")
+    ApiConnectionError = (15, "API连接失败或网络错误：{item}", "无法连接到服务器")
+    ApiNodeError = (16, "工作流节点执行出错：{item}", "AI处理节点发生错误")
+    UploadFailed = (17, "文件上传失败：{item}", "无法上传图像到服务器")
+    CannotMakeDir = (18, "无法创建文件夹：{item}", "无法创建需要的文件夹")

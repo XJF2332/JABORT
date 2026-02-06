@@ -56,8 +56,6 @@ def convert_batch(images: list, quality: int, preserve_metadata: bool,
     """
     对输入的路径列表进行批量转换
 
-    20 - 此项失败
-
     :param images: 所有图像文件路径的列表
     :param quality: 质量
     :param preserve_metadata: 保留元数据
