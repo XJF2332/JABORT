@@ -254,7 +254,7 @@ class ImageUpscaler:
                 return ErrorCode.Unknown, ""
         else:
             logger.error(f"任务完成但未收到图像数据: {image_path}")
-            return ErrorCode.ApiNodeError, "未接收到图像数据"
+            return ErrorCode.WorkflowNodeError, "未接收到图像数据"
 
     def queue_prompt(self, prompt) -> ErrorCode:
         """
@@ -277,7 +277,7 @@ class ImageUpscaler:
             if result.get("node_errors"):
                 logger.error(f"工作流节点错误: {result['node_errors']}")
                 ws.close()
-                return ErrorCode.ApiNodeError
+                return ErrorCode.WorkflowNodeError
 
             # 监听 ws 消息
             current_node = ""
