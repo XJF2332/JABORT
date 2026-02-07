@@ -61,3 +61,5 @@ class ErrorCode(ErrorCodeBase):
     UploadFailed = (17, "文件上传失败：{item}", "无法上传图像到服务器")
     CannotMakeDir = (18, "无法创建文件夹：{item}", "无法创建需要的文件夹")
     NotPermitted = (19, "权限不足以完成对 {item} 的操作", "没有足够的权限完成所需操作")
+    TrashFailed = (20, "无法将 {item} 移动到回收站", "无法移入回收站")
+    FlattenFailed = (21, "展平操作失败：{item}", "展平失败")
