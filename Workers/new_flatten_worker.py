@@ -4,6 +4,7 @@ from PySide6.QtCore import Signal, QThread
 from PySide6.QtWidgets import QMessageBox
 
 from Core import log_manager
+from Core.error_codes import ErrorCode
 from Tools.FileManaging import FlattenNew
 
 logger = log_manager.get_logger(__name__)
@@ -39,21 +40,30 @@ class NewFlattenWorker(QThread):
         try:
             logger.info(f"准备展平：{self.folder}")
             self.folder = os.path.normpath(self.folder)
-            # 展平为麦考米克
-            for progress in FlattenNew.process_flatten(self.folder):
+            for stat, progress in FlattenNew.flatten(self.folder):
                 if self._stop:
                     logger.info("展平已被用户终止")
                     self.worker_finished.emit(("信息", "展平已被终止", QMessageBox.Icon.Information))
                     return
-                self.progress_updated.emit(progress * 0.9)
+                elif stat != ErrorCode.Success:
+                    logger.error(stat.generic)
+                    self.worker_finished.emit(("错误", stat.generic, QMessageBox.Icon.Critical))
+                    return
+                else:
+                    self.progress_updated.emit(progress * 0.9)
             logger.info(f"展平完成，准备清理")
             # 清理空文件夹
-            FlattenNew.process_cleanup(self.folder)
-            logger.info("清理完成")
-            # 所有任务完成
-            self.progress_updated.emit(100)
-            self.worker_finished.emit(("信息", "展平完成", QMessageBox.Icon.Information))
-
+            stat = FlattenNew.cleanup(self.folder)
+            if stat != ErrorCode.Success:
+                logger.error(stat.generic)
+                self.worker_finished.emit(("错误",stat.generic, QMessageBox.Icon.Critical))
+                return
+            else:
+                logger.info("清理完成")
+                self.progress_updated.emit(100)
+                self.worker_finished.emit(("信息", "展平完成", QMessageBox.Icon.Information))
+                return
         except Exception as e:
             logger.error(f"无法完成展平：{e}")
             self.worker_finished.emit(("错误", f"无法完成展平：{e}", QMessageBox.Icon.Critical))
+            return
