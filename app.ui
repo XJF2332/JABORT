@@ -519,13 +519,13 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="ImgProcessingLayout">
+     <widget class="QWidget" name="MediaProcessingLayout">
       <attribute name="title">
        <string>媒体处理</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
-        <widget class="QTabWidget" name="ImgProcessingChildTab">
+        <widget class="QTabWidget" name="MediaProcessingChildTab">
          <property name="currentIndex">
           <number>0</number>
          </property>
@@ -827,6 +827,111 @@
               <size>
                <width>0</width>
                <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="VidTrimLayout">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <attribute name="title">
+           <string>视频剪切</string>
+          </attribute>
+          <attribute name="toolTip">
+           <string>丢弃一个视频前或后一定时间的部分，不损失画质
+通常用于一些被填充了无关内容的视频，比如B站的资源</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <layout class="QHBoxLayout" name="VidTrimInputs">
+             <item>
+              <widget class="QPushButton" name="VidTrimInputOpen">
+               <property name="text">
+                <string>打开</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="VidTrimInputPath">
+               <property name="placeholderText">
+                <string>要剪切的视频路径</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="VidTrimInputPlay">
+               <property name="text">
+                <string>播放</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="VidTrimOutputs">
+             <item>
+              <widget class="QPushButton" name="VidTrimOutputOpen">
+               <property name="text">
+                <string>打开</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="VidTrimOutputPath">
+               <property name="placeholderText">
+                <string>输出视频路径</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="VidTrimOptions">
+             <item>
+              <widget class="QComboBox" name="VidTrimMode">
+               <item>
+                <property name="text">
+                 <string>截止于</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>开始于</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTimeEdit" name="VidTrimTime">
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+               </property>
+               <property name="displayFormat">
+                <string>HH:mm:ss.zzz</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QPushButton" name="VidTrimRun">
+             <property name="text">
+              <string>运行</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="VidTrimSpacer">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
               </size>
              </property>
             </spacer>

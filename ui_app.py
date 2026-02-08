@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appBLPmTW.ui'
+## Form generated from reading UI file 'applWUuIl.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -19,8 +19,8 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication
     QDoubleSpinBox, QFormLayout, QGridLayout, QHBoxLayout,
     QLabel, QLineEdit, QListWidget, QListWidgetItem,
     QProgressBar, QPushButton, QSizePolicy, QSlider,
-    QSpacerItem, QSpinBox, QTabWidget, QVBoxLayout,
-    QWidget)
+    QSpacerItem, QSpinBox, QTabWidget, QTimeEdit,
+    QVBoxLayout, QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -339,13 +339,13 @@ class Ui_Form(object):
         self.verticalLayout_3.addWidget(self.ConvertorChildTab)
 
         self.MainPage.addTab(self.ConvertorLayout, "")
-        self.ImgProcessingLayout = QWidget()
-        self.ImgProcessingLayout.setObjectName(u"ImgProcessingLayout")
-        self.verticalLayout_5 = QVBoxLayout(self.ImgProcessingLayout)
+        self.MediaProcessingLayout = QWidget()
+        self.MediaProcessingLayout.setObjectName(u"MediaProcessingLayout")
+        self.verticalLayout_5 = QVBoxLayout(self.MediaProcessingLayout)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.ImgProcessingChildTab = QTabWidget(self.ImgProcessingLayout)
-        self.ImgProcessingChildTab.setObjectName(u"ImgProcessingChildTab")
-        self.ImgProcessingChildTab.setMovable(True)
+        self.MediaProcessingChildTab = QTabWidget(self.MediaProcessingLayout)
+        self.MediaProcessingChildTab.setObjectName(u"MediaProcessingChildTab")
+        self.MediaProcessingChildTab.setMovable(True)
         self.UpsLayout = QWidget()
         self.UpsLayout.setObjectName(u"UpsLayout")
         self.verticalLayout_4 = QVBoxLayout(self.UpsLayout)
@@ -506,11 +506,79 @@ class Ui_Form(object):
 
         self.verticalLayout_4.addItem(self.UpsSpacer)
 
-        self.ImgProcessingChildTab.addTab(self.UpsLayout, "")
+        self.MediaProcessingChildTab.addTab(self.UpsLayout, "")
+        self.VidTrimLayout = QWidget()
+        self.VidTrimLayout.setObjectName(u"VidTrimLayout")
+        self.VidTrimLayout.setEnabled(False)
+        self.verticalLayout_7 = QVBoxLayout(self.VidTrimLayout)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.VidTrimInputs = QHBoxLayout()
+        self.VidTrimInputs.setObjectName(u"VidTrimInputs")
+        self.VidTrimInputOpen = QPushButton(self.VidTrimLayout)
+        self.VidTrimInputOpen.setObjectName(u"VidTrimInputOpen")
 
-        self.verticalLayout_5.addWidget(self.ImgProcessingChildTab)
+        self.VidTrimInputs.addWidget(self.VidTrimInputOpen)
 
-        self.MainPage.addTab(self.ImgProcessingLayout, "")
+        self.VidTrimInputPath = QLineEdit(self.VidTrimLayout)
+        self.VidTrimInputPath.setObjectName(u"VidTrimInputPath")
+
+        self.VidTrimInputs.addWidget(self.VidTrimInputPath)
+
+        self.VidTrimInputPlay = QPushButton(self.VidTrimLayout)
+        self.VidTrimInputPlay.setObjectName(u"VidTrimInputPlay")
+
+        self.VidTrimInputs.addWidget(self.VidTrimInputPlay)
+
+
+        self.verticalLayout_7.addLayout(self.VidTrimInputs)
+
+        self.VidTrimOutputs = QHBoxLayout()
+        self.VidTrimOutputs.setObjectName(u"VidTrimOutputs")
+        self.VidTrimOutputOpen = QPushButton(self.VidTrimLayout)
+        self.VidTrimOutputOpen.setObjectName(u"VidTrimOutputOpen")
+
+        self.VidTrimOutputs.addWidget(self.VidTrimOutputOpen)
+
+        self.VidTrimOutputPath = QLineEdit(self.VidTrimLayout)
+        self.VidTrimOutputPath.setObjectName(u"VidTrimOutputPath")
+
+        self.VidTrimOutputs.addWidget(self.VidTrimOutputPath)
+
+
+        self.verticalLayout_7.addLayout(self.VidTrimOutputs)
+
+        self.VidTrimOptions = QHBoxLayout()
+        self.VidTrimOptions.setObjectName(u"VidTrimOptions")
+        self.VidTrimMode = QComboBox(self.VidTrimLayout)
+        self.VidTrimMode.addItem("")
+        self.VidTrimMode.addItem("")
+        self.VidTrimMode.setObjectName(u"VidTrimMode")
+
+        self.VidTrimOptions.addWidget(self.VidTrimMode)
+
+        self.VidTrimTime = QTimeEdit(self.VidTrimLayout)
+        self.VidTrimTime.setObjectName(u"VidTrimTime")
+        self.VidTrimTime.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+
+        self.VidTrimOptions.addWidget(self.VidTrimTime)
+
+
+        self.verticalLayout_7.addLayout(self.VidTrimOptions)
+
+        self.VidTrimRun = QPushButton(self.VidTrimLayout)
+        self.VidTrimRun.setObjectName(u"VidTrimRun")
+
+        self.verticalLayout_7.addWidget(self.VidTrimRun)
+
+        self.VidTrimSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_7.addItem(self.VidTrimSpacer)
+
+        self.MediaProcessingChildTab.addTab(self.VidTrimLayout, "")
+
+        self.verticalLayout_5.addWidget(self.MediaProcessingChildTab)
+
+        self.MainPage.addTab(self.MediaProcessingLayout, "")
         self.TextProcessingLayout = QWidget()
         self.TextProcessingLayout.setObjectName(u"TextProcessingLayout")
         self.verticalLayout_11 = QVBoxLayout(self.TextProcessingLayout)
@@ -812,7 +880,7 @@ class Ui_Form(object):
         self.FileMgrChildTab.setCurrentIndex(0)
         self.ConvertorChildTab.setCurrentIndex(0)
         self.PNG2JPGDedup.setCurrentIndex(2)
-        self.ImgProcessingChildTab.setCurrentIndex(0)
+        self.MediaProcessingChildTab.setCurrentIndex(0)
         self.UpsModelDropdown.setCurrentIndex(-1)
         self.TextProcChildTab.setCurrentIndex(0)
         self.CropTextDedup.setCurrentIndex(2)
@@ -892,12 +960,27 @@ class Ui_Form(object):
         self.UpsRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
         self.UpsListImg.setText(QCoreApplication.translate("Form", u"\u67e5\u627e\u56fe\u50cf", None))
         self.UpsStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
-        self.ImgProcessingChildTab.setTabText(self.ImgProcessingChildTab.indexOf(self.UpsLayout), QCoreApplication.translate("Form", u"ComfyUI \u56fe\u50cf\u653e\u5927", None))
+        self.MediaProcessingChildTab.setTabText(self.MediaProcessingChildTab.indexOf(self.UpsLayout), QCoreApplication.translate("Form", u"ComfyUI \u56fe\u50cf\u653e\u5927", None))
 #if QT_CONFIG(tooltip)
-        self.ImgProcessingChildTab.setTabToolTip(self.ImgProcessingChildTab.indexOf(self.UpsLayout), QCoreApplication.translate("Form", u"\u4f7f\u7528 ComfyUI API \u6279\u91cf\u653e\u5927\u56fe\u7247\n"
+        self.MediaProcessingChildTab.setTabToolTip(self.MediaProcessingChildTab.indexOf(self.UpsLayout), QCoreApplication.translate("Form", u"\u4f7f\u7528 ComfyUI API \u6279\u91cf\u653e\u5927\u56fe\u7247\n"
 "\u56fe\u50cf\u8def\u5f84\u524d\u7684 T \u4ee3\u8868\u8fd9\u4e2a\u56fe\u7247\u5305\u542b\u900f\u660e\u901a\u9053\uff0cL \u4ee3\u8868\u8fd9\u4e2a\u56fe\u7247\u7684\u957f\u5bbd\u6bd4\u6709\u4e9b\u5947\u602a\uff0c\u53ef\u80fd\u662f\u957f\u622a\u56fe\u6216\u5168\u666f\u56fe", None))
 #endif // QT_CONFIG(tooltip)
-        self.MainPage.setTabText(self.MainPage.indexOf(self.ImgProcessingLayout), QCoreApplication.translate("Form", u"\u5a92\u4f53\u5904\u7406", None))
+        self.VidTrimInputOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
+        self.VidTrimInputPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8981\u526a\u5207\u7684\u89c6\u9891\u8def\u5f84", None))
+        self.VidTrimInputPlay.setText(QCoreApplication.translate("Form", u"\u64ad\u653e", None))
+        self.VidTrimOutputOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
+        self.VidTrimOutputPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u51fa\u89c6\u9891\u8def\u5f84", None))
+        self.VidTrimMode.setItemText(0, QCoreApplication.translate("Form", u"\u622a\u6b62\u4e8e", None))
+        self.VidTrimMode.setItemText(1, QCoreApplication.translate("Form", u"\u5f00\u59cb\u4e8e", None))
+
+        self.VidTrimTime.setDisplayFormat(QCoreApplication.translate("Form", u"HH:mm:ss.zzz", None))
+        self.VidTrimRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
+        self.MediaProcessingChildTab.setTabText(self.MediaProcessingChildTab.indexOf(self.VidTrimLayout), QCoreApplication.translate("Form", u"\u89c6\u9891\u526a\u5207", None))
+#if QT_CONFIG(tooltip)
+        self.MediaProcessingChildTab.setTabToolTip(self.MediaProcessingChildTab.indexOf(self.VidTrimLayout), QCoreApplication.translate("Form", u"\u4e22\u5f03\u4e00\u4e2a\u89c6\u9891\u524d\u6216\u540e\u4e00\u5b9a\u65f6\u95f4\u7684\u90e8\u5206\uff0c\u4e0d\u635f\u5931\u753b\u8d28\n"
+"\u901a\u5e38\u7528\u4e8e\u4e00\u4e9b\u88ab\u586b\u5145\u4e86\u65e0\u5173\u5185\u5bb9\u7684\u89c6\u9891\uff0c\u6bd4\u5982B\u7ad9\u7684\u8d44\u6e90", None))
+#endif // QT_CONFIG(tooltip)
+        self.MainPage.setTabText(self.MainPage.indexOf(self.MediaProcessingLayout), QCoreApplication.translate("Form", u"\u5a92\u4f53\u5904\u7406", None))
         self.CropTextInPathOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.CropTextInPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u5165\u6587\u4ef6\u8def\u5f84", None))
         self.CropTextRatioSpinbox.setSuffix(QCoreApplication.translate("Form", u" %", None))
