@@ -160,7 +160,7 @@ class MyWindow(QWidget, Ui_Form):
             image_dir=self.PNG2JPGDirTxt.text(),
             recursive=self.PNG2JPGWalk.isChecked(),
             quality=self.PNG2JPGQualitySlider.value(),
-            ignore_transparency=self.PNG2JPGIngoreAlpha.isChecked(),
+            skip_transparency=self.PNG2JPGSkipAlpha.isChecked(),
             preserve_metadata=self.PNG2JPGPreverveMeta.isChecked(),
             delete_origin=self.PNG2JPGDelOri.isChecked(),
             deduplicate=self.PNG2JPGDedup.currentIndex()
@@ -230,12 +230,13 @@ class MyWindow(QWidget, Ui_Form):
     # 在当前线程运行的函数
     def crop_text_run(self):
         res = CropText.crop_text_file(
-            source_path=self.CropTextInPath.text(),
+            input_path=self.CropTextInPath.text(),
             output_path=self.CropTextOutPath.text(),
             percentage=self.CropTextRatioSpinbox.value(),
+            deduplicate=self.CropTextDedup.currentIndex()
         )
-        if res[0]:
-            ui_utils.show_message_box(self, "错误", res[1], QMessageBox.Icon.Critical)
+        if res[0].code:
+            ui_utils.show_message_box(self, "错误", res[0].generic, QMessageBox.Icon.Critical)
         else:
             ui_utils.show_message_box(self, "成功", f"裁剪后的文本已保存到 {res[1]}",
                                       QMessageBox.Icon.Information)
@@ -257,16 +258,16 @@ class MyWindow(QWidget, Ui_Form):
             ui_utils.show_message_box(self, "错误", f"无法删除日志：{e}", QMessageBox.Icon.Critical)
 
     def cal_similarity_run(self):
-        similarity = CalSimilarity.main(
+        res = CalSimilarity.main(
             str1=self.CalSimIn1.text(),
             str2=self.CalSimIn2.text(),
             model=self.CalSimModelDropdown.currentText(),
             persistent_model=self.CalSimPersistentModel.isChecked()
         )
-        if similarity[0]:
-            ui_utils.show_message_box(self, "错误", similarity[1], QMessageBox.Icon.Critical)
+        if res[0].code:
+            ui_utils.show_message_box(self, "错误", res[0].generic, QMessageBox.Icon.Critical)
         else:
-            ui_utils.show_message_box(self, "计算结果", f"输入内容的相似度为 {similarity[1]}",
+            ui_utils.show_message_box(self, "计算结果", f"输入内容的相似度为 {res[1]}",
                                       QMessageBox.Icon.Information)
 
     def json_sorter_run(self):

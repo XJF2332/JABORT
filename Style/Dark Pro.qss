@@ -81,6 +81,16 @@ QSpinBox::down-button:pressed, QDoubleSpinBox::down-button:pressed {
     background-color: #1a1a1a;
 }
 
+/* ===== QTimeEdit ===== */
+QTimeEdit {
+    border: 1px solid #353535;
+    border-radius: 6px;
+    background-color: #202020;
+    padding: 4px 8px;
+    color: #cccccc;
+    selection-background-color: #2a68d4;
+}
+
 /* ===== QSlider ===== */
 QSlider::groove:horizontal {
     border: 1px solid transparent;

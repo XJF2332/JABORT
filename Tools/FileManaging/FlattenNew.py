@@ -1,12 +1,13 @@
 import os
-import re
 import shutil
 from typing import Generator
 
 from anytree import Node
 from send2trash import send2trash
 
+from Tools.Utils import utils
 from Core import log_manager
+from Core.error_codes import ErrorCode
 
 logger = log_manager.get_logger(__name__)
 
@@ -20,68 +21,53 @@ class FsNode(Node):
         self.is_file = is_file
 
 
-def build_tree(root_path) -> FsNode:
-    """构建文件系统的anytree结构"""
+def build_tree(root_path) -> tuple[ErrorCode, FsNode | None]:
+    """
+    构建文件系统的anytree结构
+    Args:
+        root_path: 从此处构建树
+
+    Returns:
+        第一项为错误码，第二项为根节点（出错则为None）
+    """
     logger.info(f"开始构建文件树，根路径: {root_path}")
     root_path = os.path.abspath(root_path)
     root_name = os.path.basename(root_path)
     root_node = FsNode(root_name, root_path, is_file=False)
     logger.debug(f"创建根节点: {root_name}")
+    nodes_map = {root_path: root_node}  # 使用字典记录路径对应的结点，方便挂载
 
-    # 使用字典记录路径对应的结点，方便挂载
-    nodes_map = {root_path: root_node}
+    try:
+        for root, dirs, files in os.walk(root_path):
+            logger.debug(f"遍历目录: {root}, 子目录数: {len(dirs)}, 文件数: {len(files)}")
+            current_node = nodes_map[root]
 
-    for dirpath, dirnames, filenames in os.walk(root_path):
-        logger.debug(f"遍历目录: {dirpath}, 子目录数: {len(dirnames)}, 文件数: {len(filenames)}")
-        current_node = nodes_map[dirpath]
+            # 添加子目录
+            for item in dirs:
+                full_path = os.path.join(root, item)
+                if os.path.isdir(full_path):
+                    child_node = FsNode(item, full_path, is_file=False, parent=current_node)
+                    nodes_map[full_path] = child_node
+                    logger.debug(f"添加目录节点: {item}")
 
-        # 添加子目录
-        for dirname in dirnames:
-            full_path = os.path.join(dirpath, dirname)
-            if os.path.isdir(full_path):
-                child_node = FsNode(dirname, full_path, is_file=False, parent=current_node)
-                nodes_map[full_path] = child_node
-                logger.debug(f"添加目录节点: {dirname}")
+            # 添加文件
+            for filename in files:
+                full_path = os.path.join(root, filename)
+                if os.path.isfile(full_path):
+                    FsNode(filename, full_path, is_file=True, parent=current_node)
+                    logger.debug(f"添加文件节点: {filename}")
 
-        # 添加文件
-        for filename in filenames:
-            full_path = os.path.join(dirpath, filename)
-            if os.path.isfile(full_path):
-                FsNode(filename, full_path, is_file=True, parent=current_node)
-                logger.debug(f"添加文件节点: {filename}")
-
-    logger.info(f"文件树构建完成，总节点数: {len(nodes_map)}")
-    return root_node
-
-
-def get_unique_name(target_dir, base_name, ext):
-    """处理文件名重复，生成唯一的文件名"""
-    logger.debug(f"生成唯一文件名: target_dir={target_dir}, base_name={base_name}, ext={ext}")
-    target_name = f"{base_name}{ext}"
-    list_dir = os.listdir(target_dir)
-
-    if target_name not in list_dir:
-        logger.debug(f"文件名无冲突: {target_name}")
-        return target_name
-
-    # 寻找最大的index
-    max_index = 0
-    pattern = re.compile(re.escape(base_name) + r"_(\d+)" + re.escape(ext))
-    logger.debug(f"搜索已存在的编号文件，模式: {pattern.pattern}")
-
-    for item in list_dir:
-        match = pattern.fullmatch(item)
-        if match:
-            index = int(match.group(1))
-            if index > max_index:
-                max_index = index
-
-    result = f"{base_name}_{max_index + 1}{ext}"
-    logger.info(f"检测到文件名冲突，生成新名称: {result}")
-    return result
+        logger.info(f"文件树构建完成，总节点数: {len(nodes_map)}")
+        return ErrorCode.Success, root_node
+    except PermissionError as e:
+        logger.error(ErrorCode.NotPermitted.format(root_path) + str(e))
+        return ErrorCode.NotPermitted, None
+    except Exception as e:
+        logger.error(f"无法构建树：{str(e)}")
+        return ErrorCode.Unknown, None
 
 
-def process_flatten(root_path: str) -> Generator:
+def flatten(root_path: str) -> Generator[tuple[ErrorCode, int], None, None]:
     """
     执行文件展平操作
     Args:
@@ -91,10 +77,13 @@ def process_flatten(root_path: str) -> Generator:
         生成器，包含当前进度（0-100）
     """
     logger.info(f"开始文件展平处理，根路径: {root_path}")
-    root_node = build_tree(root_path)
     op_queue = []
+    stat, root_node = build_tree(root_path)
+    if stat != ErrorCode.Success:
+        yield stat, 0
+        return
 
-    logger.info("开始扫描符合条件的文件节点...")
+    logger.info("开始扫描符合条件的文件节点")
     eligible_nodes = 0
 
     # 遍历树寻找符合条件的结点
@@ -152,55 +141,55 @@ def process_flatten(root_path: str) -> Generator:
                 if node_b and node_b1:
                     _, ext = os.path.splitext(node_a.name)
                     new_base_name = node_b1.name
-                    rename_target = f"{new_base_name}{ext}"
+                    expected_name = f"{new_base_name}{ext}"
 
+                    # 构建预期的目标完整路径
+                    expected_target_path = os.path.join(node_b.abs_path, expected_name)
+
+                    # 简化op字典，只保留必要的键
                     op = {
-                        "path": node_a.abs_path,
-                        "move_to": node_b.abs_path,
-                        "rename": rename_target,
-                        "original_ext": ext,
-                        "base_name": new_base_name
+                        "source": node_a.abs_path,  # 源文件完整路径
+                        "target_dir": node_b.abs_path,  # 目标目录路径
+                        "expected_target": expected_target_path  # 预期目标完整路径
                     }
                     op_queue.append(op)
                     logger.debug(f"添加到操作队列: {op}")
 
     logger.info(f"扫描完成，找到 {eligible_nodes} 个符合条件的节点，共 {len(op_queue)} 项任务需要处理")
-    yield 0
+    yield ErrorCode.Success, 0
 
     # 执行操作队列
     total_ops = len(op_queue)
     if total_ops > 0:
         logger.info(f"开始执行展平操作，总共 {total_ops} 项")
         for i, op in enumerate(op_queue):
-            source = op["path"]
-            target_dir = op["move_to"]
+            source = op["source"]
+            expected_target = op["expected_target"]
 
             logger.debug(f"处理第 {i + 1}/{total_ops} 项: {os.path.basename(source)}")
 
-            # 检查重复并确定最终名称
-            final_name = get_unique_name(target_dir, op["base_name"], op["original_ext"])
-            target_path = os.path.join(target_dir, final_name)
+            _, target_path = utils.get_unique_filename(expected_target)
 
             # 执行队列项
             try:
-                logger.info(f"移动文件: {os.path.basename(source)} -> {final_name}")
+                logger.info(f"移动文件: {os.path.basename(source)} -> {os.path.basename(target_path)}")
                 shutil.move(source, target_path)
-                progress = int(((i + 1) / total_ops) * 100)
-                logger.debug(f"移动完成，进度: {progress}%")
-                yield progress
+                logger.debug(ErrorCode.Success.format(f"{source} -> {target_path}"))
+                yield ErrorCode.Success, int((i + 1) * 100 / total_ops)
+            except PermissionError as e:
+                logger.error(ErrorCode.NotPermitted.format(f"{source} -> {target_path}") + str(e))
+                yield ErrorCode.NotPermitted, int((i + 1) * 100 / total_ops)
             except Exception as e:
-                progress = int(((i + 1) / total_ops) * 100)
                 logger.error(f"无法移动 {source} 到 {target_path}: {e}")
-                logger.exception("移动文件时发生异常")
-                yield progress
+                yield ErrorCode.Unknown, int((i + 1) * 100 / total_ops)
     else:
-        logger.warning("没有需要移动的文件")
-        yield 100
+        logger.info("没有需要移动的文件")
+        yield ErrorCode.Success, 100
 
     logger.info("文件展平处理完成")
+    return
 
-
-def process_cleanup(root_path: str) -> None:
+def cleanup(root_path: str) -> ErrorCode:
     """
     清理空文件夹
     Args:
@@ -210,7 +199,10 @@ def process_cleanup(root_path: str) -> None:
         None
     """
     logger.info(f"开始清理空文件夹，根路径: {root_path}")
-    root_node = build_tree(root_path)
+    stat, root_node = build_tree(root_path)
+    if stat != ErrorCode.Success:
+        logger.error(stat.generic)
+        return stat
     cleanup_queue = []
     recorded_nodes = set()
 
@@ -261,14 +253,14 @@ def process_cleanup(root_path: str) -> None:
         logger.info(f"开始发送 {len(cleanup_queue)} 个空文件夹到回收站")
         try:
             cleanup_queue = [os.path.normpath(i) for i in cleanup_queue]
-            logger.debug(f"清理队列路径规范化完成")
             send2trash(cleanup_queue)
             logger.info(f"已成功发送所有空文件夹到回收站")
         except Exception as e:
             logger.error(f"无法清理空文件夹: {str(e)}")
-            logger.exception("清理空文件夹时发生异常")
+            return ErrorCode.Unknown
     else:
         logger.info("没有需要清理的空文件夹")
+        return ErrorCode.Success
 
     logger.info("空文件夹清理操作完成")
-    return None
+    return ErrorCode.Success

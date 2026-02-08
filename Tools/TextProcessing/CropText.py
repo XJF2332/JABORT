@@ -3,66 +3,64 @@ import os
 from charset_normalizer import from_path
 
 from Core import log_manager
+from Core.error_codes import ErrorCode
+from Tools.Utils import utils
 
 logger = log_manager.get_logger(__name__)
 
 
-def crop_text_file(source_path, output_path=None, percentage=50) -> tuple[int, str]:
+def crop_text_file(input_path: str, output_path: str = None, percentage: int = 50,
+                   deduplicate: int = 2) -> tuple[ErrorCode, str]:
     """
     截取文本文件的后x%并保存
 
-    状态码
-    1 - 截取比例错误
-    2 - 原文件不存在
-    3 - 不能覆盖已存在的文件
-    4 - 无法读取文件
-    5 - 无法输出文件
-
     Args:
-        source_path (str): 源文件路径
-        output_path (str, optional): 输出文件路径。若为None，则自动生成
-        percentage (float): 截取比例(0-100)，表示截取后x%的内容
+        deduplicate: 去重模式，0 - 覆盖，1 - 跳过，2 - 保留两者（会添加序号）
+        input_path: 源文件路径
+        output_path: 输出文件路径。若为None，则自动生成
+        percentage: 截取比例(0-100)，表示截取后x%的内容
 
     Returns:
-        第一项为状态（0为成功），第二项为输出文件路径或错误信息
+        （错误码，输出文件路径）
     """
     # 验证参数
-    logger.info(f"以 {percentage}% 截取 {source_path}")
+    logger.info(f"以 {percentage}% 截取 {input_path}")
     if not 0 <= percentage <= 100:
-        logger.error(f"截取比例必须在0-100之间，当前比例：{percentage}")
-        return 1, "截取比例必须在0-100之间"
-
-    if not source_path or not os.path.exists(source_path):
-        logger.error(f"输入路径为空或不存在: {source_path}")
-        return 2, "输入路径为空或不存在"
+        logger.error(ErrorCode.InvalidRatio.format(f"{percentage}，（需要 0 ~ 100）"))
+        return ErrorCode.InvalidRatio, ""
+    if not input_path or not os.path.exists(input_path):
+        logger.error(ErrorCode.InvalidPath.format(input_path))
+        return ErrorCode.InvalidPath, ""
 
     # 生成输出路径
     if not output_path:
-        base_name = os.path.splitext(os.path.basename(source_path))[0]
-        extension = os.path.splitext(source_path)[1]
+        base_name = os.path.splitext(os.path.basename(input_path))[0]
+        extension = os.path.splitext(input_path)[1]
         output_path = os.path.join(
-            os.path.dirname(source_path),
+            os.path.dirname(input_path),
             f"{base_name}_crop_{percentage}{extension}"
         )
         logger.debug(f"未提供输出路径，生成：{output_path}")
 
-    # 检查输出文件是否已存在且不为空
-    if os.path.exists(output_path):
-        file_size = os.path.getsize(output_path)
-        if file_size > 0:
-            logger.error("不能覆盖已存在的文件")
-            return 3, "不能覆盖已存在的文件"
+    # 去重
+    dedup_res = utils.filename_deduplicate(deduplicate, output_path)
+    logger.debug(f"去重结果：{dedup_res}")
+    if dedup_res[0] != ErrorCode.Success:
+        logger.error(dedup_res[0].format(output_path))
+        return dedup_res[0], ""
+    else:
+        output_path = dedup_res[1]
 
     # 读取源文件内容
-    best_match = from_path(source_path).best()
+    best_match = from_path(input_path).best()
     logger.debug(f"检测到的编码信息：{best_match.encoding}")
     try:
-        with open(source_path, 'r', encoding=best_match.encoding) as f:
+        with open(input_path, 'r', encoding=best_match.encoding) as f:
             lines = f.readlines()
             logger.info("已读取原文件")
     except Exception as e:
-        logger.error(f"读取文件失败：{str(e)}")
-        return 4, f"读取文件失败：{str(e)}"
+        logger.error(ErrorCode.CannotReadFile.format(str(e)))
+        return ErrorCode.CannotReadFile, ""
 
     # 截取文本
     if percentage == 0:
@@ -79,7 +77,7 @@ def crop_text_file(source_path, output_path=None, percentage=50) -> tuple[int, s
             f.writelines(cropped_lines)
             logger.info(f"已将截取后的文件写入到 {output_path}")
     except Exception as e:
-        logger.error(f"写入文件失败：{str(e)}")
-        return 5, f"写入文件失败：{str(e)}"
+        logger.error(ErrorCode.CannotWriteFile.format(str(e)))
+        return ErrorCode.CannotWriteFile, ""
 
-    return 0, output_path
+    return ErrorCode.Success, output_path

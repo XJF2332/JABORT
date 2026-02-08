@@ -2,6 +2,7 @@
 * {
     font-size: 13px;
     color: #1a1a1a;
+    background-color: #dbdbdb
 }
 
 /* ===== QTabWidget ===== */
@@ -62,6 +63,16 @@ QSpinBox::down-button, QDoubleSpinBox::down-button {
 QSpinBox::up-button:hover, QDoubleSpinBox::up-button:hover,
 QSpinBox::down-button:hover, QDoubleSpinBox::down-button:hover {
     background-color: #c0c0c0;
+}
+
+/* ===== QTimeEdit ===== */
+QTimeEdit {
+    border: 1px solid #4d4d4d;
+    border-radius: 6px;
+    background-color: #d3d3d3;
+    padding: 4px 8px;
+    selection-background-color: #5680c2;
+    color: #1a1a1a;
 }
 
 /* ===== QSlider ===== */

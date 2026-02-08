@@ -1,5 +1,6 @@
 # Just a bunch of random tools - 只是一堆随意的工具
 
+注意：dev分支非常不稳定，它就是一块试验田。事实上目前为止main分支也不太稳定，毕竟不久前这个项目还是我自己的试验田。  
 如题，原本只是个人用的一些小工具，后来想着做都做了，开源也没啥的
 
 | ![png2jpg.png](readme_assets/png2jpg.png)       | ![upscaler.png](readme_assets/upscaler.png) |
@@ -27,5 +28,7 @@
 3. 运行`app.py`
 
 ## 开发计划
-- [ ] 把所有功能的反馈模式改为消息框
-- [ ] 新增：视频裁剪
+- [x] 把所有功能的反馈模式改为消息框
+- [x] 实现并应用统一的 ErrorCode 类
+- [ ] 为 ErrorCode 类增加 lvl 以实现等级区分，分清警告和错误
+- [ ] 新增：视频裁剪 👈 **正在进行**
