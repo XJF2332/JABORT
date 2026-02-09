@@ -63,3 +63,7 @@ class ErrorCode(ErrorCodeBase):
     NotPermitted = (19, "权限不足以完成对 {item} 的操作", "没有足够的权限完成所需操作")
     TrashFailed = (20, "无法将 {item} 移动到回收站", "无法移入回收站")
     FlattenFailed = (21, "展平操作失败：{item}", "展平失败")
+    InvalidArgument = (22, "无效的参数：{item}", "检测到无效参数")
+    NoFFmpeg = (23, "未找到FFmpeg可执行文件，尝试安装FFmpeg或将其添加到PATH")
+    FFRuntimeError = (24, "FFmpeg程序返回了一个非零的值：{item}", "FFmpeg执行出错，检查你的参数设置")
+    DuplicateIOName = (25, "输入和输出文件名重复")

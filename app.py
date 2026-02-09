@@ -28,6 +28,7 @@ class MyWindow(QWidget, Ui_Form):
         self.flatten_worker = None
         self.new_flatten_worker = None
         self.seq2pdf_worker = None
+        self.trimmer_worker = None
 
         # 展平信号
         self.FlattenRun.clicked.connect(self.flatten_run)
@@ -93,6 +94,15 @@ class MyWindow(QWidget, Ui_Form):
         self.ImageSeqGenStart.clicked.connect(self.image_seq_gen_run)
         self.ImageSeqGenStop.clicked.connect(lambda: self.noise_worker.stop())
         self.ImageSeqPathOpen.clicked.connect(lambda: self.select_folder(self.ImageSeqPathInput))
+        # 剪切视频信号
+        self.VidTrimRun.clicked.connect(self.vid_trim_run)
+        self.VidTrimInputOpen.clicked.connect(lambda: self.select_file(
+            self.VidTrimInputPath,"Video (*.mp4 *.avi *.mov)"
+        ))
+        self.VidTrimOutputOpen.clicked.connect(lambda: self.select_file(
+            self.VidTrimOutputPath,"Video (*.mp4 *.avi *.mov)"
+        ))
+        self.VidTrimInputPlay.clicked.connect(lambda: ui_utils.open_file(self, self.VidTrimInputPath.text()))
         # 裁剪文本信号
         self.CropTextInPathOpen.clicked.connect(lambda: self.select_file(self.CropTextInPath))
         self.CropTextOutPathOpen.clicked.connect(lambda: self.select_file(self.CropTextOutPath))
@@ -226,6 +236,20 @@ class MyWindow(QWidget, Ui_Form):
         self.noise_worker.worker_finished.connect(lambda: self.ImageSeqGenStop.setEnabled(False))
         self.noise_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
         self.noise_worker.start()
+
+    def vid_trim_run(self):
+        self.VidTrimRun.setEnabled(False)
+        self.VidTrimRun.setText("正在运行")
+        self.trimmer_worker = TrimmerWorker(
+            input_path=self.VidTrimInputPath.text(),
+            input_time=self.VidTrimTime.time(),
+            output_path=self.VidTrimOutputPath.text(),
+            preserve=self.VidTrimMode.currentIndex()
+        )
+        self.trimmer_worker.worker_finished.connect(lambda: self.VidTrimRun.setEnabled(True))
+        self.trimmer_worker.worker_finished.connect(lambda: self.VidTrimRun.setText("运行"))
+        self.trimmer_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
+        self.trimmer_worker.start()
 
     # 在当前线程运行的函数
     def crop_text_run(self):

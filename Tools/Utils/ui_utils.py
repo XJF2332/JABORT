@@ -6,6 +6,7 @@ import send2trash
 from PySide6.QtWidgets import QComboBox, QMenu, QListWidget, QMessageBox, QWidget
 
 from Core import log_manager
+from Core.error_codes import ErrorCode
 from Tools.Utils import utils
 
 logger = log_manager.get_logger(__name__)
@@ -218,3 +219,13 @@ def show_context_menu(list_widget, position, menu_items: List[Tuple[str, Callabl
         action.triggered.connect(callback)
 
     context_menu.exec(list_widget.mapToGlobal(position))
+
+
+def open_file(parent: QWidget, path: str):
+    if not path or not os.path.isfile(path):
+        show_message_box(parent, "错误", ErrorCode.InvalidPath.format(path), QMessageBox.Icon.Critical)
+        return
+    try:
+        os.startfile(path)
+    except Exception as e:
+        show_message_box(parent, "错误", str(e), QMessageBox.Icon.Critical)
