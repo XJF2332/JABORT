@@ -856,6 +856,9 @@
                <property name="placeholderText">
                 <string>要剪切的视频路径</string>
                </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item>
@@ -880,6 +883,9 @@
               <widget class="QLineEdit" name="VidTrimOutputPath">
                <property name="placeholderText">
                 <string>输出视频路径（留空以保存到输入所在的文件夹）</string>
+               </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
                </property>
               </widget>
              </item>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appPlnBOY.ui'
+## Form generated from reading UI file 'appSTokrg.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -520,6 +520,7 @@ class Ui_Form(object):
 
         self.VidTrimInputPath = QLineEdit(self.VidTrimLayout)
         self.VidTrimInputPath.setObjectName(u"VidTrimInputPath")
+        self.VidTrimInputPath.setClearButtonEnabled(True)
 
         self.VidTrimInputs.addWidget(self.VidTrimInputPath)
 
@@ -540,6 +541,7 @@ class Ui_Form(object):
 
         self.VidTrimOutputPath = QLineEdit(self.VidTrimLayout)
         self.VidTrimOutputPath.setObjectName(u"VidTrimOutputPath")
+        self.VidTrimOutputPath.setClearButtonEnabled(True)
 
         self.VidTrimOutputs.addWidget(self.VidTrimOutputPath)
 
