@@ -104,9 +104,40 @@ def filename_deduplicate(mode: int, path: str) -> tuple[ErrorCode, str]:
     # 保留两者 - 去重
     elif mode == 2:
         return get_unique_filename(path)
-    # 跳过模式且文件当前存在 或 其他模式 - 返回 None
+    # 跳过模式且文件当前存在 或 其他模式 - 什么都不做
     else:
         return ErrorCode.FileSkipped, path
+
+
+def build_output_path(input_path: str, prefix: str = "", suffix: str = "",
+                      spacing: str = "", dedup: int = 2) -> tuple[ErrorCode, str]:
+    """
+    自动构建唯一的输出文件路径
+
+    Args:
+        input_path: 输入文件路径
+        prefix: 将要追加到输入文件路径中的前缀
+        suffix: 将要追加到输入文件路径中的后缀
+        spacing: 前后缀和原文件名之间的填充字符
+        dedup: 去重模式，0 - 覆盖，1 - 跳过，2 - 保留两者（会添加序号）
+
+    Returns:
+        第一项为错误码，第二项为输出文件路径
+    """
+    safe_prefix = prefix.replace('/', '').replace('\\', '')
+    safe_suffix = suffix.replace('/', '').replace('\\', '')
+
+    folder = os.path.dirname(input_path)
+    name, ext = os.path.splitext(os.path.basename(input_path))
+    name = f"{safe_prefix}{spacing if safe_prefix else ''}{name}{spacing if safe_suffix else ''}{safe_suffix}"
+    output_path = os.path.join(folder, f"{name}{ext}")
+
+    err, output_path = filename_deduplicate(dedup, output_path)
+
+    if err not in (ErrorCode.Success, ErrorCode.FileSkipped):
+        return err, ""
+    else:
+        return err, output_path
 
 
 def get_list(path: str, include_path: bool = False, scan_type: str = "local",

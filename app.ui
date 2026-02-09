@@ -834,9 +834,6 @@
           </layout>
          </widget>
          <widget class="QWidget" name="VidTrimLayout">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
           <attribute name="title">
            <string>视频剪切</string>
           </attribute>
@@ -882,7 +879,7 @@
              <item>
               <widget class="QLineEdit" name="VidTrimOutputPath">
                <property name="placeholderText">
-                <string>输出视频路径</string>
+                <string>输出视频路径（留空以保存到输入所在的文件夹）</string>
                </property>
               </widget>
              </item>

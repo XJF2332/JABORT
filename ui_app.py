@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'applWUuIl.ui'
+## Form generated from reading UI file 'appPlnBOY.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -509,7 +509,6 @@ class Ui_Form(object):
         self.MediaProcessingChildTab.addTab(self.UpsLayout, "")
         self.VidTrimLayout = QWidget()
         self.VidTrimLayout.setObjectName(u"VidTrimLayout")
-        self.VidTrimLayout.setEnabled(False)
         self.verticalLayout_7 = QVBoxLayout(self.VidTrimLayout)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.VidTrimInputs = QHBoxLayout()
@@ -969,7 +968,7 @@ class Ui_Form(object):
         self.VidTrimInputPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8981\u526a\u5207\u7684\u89c6\u9891\u8def\u5f84", None))
         self.VidTrimInputPlay.setText(QCoreApplication.translate("Form", u"\u64ad\u653e", None))
         self.VidTrimOutputOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
-        self.VidTrimOutputPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u51fa\u89c6\u9891\u8def\u5f84", None))
+        self.VidTrimOutputPath.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u51fa\u89c6\u9891\u8def\u5f84\uff08\u7559\u7a7a\u4ee5\u4fdd\u5b58\u5230\u8f93\u5165\u6240\u5728\u7684\u6587\u4ef6\u5939\uff09", None))
         self.VidTrimMode.setItemText(0, QCoreApplication.translate("Form", u"\u622a\u6b62\u4e8e", None))
         self.VidTrimMode.setItemText(1, QCoreApplication.translate("Form", u"\u5f00\u59cb\u4e8e", None))
 
