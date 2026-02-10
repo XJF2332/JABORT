@@ -3,7 +3,7 @@ import re
 from typing import List, Tuple, Callable
 
 import send2trash
-from PySide6.QtWidgets import QComboBox, QMenu, QListWidget, QMessageBox, QWidget
+from PySide6.QtWidgets import QComboBox, QMenu, QListWidget, QMessageBox, QWidget, QFileDialog, QLineEdit
 
 from Core import log_manager
 from Core.error_codes import ErrorCode
@@ -222,6 +222,16 @@ def show_context_menu(list_widget, position, menu_items: List[Tuple[str, Callabl
 
 
 def open_file(parent: QWidget, path: str):
+    """
+    打开一个文件
+
+    Args:
+        parent: 父窗口
+        path: 要打开的文件路径
+
+    Returns:
+        None
+    """
     if not path or not os.path.isfile(path):
         show_message_box(parent, "错误", ErrorCode.InvalidPath.format(path), QMessageBox.Icon.Critical)
         return
@@ -229,3 +239,47 @@ def open_file(parent: QWidget, path: str):
         os.startfile(path)
     except Exception as e:
         show_message_box(parent, "错误", str(e), QMessageBox.Icon.Critical)
+
+
+def select_folder(parent: QWidget, target_widget: QLineEdit):
+    """
+    选择一个文件
+
+    Args:
+        parent: 父窗口
+        target_widget: 选择了文件后，将此控件的文本设置成文件路径
+    """
+    path = QFileDialog.getExistingDirectory(parent, "选择目录")
+    if path:
+        target_widget.setText(path)
+
+
+def select_file(parent: QWidget, target_widget: QLineEdit, file_filter: str = "", multiselect: bool = False):
+    """
+    弹出选择文件弹窗
+
+    Args:
+        parent: 父窗口
+        target_widget: 选择文件后，将路径显示到此控件上
+        file_filter: 文件类型过滤器
+        multiselect: 是否允许多选
+    """
+    # 未指定filter且不多选
+    if not file_filter and not multiselect:
+        path = QFileDialog.getOpenFileName(parent, caption="选择文件")
+    # 未指定filter且多选
+    elif not file_filter and multiselect:
+        path = QFileDialog.getOpenFileNames(parent, caption="选择文件")
+    # 指定filter且不多选
+    elif file_filter and not multiselect:
+        path = QFileDialog.getOpenFileName(parent, caption="选择文件", filter=file_filter)
+    # 指定filter且多选
+    else:
+        path = QFileDialog.getOpenFileNames(parent, caption="选择文件", filter=file_filter)
+    # 处理结果
+    # 不多选，直接显示路径
+    if path and not multiselect:
+        target_widget.setText(path[0])
+    # 多选，显示文件数量
+    if path and multiselect:
+        target_widget.setText(f"共 {len(path[0])} 项文件")

@@ -2,7 +2,7 @@ import os
 import subprocess
 
 import send2trash
-from PySide6.QtWidgets import QApplication, QWidget, QFileDialog, QLineEdit, QMessageBox
+from PySide6.QtWidgets import QApplication, QWidget, QMessageBox
 
 from Tools.TextProcessing import CropText, CalSimilarity, JsonSorter
 from Tools.Utils import ui_utils
@@ -33,22 +33,22 @@ class MyWindow(QWidget, Ui_Form):
         # 展平信号
         self.FlattenRun.clicked.connect(self.flatten_run)
         self.FlattenStop.clicked.connect(lambda: self.flatten_worker.stop())
-        self.FlattenDirOpen.clicked.connect(lambda: self.select_folder(self.FlattenDirInput))
+        self.FlattenDirOpen.clicked.connect(lambda: ui_utils.select_folder(self, self.FlattenDirInput))
         self.NewFlattenRun.clicked.connect(self.new_flatten_run)
         self.NewFlattenStop.clicked.connect(lambda: self.new_flatten_worker.stop())
-        self.NewFlattenDirOpen.clicked.connect(lambda: self.select_folder(self.NewFlattenDirInput))
+        self.NewFlattenDirOpen.clicked.connect(lambda: ui_utils.select_folder(self, self.NewFlattenDirInput))
         # PNG转JPG信号
         self.PNG2JPGRun.clicked.connect(self.png2jpg_run)
         self.PNG2JPGStop.clicked.connect(lambda: self.png2jpg_worker.stop())
-        self.PNG2JPGFindDir.clicked.connect(lambda: self.select_folder(self.PNG2JPGDirTxt))
+        self.PNG2JPGFindDir.clicked.connect(lambda: ui_utils.select_folder(self, self.PNG2JPGDirTxt))
         self.PNG2JPGQualitySlider.valueChanged.connect(lambda v: self.PNG2JPGQualityNum.setText(str(v)))
         # 图像序列转PDF信号
         self.Seq2PDFRun.clicked.connect(self.img2pdf_run)
         self.Seq2PDFStop.clicked.connect(lambda: self.seq2pdf_worker.stop())
-        self.Seq2PDFPathOpen.clicked.connect(lambda: self.select_folder(self.Seq2PDFPathInput))
+        self.Seq2PDFPathOpen.clicked.connect(lambda: ui_utils.select_folder(self, self.Seq2PDFPathInput))
         # 放大信号
-        self.UpsChooseImagePath.clicked.connect(lambda: self.select_folder(self.UpsImagePath))
-        self.UpsSavePathOpen.clicked.connect(lambda: self.select_folder(self.UpsSavePath))
+        self.UpsChooseImagePath.clicked.connect(lambda: ui_utils.select_folder(self, self.UpsImagePath))
+        self.UpsSavePathOpen.clicked.connect(lambda: ui_utils.select_folder(self, self.UpsSavePath))
         self.UpsRun.clicked.connect(lambda: self.ups_run(mode="upscale"))
         self.UpsStop.clicked.connect(lambda: self.upscaler_worker.stop())
         self.UpsRefreshModel.clicked.connect(
@@ -93,19 +93,19 @@ class MyWindow(QWidget, Ui_Form):
         # 噪声图像生成信号
         self.ImageSeqGenStart.clicked.connect(self.image_seq_gen_run)
         self.ImageSeqGenStop.clicked.connect(lambda: self.noise_worker.stop())
-        self.ImageSeqPathOpen.clicked.connect(lambda: self.select_folder(self.ImageSeqPathInput))
+        self.ImageSeqPathOpen.clicked.connect(lambda: ui_utils.select_folder(self, self.ImageSeqPathInput))
         # 剪切视频信号
         self.VidTrimRun.clicked.connect(self.vid_trim_run)
-        self.VidTrimInputOpen.clicked.connect(lambda: self.select_file(
-            self.VidTrimInputPath,"Video (*.mp4 *.avi *.mov)"
+        self.VidTrimInputOpen.clicked.connect(lambda: ui_utils.select_file(
+            self, self.VidTrimInputPath,"Video (*.mp4 *.avi *.mov)"
         ))
-        self.VidTrimOutputOpen.clicked.connect(lambda: self.select_file(
-            self.VidTrimOutputPath,"Video (*.mp4 *.avi *.mov)"
+        self.VidTrimOutputOpen.clicked.connect(lambda: ui_utils.select_file(
+            self, self.VidTrimOutputPath,"Video (*.mp4 *.avi *.mov)"
         ))
         self.VidTrimInputPlay.clicked.connect(lambda: ui_utils.open_file(self, self.VidTrimInputPath.text()))
         # 裁剪文本信号
-        self.CropTextInPathOpen.clicked.connect(lambda: self.select_file(self.CropTextInPath))
-        self.CropTextOutPathOpen.clicked.connect(lambda: self.select_file(self.CropTextOutPath))
+        self.CropTextInPathOpen.clicked.connect(lambda: ui_utils.select_file(self, self.CropTextInPath))
+        self.CropTextOutPathOpen.clicked.connect(lambda: ui_utils.select_file(self, self.CropTextOutPath))
         self.CroptextRun.clicked.connect(self.crop_text_run)
         # 设置页面信号
         self.ThemeConfirm.clicked.connect(self.set_stylesheet)
@@ -119,7 +119,7 @@ class MyWindow(QWidget, Ui_Form):
         )
         self.CalSimRun.clicked.connect(self.cal_similarity_run)
         # JSON排序信号
-        self.JsonSorterInOpen.clicked.connect(lambda: self.select_file(self.JsonSorterInPath, "*.json"))
+        self.JsonSorterInOpen.clicked.connect(lambda: ui_utils.select_file(self, self.JsonSorterInPath, "*.json"))
         self.JsonSorterRun.clicked.connect(self.json_sorter_run)
         # Qt内置图标相关信号
         self.QtIconsShow.clicked.connect(
@@ -129,19 +129,6 @@ class MyWindow(QWidget, Ui_Form):
             lambda: subprocess.run(["python", os.path.join("Tools", "TestTools", "QtIconExport.py"), "--export"])
         )
 
-    # 一些共用的函数
-    def select_folder(self, target_widget: QLineEdit):
-        path = QFileDialog.getExistingDirectory(self, "选择目录")
-        if path:
-            target_widget.setText(path)
-
-    def select_file(self, target_widget: QLineEdit, file_type: str = ""):
-        if not file_type:
-            path = QFileDialog.getOpenFileName(self, caption="选择文件")
-        else:
-            path = QFileDialog.getOpenFileName(self, caption="选择文件", filter=file_type)
-        if path:
-            target_widget.setText(path[0])
 
     # 会开启新线程的函数
     def flatten_run(self):
