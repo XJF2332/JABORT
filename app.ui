@@ -552,6 +552,9 @@
              <property name="text">
               <string>http://127.0.0.1:8188</string>
              </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -619,6 +622,9 @@
                <property name="placeholderText">
                 <string>从此处开始查找图像</string>
                </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item>
@@ -646,6 +652,9 @@
               <widget class="QLineEdit" name="UpsSavePath">
                <property name="placeholderText">
                 <string>将图像保存到此处</string>
+               </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -981,6 +990,9 @@
                <property name="placeholderText">
                 <string>输入文件路径</string>
                </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
             </layout>
@@ -1059,6 +1071,9 @@
                <property name="placeholderText">
                 <string>输出文件路径（留空以保存到源文件夹）</string>
                </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
             </layout>
@@ -1134,12 +1149,18 @@
                <property name="placeholderText">
                 <string>输入文本 1</string>
                </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item>
               <widget class="QLineEdit" name="CalSimIn2">
                <property name="placeholderText">
                 <string>输入文本 2</string>
+               </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -1188,6 +1209,9 @@
               <widget class="QLineEdit" name="JsonSorterInPath">
                <property name="placeholderText">
                 <string>输入文件路径</string>
+               </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
                </property>
               </widget>
              </item>

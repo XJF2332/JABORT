@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appSTokrg.ui'
+## Form generated from reading UI file 'appeeNjLI.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -354,6 +354,7 @@ class Ui_Form(object):
         self.UpsComfyUrl.setObjectName(u"UpsComfyUrl")
         sizePolicy.setHeightForWidth(self.UpsComfyUrl.sizePolicy().hasHeightForWidth())
         self.UpsComfyUrl.setSizePolicy(sizePolicy)
+        self.UpsComfyUrl.setClearButtonEnabled(True)
 
         self.verticalLayout_4.addWidget(self.UpsComfyUrl)
 
@@ -390,6 +391,7 @@ class Ui_Form(object):
         self.UpsImagePath.setObjectName(u"UpsImagePath")
         sizePolicy.setHeightForWidth(self.UpsImagePath.sizePolicy().hasHeightForWidth())
         self.UpsImagePath.setSizePolicy(sizePolicy)
+        self.UpsImagePath.setClearButtonEnabled(True)
 
         self.UpsImg.addWidget(self.UpsImagePath)
 
@@ -411,6 +413,7 @@ class Ui_Form(object):
 
         self.UpsSavePath = QLineEdit(self.UpsLayout)
         self.UpsSavePath.setObjectName(u"UpsSavePath")
+        self.UpsSavePath.setClearButtonEnabled(True)
 
         self.UpsSaves.addWidget(self.UpsSavePath)
 
@@ -600,6 +603,7 @@ class Ui_Form(object):
 
         self.CropTextInPath = QLineEdit(self.CropText)
         self.CropTextInPath.setObjectName(u"CropTextInPath")
+        self.CropTextInPath.setClearButtonEnabled(True)
 
         self.CropTextInput.addWidget(self.CropTextInPath)
 
@@ -643,6 +647,7 @@ class Ui_Form(object):
 
         self.CropTextOutPath = QLineEdit(self.CropText)
         self.CropTextOutPath.setObjectName(u"CropTextOutPath")
+        self.CropTextOutPath.setClearButtonEnabled(True)
 
         self.CropTextOutput.addWidget(self.CropTextOutPath)
 
@@ -690,11 +695,13 @@ class Ui_Form(object):
         self.CalSimInput.setObjectName(u"CalSimInput")
         self.CalSimIn1 = QLineEdit(self.CalSim)
         self.CalSimIn1.setObjectName(u"CalSimIn1")
+        self.CalSimIn1.setClearButtonEnabled(True)
 
         self.CalSimInput.addWidget(self.CalSimIn1)
 
         self.CalSimIn2 = QLineEdit(self.CalSim)
         self.CalSimIn2.setObjectName(u"CalSimIn2")
+        self.CalSimIn2.setClearButtonEnabled(True)
 
         self.CalSimInput.addWidget(self.CalSimIn2)
 
@@ -724,6 +731,7 @@ class Ui_Form(object):
 
         self.JsonSorterInPath = QLineEdit(self.JsonSorter)
         self.JsonSorterInPath.setObjectName(u"JsonSorterInPath")
+        self.JsonSorterInPath.setClearButtonEnabled(True)
 
         self.JsonSorterIn.addWidget(self.JsonSorterInPath)
 
