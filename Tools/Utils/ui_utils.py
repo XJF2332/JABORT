@@ -278,8 +278,25 @@ def select_file(parent: QWidget, target_widget: QLineEdit, file_filter: str = ""
         path = QFileDialog.getOpenFileNames(parent, caption="选择文件", filter=file_filter)
     # 处理结果
     # 不多选，直接显示路径
-    if path and not multiselect:
+    if path[0] and not multiselect:
         target_widget.setText(path[0])
     # 多选，显示文件数量
-    if path and multiselect:
+    if path[0] and multiselect:
         target_widget.setText(f"共 {len(path[0])} 项文件")
+
+
+def select_savefile(parent: QWidget, target_widget: QLineEdit, file_filter: str = ""):
+    """
+    弹出保存文件弹窗
+
+    Args:
+        parent: 父窗口
+        target_widget: 选择文件后，将路径显示到此控件上
+        file_filter: 文件类型过滤器
+    """
+    if not file_filter:
+        path = QFileDialog.getSaveFileName(parent, "保存文件")
+    else:
+        path = QFileDialog.getSaveFileName(parent, "保存文件", filter=file_filter)
+    if path[0]:
+        target_widget.setText(path[0])

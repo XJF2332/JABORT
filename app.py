@@ -51,16 +51,11 @@ class MyWindow(QWidget, Ui_Form):
         self.UpsSavePathOpen.clicked.connect(lambda: ui_utils.select_folder(self, self.UpsSavePath))
         self.UpsRun.clicked.connect(lambda: self.ups_run(mode="upscale"))
         self.UpsStop.clicked.connect(lambda: self.upscaler_worker.stop())
-        self.UpsRefreshModel.clicked.connect(
-            lambda: ui_utils.refresh_combobox(
-                target_widget=self.UpsModelDropdown,
-                path=self.UpsComfyUrl.text(),
-                sub_url="/object_info/UpscaleModelLoader",
-                scan_type="url", include_path=False,
-                location=["UpscaleModelLoader", "input", "required", "model_name", 1, "options"],
-                parent=self
-            )
-        )
+        self.UpsRefreshModel.clicked.connect(lambda: ui_utils.refresh_combobox(
+                target_widget=self.UpsModelDropdown, path=self.UpsComfyUrl.text(),
+                sub_url="/object_info/UpscaleModelLoader", scan_type="url", include_path=False,
+                location=["UpscaleModelLoader", "input", "required", "model_name", 1, "options"], parent=self
+        ))
         self.UpsListImg.clicked.connect(lambda: self.ups_run(mode="find"))
         self.UpsList.itemDoubleClicked.connect(
             lambda item: ui_utils.add_double_click_open(item, self, ["T ", "L ", "TL "], "prefix")
@@ -97,26 +92,23 @@ class MyWindow(QWidget, Ui_Form):
         # 剪切视频信号
         self.VidTrimRun.clicked.connect(self.vid_trim_run)
         self.VidTrimInputOpen.clicked.connect(lambda: ui_utils.select_file(
-            self, self.VidTrimInputPath,"Video (*.mp4 *.avi *.mov)"
+            self, self.VidTrimInputPath,"Video (*.mp4 *.avi *.mov *.mkv)"
         ))
-        self.VidTrimOutputOpen.clicked.connect(lambda: ui_utils.select_file(
-            self, self.VidTrimOutputPath,"Video (*.mp4 *.avi *.mov)"
+        self.VidTrimOutputOpen.clicked.connect(lambda: ui_utils.select_savefile(
+            self, self.VidTrimOutputPath,"Video (*.mp4)"
         ))
         self.VidTrimInputPlay.clicked.connect(lambda: ui_utils.open_file(self, self.VidTrimInputPath.text()))
         # 裁剪文本信号
         self.CropTextInPathOpen.clicked.connect(lambda: ui_utils.select_file(self, self.CropTextInPath))
-        self.CropTextOutPathOpen.clicked.connect(lambda: ui_utils.select_file(self, self.CropTextOutPath))
+        self.CropTextOutPathOpen.clicked.connect(lambda: ui_utils.select_savefile(self, self.CropTextOutPath))
         self.CroptextRun.clicked.connect(self.crop_text_run)
         # 设置页面信号
         self.ThemeConfirm.clicked.connect(self.set_stylesheet)
         self.ClearLog.clicked.connect(self.clear_log)
         # 计算相似度信号
-        self.CalSimModelRefresh.clicked.connect(
-            lambda: ui_utils.refresh_combobox(
-                target_widget=self.CalSimModelDropdown,
-                path="models", include_path=True, parent=self
-            )
-        )
+        self.CalSimModelRefresh.clicked.connect(lambda: ui_utils.refresh_combobox(
+                target_widget=self.CalSimModelDropdown, path="models", include_path=True, parent=self
+        ))
         self.CalSimRun.clicked.connect(self.cal_similarity_run)
         # JSON排序信号
         self.JsonSorterInOpen.clicked.connect(lambda: ui_utils.select_file(self, self.JsonSorterInPath, "*.json"))
