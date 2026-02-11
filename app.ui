@@ -1353,22 +1353,11 @@
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_16">
            <item>
-            <layout class="QHBoxLayout" name="QtIconsBtns">
-             <item>
-              <widget class="QPushButton" name="QtIconsExport">
-               <property name="text">
-                <string>直接导出</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="QtIconsShow">
-               <property name="text">
-                <string>打开 GUI</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <widget class="QPushButton" name="QtIconsExport">
+             <property name="text">
+              <string>导出到Icons文件夹</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="QtIconsSpacer">

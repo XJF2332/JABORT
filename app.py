@@ -114,9 +114,6 @@ class MyWindow(QWidget, Ui_Form):
         self.JsonSorterInOpen.clicked.connect(lambda: ui_utils.select_file(self, self.JsonSorterInPath, "*.json"))
         self.JsonSorterRun.clicked.connect(self.json_sorter_run)
         # Qt内置图标相关信号
-        self.QtIconsShow.clicked.connect(
-            lambda: subprocess.run(["python", os.path.join("Tools", "TestTools", "QtIconExport.py")])
-        )
         self.QtIconsExport.clicked.connect(
             lambda: subprocess.run(["python", os.path.join("Tools", "TestTools", "QtIconExport.py"), "--export"])
         )

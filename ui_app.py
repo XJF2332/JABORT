@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appeeNjLI.ui'
+## Form generated from reading UI file 'appLaDHMy.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -819,20 +819,10 @@ class Ui_Form(object):
         self.QtIconsLayout.setObjectName(u"QtIconsLayout")
         self.verticalLayout_16 = QVBoxLayout(self.QtIconsLayout)
         self.verticalLayout_16.setObjectName(u"verticalLayout_16")
-        self.QtIconsBtns = QHBoxLayout()
-        self.QtIconsBtns.setObjectName(u"QtIconsBtns")
         self.QtIconsExport = QPushButton(self.QtIconsLayout)
         self.QtIconsExport.setObjectName(u"QtIconsExport")
 
-        self.QtIconsBtns.addWidget(self.QtIconsExport)
-
-        self.QtIconsShow = QPushButton(self.QtIconsLayout)
-        self.QtIconsShow.setObjectName(u"QtIconsShow")
-
-        self.QtIconsBtns.addWidget(self.QtIconsShow)
-
-
-        self.verticalLayout_16.addLayout(self.QtIconsBtns)
+        self.verticalLayout_16.addWidget(self.QtIconsExport)
 
         self.QtIconsSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -1032,8 +1022,7 @@ class Ui_Form(object):
         self.ImageSeqGenStart.setText(QCoreApplication.translate("Form", u"\u5f00\u59cb", None))
         self.ImageSeqGenStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
         self.TestChildTab.setTabText(self.TestChildTab.indexOf(self.ImgSeqGen), QCoreApplication.translate("Form", u"\u751f\u6210\u56fe\u50cf\u5e8f\u5217", None))
-        self.QtIconsExport.setText(QCoreApplication.translate("Form", u"\u76f4\u63a5\u5bfc\u51fa", None))
-        self.QtIconsShow.setText(QCoreApplication.translate("Form", u"\u6253\u5f00 GUI", None))
+        self.QtIconsExport.setText(QCoreApplication.translate("Form", u"\u5bfc\u51fa\u5230Icons\u6587\u4ef6\u5939", None))
         self.TestChildTab.setTabText(self.TestChildTab.indexOf(self.QtIconsLayout), QCoreApplication.translate("Form", u"Qt\u5185\u7f6e\u56fe\u6807", None))
         self.MainPage.setTabText(self.MainPage.indexOf(self.TestingLayout), QCoreApplication.translate("Form", u"\u6d4b\u8bd5\u7528", None))
         self.ThemeLabel.setText(QCoreApplication.translate("Form", u"\u9009\u62e9\u4e3b\u9898\uff08\u4e3b\u9898\u8def\u5f84\uff1a./Style\uff09", None))
