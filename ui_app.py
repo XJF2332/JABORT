@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appLaDHMy.ui'
+## Form generated from reading UI file 'appAUBFoq.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -708,10 +708,20 @@ class Ui_Form(object):
 
         self.verticalLayout_14.addLayout(self.CalSimInput)
 
+        self.CalSimBtns = QHBoxLayout()
+        self.CalSimBtns.setObjectName(u"CalSimBtns")
         self.CalSimRun = QPushButton(self.CalSim)
         self.CalSimRun.setObjectName(u"CalSimRun")
 
-        self.verticalLayout_14.addWidget(self.CalSimRun)
+        self.CalSimBtns.addWidget(self.CalSimRun)
+
+        self.CalSimUnload = QPushButton(self.CalSim)
+        self.CalSimUnload.setObjectName(u"CalSimUnload")
+
+        self.CalSimBtns.addWidget(self.CalSimUnload)
+
+
+        self.verticalLayout_14.addLayout(self.CalSimBtns)
 
         self.CalSimSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -1003,6 +1013,7 @@ class Ui_Form(object):
         self.CalSimIn1.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u5165\u6587\u672c 1", None))
         self.CalSimIn2.setPlaceholderText(QCoreApplication.translate("Form", u"\u8f93\u5165\u6587\u672c 2", None))
         self.CalSimRun.setText(QCoreApplication.translate("Form", u"\u8ba1\u7b97", None))
+        self.CalSimUnload.setText(QCoreApplication.translate("Form", u"\u5378\u8f7d\u6a21\u578b", None))
         self.TextProcChildTab.setTabText(self.TextProcChildTab.indexOf(self.CalSim), QCoreApplication.translate("Form", u"\u8ba1\u7b97\u76f8\u4f3c\u5ea6", None))
 #if QT_CONFIG(tooltip)
         self.TextProcChildTab.setTabToolTip(self.TextProcChildTab.indexOf(self.CalSim), QCoreApplication.translate("Form", u"\u4f7f\u7528\u5d4c\u5165\u6a21\u578b\u8ba1\u7b97\u4e24\u4e2a\u5b57\u7b26\u4e32\u7684\u8bed\u4e49\u76f8\u4f3c\u5ea6", None))

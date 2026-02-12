@@ -1167,11 +1167,22 @@
             </layout>
            </item>
            <item>
-            <widget class="QPushButton" name="CalSimRun">
-             <property name="text">
-              <string>计算</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="CalSimBtns">
+             <item>
+              <widget class="QPushButton" name="CalSimRun">
+               <property name="text">
+                <string>计算</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="CalSimUnload">
+               <property name="text">
+                <string>卸载模型</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <spacer name="CalSimSpacer">

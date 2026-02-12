@@ -33,12 +33,20 @@ def calculate_similarity(embeddings1, embeddings2) -> tuple[ErrorCode, float]:
             logger.error(ErrorCode.ZeroDivision.format("有至少一个嵌入向量的模为零"))
             return ErrorCode.ZeroDivision, 0
         else:
-            similarity = np.vdot(vec1, vec2) / (norm1 * norm2)
+            similarity = np.vdot(vec1, vec2) / (norm1 * norm2) # type:ignore
             logger.info(f"计算结果：{similarity}")
             return ErrorCode.Success, similarity
     except Exception as e:
         logger.error(ErrorCode.Unknown.format(str(e)))
         return ErrorCode.Unknown, 0
+
+
+def unload_model() -> str:
+    global embed_model, prev_model
+    embed_model = None
+    prev_model = ""
+    logger.info("模型已卸载")
+    return "模型已卸载"
 
 
 def main(str1: str, str2: str, model: str, persistent_model: bool) -> tuple[ErrorCode, float]:

@@ -125,21 +125,20 @@ def remove_entry(target_widget: QListWidget, mode: str, parent: QWidget, pattern
     """
     # 待处理的项
     if mode in ["delete_all", "remove_all"]:
-        items_to_process = [target_widget.item(i) for i in range(target_widget.count())]
+        item_query = [target_widget.item(i) for i in range(target_widget.count())]
     elif mode in ["delete_selected", "remove_selected"]:
-        items_to_process = target_widget.selectedItems()
+        item_query = target_widget.selectedItems()
     elif mode in ["delete_matched", "remove_matched"]:
-        items_to_process = [
-            target_widget.item(i)
-            for i in range(target_widget.count())
+        item_query = [
+            target_widget.item(i) for i in range(target_widget.count())
             if re.search(pattern, target_widget.item(i).text())
         ]
     else:
         logger.error(f"未知的移除模式：{mode}")
-        show_message_box(parent, "内部错误", f"未知的模式: {mode}", QMessageBox.Icon.Warning)
+        show_message_box(parent, "错误", f"未知的模式: {mode}", QMessageBox.Icon.Warning)
         return
 
-    if not items_to_process:
+    if not item_query:
         show_message_box(parent, "提示", "没有匹配的项可供处理", QMessageBox.Icon.Information)
         return
 
@@ -148,15 +147,15 @@ def remove_entry(target_widget: QListWidget, mode: str, parent: QWidget, pattern
 
     # 删除文件逻辑
     if mode.startswith("delete_"):
-        paths_to_delete = [
+        del_query = [
             os.path.normpath(utils.remove_substring(item.text(), substring, remove_type))
-            for item in items_to_process
+            for item in item_query
         ]
 
         try:
-            logger.info(f"正在删除 {len(paths_to_delete)} 项文件")
-            send2trash.send2trash(paths_to_delete)
-            deleted_files_count = len(paths_to_delete)
+            logger.info(f"正在删除 {len(del_query)} 项文件")
+            send2trash.send2trash(del_query)
+            deleted_files_count = len(del_query)
             logger.info(f"成功移动 {deleted_files_count} 项到回收站")
         except Exception as e:
             delete_error_occurred = True
@@ -164,7 +163,7 @@ def remove_entry(target_widget: QListWidget, mode: str, parent: QWidget, pattern
             show_message_box(parent, "删除错误", f"移动文件到回收站时出错:\n{e}", QMessageBox.Icon.Critical)
 
     # 移除列表项逻辑
-    rows_to_remove = sorted([target_widget.row(item) for item in items_to_process], reverse=True)
+    rows_to_remove = sorted([target_widget.row(item) for item in item_query], reverse=True)
     removed_items_count = len(rows_to_remove)
 
     for row in rows_to_remove:
