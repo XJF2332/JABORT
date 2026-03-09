@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appAUBFoq.ui'
+## Form generated from reading UI file 'appevulaD.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -22,13 +22,15 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication
     QSpacerItem, QSpinBox, QTabWidget, QTimeEdit,
     QVBoxLayout, QWidget)
 
+from pages.tests.ui import TestsWidget
+
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(666, 677)
         icon = QIcon()
-        icon.addFile(u"icons/SP_TitleBarMenuButton.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u"Icons/SP_TitleBarMenuButton.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         Form.setWindowIcon(icon)
         self.formLayout = QFormLayout(Form)
         self.formLayout.setObjectName(u"formLayout")
@@ -765,82 +767,13 @@ class Ui_Form(object):
         self.TestingLayout = QWidget()
         self.TestingLayout.setObjectName(u"TestingLayout")
         self.verticalLayout_9 = QVBoxLayout(self.TestingLayout)
+        self.verticalLayout_9.setSpacing(0)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.TestChildTab = QTabWidget(self.TestingLayout)
-        self.TestChildTab.setObjectName(u"TestChildTab")
-        self.TestChildTab.setMovable(True)
-        self.ImgSeqGen = QWidget()
-        self.ImgSeqGen.setObjectName(u"ImgSeqGen")
-        self.verticalLayout_12 = QVBoxLayout(self.ImgSeqGen)
-        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
-        self.ImageSeqItemAmount = QSpinBox(self.ImgSeqGen)
-        self.ImageSeqItemAmount.setObjectName(u"ImageSeqItemAmount")
-        self.ImageSeqItemAmount.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
-        self.ImageSeqItemAmount.setMinimum(1)
-        self.ImageSeqItemAmount.setMaximum(500)
+        self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
+        self.TestingWidget = TestsWidget(self.TestingLayout)
+        self.TestingWidget.setObjectName(u"TestingWidget")
 
-        self.verticalLayout_12.addWidget(self.ImageSeqItemAmount)
-
-        self.ImageSeqPaths = QHBoxLayout()
-        self.ImageSeqPaths.setObjectName(u"ImageSeqPaths")
-        self.ImageSeqPathOpen = QPushButton(self.ImgSeqGen)
-        self.ImageSeqPathOpen.setObjectName(u"ImageSeqPathOpen")
-
-        self.ImageSeqPaths.addWidget(self.ImageSeqPathOpen)
-
-        self.ImageSeqPathInput = QLineEdit(self.ImgSeqGen)
-        self.ImageSeqPathInput.setObjectName(u"ImageSeqPathInput")
-        self.ImageSeqPathInput.setClearButtonEnabled(True)
-
-        self.ImageSeqPaths.addWidget(self.ImageSeqPathInput)
-
-
-        self.verticalLayout_12.addLayout(self.ImageSeqPaths)
-
-        self.ImageSeqGenProgress = QProgressBar(self.ImgSeqGen)
-        self.ImageSeqGenProgress.setObjectName(u"ImageSeqGenProgress")
-        self.ImageSeqGenProgress.setValue(0)
-        self.ImageSeqGenProgress.setTextVisible(False)
-
-        self.verticalLayout_12.addWidget(self.ImageSeqGenProgress)
-
-        self.ImageSeqGenBtns = QHBoxLayout()
-        self.ImageSeqGenBtns.setObjectName(u"ImageSeqGenBtns")
-        self.ImageSeqGenStart = QPushButton(self.ImgSeqGen)
-        self.ImageSeqGenStart.setObjectName(u"ImageSeqGenStart")
-
-        self.ImageSeqGenBtns.addWidget(self.ImageSeqGenStart)
-
-        self.ImageSeqGenStop = QPushButton(self.ImgSeqGen)
-        self.ImageSeqGenStop.setObjectName(u"ImageSeqGenStop")
-        self.ImageSeqGenStop.setEnabled(False)
-
-        self.ImageSeqGenBtns.addWidget(self.ImageSeqGenStop)
-
-
-        self.verticalLayout_12.addLayout(self.ImageSeqGenBtns)
-
-        self.ImageSeqGenSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_12.addItem(self.ImageSeqGenSpacer)
-
-        self.TestChildTab.addTab(self.ImgSeqGen, "")
-        self.QtIconsLayout = QWidget()
-        self.QtIconsLayout.setObjectName(u"QtIconsLayout")
-        self.verticalLayout_16 = QVBoxLayout(self.QtIconsLayout)
-        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
-        self.QtIconsExport = QPushButton(self.QtIconsLayout)
-        self.QtIconsExport.setObjectName(u"QtIconsExport")
-
-        self.verticalLayout_16.addWidget(self.QtIconsExport)
-
-        self.QtIconsSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_16.addItem(self.QtIconsSpacer)
-
-        self.TestChildTab.addTab(self.QtIconsLayout, "")
-
-        self.verticalLayout_9.addWidget(self.TestChildTab)
+        self.verticalLayout_9.addWidget(self.TestingWidget)
 
         self.MainPage.addTab(self.TestingLayout, "")
         self.SettingLayout = QWidget()
@@ -893,7 +826,6 @@ class Ui_Form(object):
         self.UpsModelDropdown.setCurrentIndex(-1)
         self.TextProcChildTab.setCurrentIndex(0)
         self.CropTextDedup.setCurrentIndex(2)
-        self.TestChildTab.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(Form)
@@ -1026,17 +958,8 @@ class Ui_Form(object):
         self.TextProcChildTab.setTabToolTip(self.TextProcChildTab.indexOf(self.JsonSorter), QCoreApplication.translate("Form", u"\u5c06JSON\u7684\u952e\u503c\u5bf9\u6309\u952e\u7684\u987a\u5e8f\u6392\u5e8f", None))
 #endif // QT_CONFIG(tooltip)
         self.MainPage.setTabText(self.MainPage.indexOf(self.TextProcessingLayout), QCoreApplication.translate("Form", u"\u6587\u672c\u5904\u7406", None))
-        self.ImageSeqItemAmount.setSuffix(QCoreApplication.translate("Form", u" \u5f20\u56fe\u7247", None))
-        self.ImageSeqItemAmount.setPrefix(QCoreApplication.translate("Form", u"\u751f\u6210 ", None))
-        self.ImageSeqPathOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
-        self.ImageSeqPathInput.setPlaceholderText(QCoreApplication.translate("Form", u"\u5728\u6b64\u76ee\u5f55\u4e0b\u751f\u6210", None))
-        self.ImageSeqGenStart.setText(QCoreApplication.translate("Form", u"\u5f00\u59cb", None))
-        self.ImageSeqGenStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
-        self.TestChildTab.setTabText(self.TestChildTab.indexOf(self.ImgSeqGen), QCoreApplication.translate("Form", u"\u751f\u6210\u56fe\u50cf\u5e8f\u5217", None))
-        self.QtIconsExport.setText(QCoreApplication.translate("Form", u"\u5bfc\u51fa\u5230Icons\u6587\u4ef6\u5939", None))
-        self.TestChildTab.setTabText(self.TestChildTab.indexOf(self.QtIconsLayout), QCoreApplication.translate("Form", u"Qt\u5185\u7f6e\u56fe\u6807", None))
         self.MainPage.setTabText(self.MainPage.indexOf(self.TestingLayout), QCoreApplication.translate("Form", u"\u6d4b\u8bd5\u7528", None))
-        self.ThemeLabel.setText(QCoreApplication.translate("Form", u"\u9009\u62e9\u4e3b\u9898\uff08\u4e3b\u9898\u8def\u5f84\uff1a./styles\uff09", None))
+        self.ThemeLabel.setText(QCoreApplication.translate("Form", u"\u9009\u62e9\u4e3b\u9898\uff08\u4e3b\u9898\u8def\u5f84\uff1a./Style\uff09", None))
         self.ThemeConfirm.setText(QCoreApplication.translate("Form", u"\u786e\u5b9a", None))
         self.ClearLog.setText(QCoreApplication.translate("Form", u"\u6e05\u9664\u65e5\u5fd7", None))
         self.MainPage.setTabText(self.MainPage.indexOf(self.SettingLayout), QCoreApplication.translate("Form", u"\u8bbe\u7f6e", None))

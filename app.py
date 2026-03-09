@@ -1,5 +1,4 @@
 import os
-import subprocess
 
 import send2trash
 from PySide6.QtWidgets import QApplication, QWidget, QMessageBox
@@ -23,7 +22,6 @@ class MyWindow(QWidget, Ui_Form):
 
         # 工作线程实例
         self.upscaler_worker = None
-        self.noise_worker = None
         self.png2jpg_worker = None
         self.flatten_worker = None
         self.new_flatten_worker = None
@@ -85,10 +83,6 @@ class MyWindow(QWidget, Ui_Form):
                 ]
             )
         )
-        # 噪声图像生成信号
-        self.ImageSeqGenStart.clicked.connect(self.image_seq_gen_run)
-        self.ImageSeqGenStop.clicked.connect(lambda: self.noise_worker.stop())
-        self.ImageSeqPathOpen.clicked.connect(lambda: ui_utils.select_folder(self, self.ImageSeqPathInput))
         # 剪切视频信号
         self.VidTrimRun.clicked.connect(self.vid_trim_run)
         self.VidTrimInputOpen.clicked.connect(lambda: ui_utils.select_file(
@@ -118,10 +112,6 @@ class MyWindow(QWidget, Ui_Form):
             self, self.JsonSorterInPath, "*.json"
         ))
         self.JsonSorterRun.clicked.connect(self.json_sorter_run)
-        # Qt内置图标相关信号
-        self.QtIconsExport.clicked.connect(
-            lambda: subprocess.run(["python", os.path.join("Tools", "tests", "QtIconExport.py"), "--export"])
-        )
 
 
     # 会开启新线程的函数
@@ -204,19 +194,6 @@ class MyWindow(QWidget, Ui_Form):
         self.upscaler_worker.image_list_got.connect(lambda lst: setattr(self, 'ups_image_list', lst))
         self.upscaler_worker.output_path_updated.connect(lambda t: self.UpsSavePath.setText(os.path.normpath(t)))
         self.upscaler_worker.start()
-
-    def image_seq_gen_run(self):
-        self.ImageSeqGenStop.setEnabled(True)
-        self.ImageSeqGenStart.setEnabled(False)
-        self.noise_worker = ImageSeqWorker(
-            num_images=self.ImageSeqItemAmount.value(),
-            output_folder=self.ImageSeqPathInput.text()
-        )
-        self.noise_worker.progress_updated.connect(lambda v: self.ImageSeqGenProgress.setValue(v))
-        self.noise_worker.worker_finished.connect(lambda: self.ImageSeqGenStart.setEnabled(True))
-        self.noise_worker.worker_finished.connect(lambda: self.ImageSeqGenStop.setEnabled(False))
-        self.noise_worker.worker_finished.connect(lambda t: ui_utils.show_message_box(self, t[0], t[1], t[2]))
-        self.noise_worker.start()
 
     def vid_trim_run(self):
         self.VidTrimRun.setEnabled(False)
