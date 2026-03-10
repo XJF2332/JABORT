@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'appevulaD.ui'
+## Form generated from reading UI file 'appZzAKvl.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -22,6 +22,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication
     QSpacerItem, QSpinBox, QTabWidget, QTimeEdit,
     QVBoxLayout, QWidget)
 
+from pages.file_mgr.ui import FileMgrWidget
 from pages.tests.ui import TestsWidget
 
 class Ui_Form(object):
@@ -41,111 +42,13 @@ class Ui_Form(object):
         self.FileMgrLayout = QWidget()
         self.FileMgrLayout.setObjectName(u"FileMgrLayout")
         self.verticalLayout_2 = QVBoxLayout(self.FileMgrLayout)
+        self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.FileMgrChildTab = QTabWidget(self.FileMgrLayout)
-        self.FileMgrChildTab.setObjectName(u"FileMgrChildTab")
-        self.FileMgrChildTab.setMovable(True)
-        self.FlattenLayoyt = QWidget()
-        self.FlattenLayoyt.setObjectName(u"FlattenLayoyt")
-        self.verticalLayout_13 = QVBoxLayout(self.FlattenLayoyt)
-        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
-        self.FlattenDir = QHBoxLayout()
-        self.FlattenDir.setObjectName(u"FlattenDir")
-        self.FlattenDirOpen = QPushButton(self.FlattenLayoyt)
-        self.FlattenDirOpen.setObjectName(u"FlattenDirOpen")
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.FileMgr = FileMgrWidget(self.FileMgrLayout)
+        self.FileMgr.setObjectName(u"FileMgr")
 
-        self.FlattenDir.addWidget(self.FlattenDirOpen)
-
-        self.FlattenDirInput = QLineEdit(self.FlattenLayoyt)
-        self.FlattenDirInput.setObjectName(u"FlattenDirInput")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.FlattenDirInput.sizePolicy().hasHeightForWidth())
-        self.FlattenDirInput.setSizePolicy(sizePolicy)
-        self.FlattenDirInput.setClearButtonEnabled(True)
-
-        self.FlattenDir.addWidget(self.FlattenDirInput)
-
-
-        self.verticalLayout_13.addLayout(self.FlattenDir)
-
-        self.FlattenBtns = QHBoxLayout()
-        self.FlattenBtns.setObjectName(u"FlattenBtns")
-        self.FlattenRun = QPushButton(self.FlattenLayoyt)
-        self.FlattenRun.setObjectName(u"FlattenRun")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.FlattenRun.sizePolicy().hasHeightForWidth())
-        self.FlattenRun.setSizePolicy(sizePolicy1)
-
-        self.FlattenBtns.addWidget(self.FlattenRun)
-
-        self.FlattenStop = QPushButton(self.FlattenLayoyt)
-        self.FlattenStop.setObjectName(u"FlattenStop")
-        self.FlattenStop.setEnabled(False)
-
-        self.FlattenBtns.addWidget(self.FlattenStop)
-
-
-        self.verticalLayout_13.addLayout(self.FlattenBtns)
-
-        self.FlattenSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_13.addItem(self.FlattenSpacer)
-
-        self.FileMgrChildTab.addTab(self.FlattenLayoyt, "")
-        self.NewFlattenLayout = QWidget()
-        self.NewFlattenLayout.setObjectName(u"NewFlattenLayout")
-        self.verticalLayout_17 = QVBoxLayout(self.NewFlattenLayout)
-        self.verticalLayout_17.setObjectName(u"verticalLayout_17")
-        self.NewFlattenDir = QHBoxLayout()
-        self.NewFlattenDir.setObjectName(u"NewFlattenDir")
-        self.NewFlattenDirOpen = QPushButton(self.NewFlattenLayout)
-        self.NewFlattenDirOpen.setObjectName(u"NewFlattenDirOpen")
-
-        self.NewFlattenDir.addWidget(self.NewFlattenDirOpen)
-
-        self.NewFlattenDirInput = QLineEdit(self.NewFlattenLayout)
-        self.NewFlattenDirInput.setObjectName(u"NewFlattenDirInput")
-        self.NewFlattenDirInput.setClearButtonEnabled(True)
-
-        self.NewFlattenDir.addWidget(self.NewFlattenDirInput)
-
-
-        self.verticalLayout_17.addLayout(self.NewFlattenDir)
-
-        self.NewFlattenProgress = QProgressBar(self.NewFlattenLayout)
-        self.NewFlattenProgress.setObjectName(u"NewFlattenProgress")
-        self.NewFlattenProgress.setValue(0)
-        self.NewFlattenProgress.setTextVisible(False)
-
-        self.verticalLayout_17.addWidget(self.NewFlattenProgress)
-
-        self.NewFlattenBtns = QHBoxLayout()
-        self.NewFlattenBtns.setObjectName(u"NewFlattenBtns")
-        self.NewFlattenRun = QPushButton(self.NewFlattenLayout)
-        self.NewFlattenRun.setObjectName(u"NewFlattenRun")
-
-        self.NewFlattenBtns.addWidget(self.NewFlattenRun)
-
-        self.NewFlattenStop = QPushButton(self.NewFlattenLayout)
-        self.NewFlattenStop.setObjectName(u"NewFlattenStop")
-        self.NewFlattenStop.setEnabled(False)
-
-        self.NewFlattenBtns.addWidget(self.NewFlattenStop)
-
-
-        self.verticalLayout_17.addLayout(self.NewFlattenBtns)
-
-        self.NewFlattenSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_17.addItem(self.NewFlattenSpacer)
-
-        self.FileMgrChildTab.addTab(self.NewFlattenLayout, "")
-
-        self.verticalLayout_2.addWidget(self.FileMgrChildTab)
+        self.verticalLayout_2.addWidget(self.FileMgr)
 
         self.MainPage.addTab(self.FileMgrLayout, "")
         self.ConvertorLayout = QWidget()
@@ -163,15 +66,21 @@ class Ui_Form(object):
         self.PNG2JPGDir.setObjectName(u"PNG2JPGDir")
         self.PNG2JPGFindDir = QPushButton(self.PNG2JPG)
         self.PNG2JPGFindDir.setObjectName(u"PNG2JPGFindDir")
-        sizePolicy1.setHeightForWidth(self.PNG2JPGFindDir.sizePolicy().hasHeightForWidth())
-        self.PNG2JPGFindDir.setSizePolicy(sizePolicy1)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.PNG2JPGFindDir.sizePolicy().hasHeightForWidth())
+        self.PNG2JPGFindDir.setSizePolicy(sizePolicy)
 
         self.PNG2JPGDir.addWidget(self.PNG2JPGFindDir)
 
         self.PNG2JPGDirTxt = QLineEdit(self.PNG2JPG)
         self.PNG2JPGDirTxt.setObjectName(u"PNG2JPGDirTxt")
-        sizePolicy.setHeightForWidth(self.PNG2JPGDirTxt.sizePolicy().hasHeightForWidth())
-        self.PNG2JPGDirTxt.setSizePolicy(sizePolicy)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.PNG2JPGDirTxt.sizePolicy().hasHeightForWidth())
+        self.PNG2JPGDirTxt.setSizePolicy(sizePolicy1)
         self.PNG2JPGDirTxt.setClearButtonEnabled(True)
 
         self.PNG2JPGDir.addWidget(self.PNG2JPGDirTxt)
@@ -253,8 +162,8 @@ class Ui_Form(object):
         self.PNG2JPGBtns.setObjectName(u"PNG2JPGBtns")
         self.PNG2JPGRun = QPushButton(self.PNG2JPG)
         self.PNG2JPGRun.setObjectName(u"PNG2JPGRun")
-        sizePolicy1.setHeightForWidth(self.PNG2JPGRun.sizePolicy().hasHeightForWidth())
-        self.PNG2JPGRun.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.PNG2JPGRun.sizePolicy().hasHeightForWidth())
+        self.PNG2JPGRun.setSizePolicy(sizePolicy)
 
         self.PNG2JPGBtns.addWidget(self.PNG2JPGRun)
 
@@ -354,8 +263,8 @@ class Ui_Form(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.UpsComfyUrl = QLineEdit(self.UpsLayout)
         self.UpsComfyUrl.setObjectName(u"UpsComfyUrl")
-        sizePolicy.setHeightForWidth(self.UpsComfyUrl.sizePolicy().hasHeightForWidth())
-        self.UpsComfyUrl.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.UpsComfyUrl.sizePolicy().hasHeightForWidth())
+        self.UpsComfyUrl.setSizePolicy(sizePolicy1)
         self.UpsComfyUrl.setClearButtonEnabled(True)
 
         self.verticalLayout_4.addWidget(self.UpsComfyUrl)
@@ -364,16 +273,16 @@ class Ui_Form(object):
         self.UpsModel.setObjectName(u"UpsModel")
         self.UpsModelDropdown = QComboBox(self.UpsLayout)
         self.UpsModelDropdown.setObjectName(u"UpsModelDropdown")
-        sizePolicy.setHeightForWidth(self.UpsModelDropdown.sizePolicy().hasHeightForWidth())
-        self.UpsModelDropdown.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.UpsModelDropdown.sizePolicy().hasHeightForWidth())
+        self.UpsModelDropdown.setSizePolicy(sizePolicy1)
         self.UpsModelDropdown.setFrame(True)
 
         self.UpsModel.addWidget(self.UpsModelDropdown)
 
         self.UpsRefreshModel = QPushButton(self.UpsLayout)
         self.UpsRefreshModel.setObjectName(u"UpsRefreshModel")
-        sizePolicy1.setHeightForWidth(self.UpsRefreshModel.sizePolicy().hasHeightForWidth())
-        self.UpsRefreshModel.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.UpsRefreshModel.sizePolicy().hasHeightForWidth())
+        self.UpsRefreshModel.setSizePolicy(sizePolicy)
 
         self.UpsModel.addWidget(self.UpsRefreshModel)
 
@@ -384,15 +293,15 @@ class Ui_Form(object):
         self.UpsImg.setObjectName(u"UpsImg")
         self.UpsChooseImagePath = QPushButton(self.UpsLayout)
         self.UpsChooseImagePath.setObjectName(u"UpsChooseImagePath")
-        sizePolicy1.setHeightForWidth(self.UpsChooseImagePath.sizePolicy().hasHeightForWidth())
-        self.UpsChooseImagePath.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.UpsChooseImagePath.sizePolicy().hasHeightForWidth())
+        self.UpsChooseImagePath.setSizePolicy(sizePolicy)
 
         self.UpsImg.addWidget(self.UpsChooseImagePath)
 
         self.UpsImagePath = QLineEdit(self.UpsLayout)
         self.UpsImagePath.setObjectName(u"UpsImagePath")
-        sizePolicy.setHeightForWidth(self.UpsImagePath.sizePolicy().hasHeightForWidth())
-        self.UpsImagePath.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.UpsImagePath.sizePolicy().hasHeightForWidth())
+        self.UpsImagePath.setSizePolicy(sizePolicy1)
         self.UpsImagePath.setClearButtonEnabled(True)
 
         self.UpsImg.addWidget(self.UpsImagePath)
@@ -426,8 +335,8 @@ class Ui_Form(object):
         self.UpsOptions.setObjectName(u"UpsOptions")
         self.UpsHeightThresholdSpin = QSpinBox(self.UpsLayout)
         self.UpsHeightThresholdSpin.setObjectName(u"UpsHeightThresholdSpin")
-        sizePolicy.setHeightForWidth(self.UpsHeightThresholdSpin.sizePolicy().hasHeightForWidth())
-        self.UpsHeightThresholdSpin.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.UpsHeightThresholdSpin.sizePolicy().hasHeightForWidth())
+        self.UpsHeightThresholdSpin.setSizePolicy(sizePolicy1)
         self.UpsHeightThresholdSpin.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
         self.UpsHeightThresholdSpin.setMaximum(3000)
         self.UpsHeightThresholdSpin.setValue(1500)
@@ -436,8 +345,8 @@ class Ui_Form(object):
 
         self.UpsJPGThresholdSpin = QSpinBox(self.UpsLayout)
         self.UpsJPGThresholdSpin.setObjectName(u"UpsJPGThresholdSpin")
-        sizePolicy.setHeightForWidth(self.UpsJPGThresholdSpin.sizePolicy().hasHeightForWidth())
-        self.UpsJPGThresholdSpin.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.UpsJPGThresholdSpin.sizePolicy().hasHeightForWidth())
+        self.UpsJPGThresholdSpin.setSizePolicy(sizePolicy1)
         self.UpsJPGThresholdSpin.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
         self.UpsJPGThresholdSpin.setMaximum(3000)
         self.UpsJPGThresholdSpin.setValue(500)
@@ -446,8 +355,8 @@ class Ui_Form(object):
 
         self.UpsWidthThresholdSpin = QSpinBox(self.UpsLayout)
         self.UpsWidthThresholdSpin.setObjectName(u"UpsWidthThresholdSpin")
-        sizePolicy.setHeightForWidth(self.UpsWidthThresholdSpin.sizePolicy().hasHeightForWidth())
-        self.UpsWidthThresholdSpin.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.UpsWidthThresholdSpin.sizePolicy().hasHeightForWidth())
+        self.UpsWidthThresholdSpin.setSizePolicy(sizePolicy1)
         self.UpsWidthThresholdSpin.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
         self.UpsWidthThresholdSpin.setMaximum(3000)
         self.UpsWidthThresholdSpin.setValue(1500)
@@ -456,8 +365,8 @@ class Ui_Form(object):
 
         self.UpsDownscaleSpin = QDoubleSpinBox(self.UpsLayout)
         self.UpsDownscaleSpin.setObjectName(u"UpsDownscaleSpin")
-        sizePolicy1.setHeightForWidth(self.UpsDownscaleSpin.sizePolicy().hasHeightForWidth())
-        self.UpsDownscaleSpin.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.UpsDownscaleSpin.sizePolicy().hasHeightForWidth())
+        self.UpsDownscaleSpin.setSizePolicy(sizePolicy)
         self.UpsDownscaleSpin.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
         self.UpsDownscaleSpin.setMinimum(0.010000000000000)
         self.UpsDownscaleSpin.setMaximum(1.000000000000000)
@@ -480,8 +389,8 @@ class Ui_Form(object):
         self.UpsBtns.setObjectName(u"UpsBtns")
         self.UpsRun = QPushButton(self.UpsLayout)
         self.UpsRun.setObjectName(u"UpsRun")
-        sizePolicy1.setHeightForWidth(self.UpsRun.sizePolicy().hasHeightForWidth())
-        self.UpsRun.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.UpsRun.sizePolicy().hasHeightForWidth())
+        self.UpsRun.setSizePolicy(sizePolicy)
 
         self.UpsBtns.addWidget(self.UpsRun)
 
@@ -819,7 +728,6 @@ class Ui_Form(object):
         self.retranslateUi(Form)
 
         self.MainPage.setCurrentIndex(0)
-        self.FileMgrChildTab.setCurrentIndex(0)
         self.ConvertorChildTab.setCurrentIndex(0)
         self.PNG2JPGDedup.setCurrentIndex(2)
         self.MediaProcessingChildTab.setCurrentIndex(0)
@@ -833,22 +741,6 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Toolbox", None))
-        self.FlattenDirOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
-        self.FlattenDirInput.setPlaceholderText(QCoreApplication.translate("Form", u"\u4ece\u6b64\u5904\u5f00\u59cb\u67e5\u627e\u6587\u4ef6\u5939", None))
-        self.FlattenRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
-        self.FlattenStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
-        self.FileMgrChildTab.setTabText(self.FileMgrChildTab.indexOf(self.FlattenLayoyt), QCoreApplication.translate("Form", u"\u5c55\u5e73", None))
-#if QT_CONFIG(tooltip)
-        self.FileMgrChildTab.setTabToolTip(self.FileMgrChildTab.indexOf(self.FlattenLayoyt), QCoreApplication.translate("Form", u"\u5982\u679c\u4e00\u4e2a\u6587\u4ef6\u5939\u53ea\u6709\u4e00\u4e2a\u6587\u4ef6\uff0c\u90a3\u4e48\u628a\u8fd9\u4e2a\u6587\u4ef6\u79fb\u52a8\u5230\u5176\u7236\u7ea7\u6587\u4ef6\u5939\uff0c\u5e76\u91cd\u547d\u540d\u4e3a\u6e90\u6587\u4ef6\u5939\u7684\u540d\u79f0\uff0c\u91cd\u590d\u8fd0\u884c\u76f4\u5230\u6ca1\u6709\u53ef\u5904\u7406\u7684\u6587\u4ef6", None))
-#endif // QT_CONFIG(tooltip)
-        self.NewFlattenDirOpen.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
-        self.NewFlattenDirInput.setPlaceholderText(QCoreApplication.translate("Form", u"\u4ece\u6b64\u5904\u5f00\u59cb\u67e5\u627e\u6587\u4ef6\u5939", None))
-        self.NewFlattenRun.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
-        self.NewFlattenStop.setText(QCoreApplication.translate("Form", u"\u7ec8\u6b62", None))
-        self.FileMgrChildTab.setTabText(self.FileMgrChildTab.indexOf(self.NewFlattenLayout), QCoreApplication.translate("Form", u"\u5c55\u5e73\uff08\u65b0\uff09", None))
-#if QT_CONFIG(tooltip)
-        self.FileMgrChildTab.setTabToolTip(self.FileMgrChildTab.indexOf(self.NewFlattenLayout), QCoreApplication.translate("Form", u"\u57fa\u4e8e\u6811\u7684\u65b0\u5c55\u5e73\u65b9\u5f0f\uff0c\u4ee5\u5185\u5b58\u5360\u7528\u4e3a\u4ee3\u4ef7\uff0c\u63d0\u9ad8\u5c55\u5e73\u901f\u5ea6", None))
-#endif // QT_CONFIG(tooltip)
         self.MainPage.setTabText(self.MainPage.indexOf(self.FileMgrLayout), QCoreApplication.translate("Form", u"\u6587\u4ef6\u7ba1\u7406", None))
         self.PNG2JPGFindDir.setText(QCoreApplication.translate("Form", u"\u6253\u5f00", None))
         self.PNG2JPGDirTxt.setPlaceholderText(QCoreApplication.translate("Form", u"\u4ece\u6b64\u5904\u5f00\u59cb\u67e5\u627e\u56fe\u50cf", None))

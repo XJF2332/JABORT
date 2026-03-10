@@ -34,167 +34,23 @@
        <string>文件管理</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="QTabWidget" name="FileMgrChildTab">
-         <property name="currentIndex">
-          <number>0</number>
-         </property>
-         <property name="movable">
-          <bool>true</bool>
-         </property>
-         <widget class="QWidget" name="FlattenLayoyt">
-          <attribute name="title">
-           <string>展平</string>
-          </attribute>
-          <attribute name="toolTip">
-           <string>如果一个文件夹只有一个文件，那么把这个文件移动到其父级文件夹，并重命名为源文件夹的名称，重复运行直到没有可处理的文件</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_13">
-           <item>
-            <layout class="QHBoxLayout" name="FlattenDir">
-             <item>
-              <widget class="QPushButton" name="FlattenDirOpen">
-               <property name="text">
-                <string>打开</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="FlattenDirInput">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="placeholderText">
-                <string>从此处开始查找文件夹</string>
-               </property>
-               <property name="clearButtonEnabled">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="FlattenBtns">
-             <item>
-              <widget class="QPushButton" name="FlattenRun">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>运行</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="FlattenStop">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>终止</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <spacer name="FlattenSpacer">
-             <property name="orientation">
-              <enum>Qt::Orientation::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="NewFlattenLayout">
-          <attribute name="title">
-           <string>展平（新）</string>
-          </attribute>
-          <attribute name="toolTip">
-           <string>基于树的新展平方式，以内存占用为代价，提高展平速度</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_17">
-           <item>
-            <layout class="QHBoxLayout" name="NewFlattenDir">
-             <item>
-              <widget class="QPushButton" name="NewFlattenDirOpen">
-               <property name="text">
-                <string>打开</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="NewFlattenDirInput">
-               <property name="placeholderText">
-                <string>从此处开始查找文件夹</string>
-               </property>
-               <property name="clearButtonEnabled">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QProgressBar" name="NewFlattenProgress">
-             <property name="value">
-              <number>0</number>
-             </property>
-             <property name="textVisible">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="NewFlattenBtns">
-             <item>
-              <widget class="QPushButton" name="NewFlattenRun">
-               <property name="text">
-                <string>运行</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="NewFlattenStop">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>终止</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <spacer name="NewFlattenSpacer">
-             <property name="orientation">
-              <enum>Qt::Orientation::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-        </widget>
+        <widget class="FileMgrWidget" name="FileMgr" native="true"/>
        </item>
       </layout>
      </widget>
@@ -1343,6 +1199,12 @@
    <class>TestsWidget</class>
    <extends>QWidget</extends>
    <header>pages.tests.ui</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FileMgrWidget</class>
+   <extends>QWidget</extends>
+   <header>pages.file_mgr.ui</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
