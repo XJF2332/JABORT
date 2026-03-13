@@ -29,12 +29,12 @@ class TrimmerWorker(QThread):
             self.worker_finished.emit(("错误", ErrorCode.InvalidPath.format(self.input_path), QMessageBox.Icon.Critical))
             return
         # 检查重名
-        if self.input_path == self.output_path:
+        elif self.input_path == self.output_path:
             logger.error(ErrorCode.DuplicateIOName.generic)
             self.worker_finished.emit(("错误", ErrorCode.DuplicateIOName.generic, QMessageBox.Icon.Critical))
             return
         # 构建输出
-        if not self.output_path:
+        elif not self.output_path:
             build_res = utils.build_output_path(
                 input_path=self.input_path, suffix=self.input_time.toString("HHmmss"), spacing="_"
             )

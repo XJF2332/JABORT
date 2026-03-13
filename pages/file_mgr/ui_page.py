@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'pageWLNjla.ui'
+## Form generated from reading UI file 'pageNlwPtc.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -23,7 +23,7 @@ class Ui_FileMgrTab(object):
     def setupUi(self, FileMgrTab):
         if not FileMgrTab.objectName():
             FileMgrTab.setObjectName(u"FileMgrTab")
-        FileMgrTab.resize(341, 328)
+        FileMgrTab.resize(725, 666)
         self.verticalLayout = QVBoxLayout(FileMgrTab)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.FileMgrChildTab = QTabWidget(FileMgrTab)

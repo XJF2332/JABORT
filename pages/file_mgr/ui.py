@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QMessageBox
+from PySide6.QtWidgets import QWidget
 
 from Workers import FlattenWorker, NewFlattenWorker
 from pages.file_mgr.ui_page import Ui_FileMgrTab
