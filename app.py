@@ -44,7 +44,7 @@ class MyWindow(QWidget, Ui_Form):
         self.ClearLog.clicked.connect(self.clear_log)
         # 计算相似度信号
         self.CalSimModelRefresh.clicked.connect(lambda: ui_utils.refresh_combobox(
-            target_widget=self.CalSimModelDropdown, path="resources/models", include_path=True, parent=self
+            target_widget=self.CalSimModelDropdown, path="resources/models/embeddings", include_path=False, parent=self
         ))
         self.CalSimUnload.clicked.connect(lambda: ui_utils.show_message_box(
             self, content=CalSimilarity.unload_model(), icon=QMessageBox.Icon.Information
@@ -123,7 +123,7 @@ class MyWindow(QWidget, Ui_Form):
     def cal_similarity_run(self):
         res = CalSimilarity.main(
             str1=self.CalSimIn1.text(), str2=self.CalSimIn2.text(),
-            model=self.CalSimModelDropdown.currentText(),
+            model=os.path.join("resources", "models", "embeddings", self.CalSimModelDropdown.currentText()),
             persistent_model=self.CalSimPersistentModel.isChecked()
         )
         if res[0].code:
