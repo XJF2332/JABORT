@@ -5,8 +5,8 @@ from pages.file_mgr.ui_page import Ui_FileMgrTab
 from modules.utils import ui_utils
 
 class FileMgrWidget(QWidget, Ui_FileMgrTab):
-    def __init__(self, make_designer_happy):
-        super().__init__()
+    def __init__(self, parent = None):
+        super().__init__(parent)
         self.new_flatten_worker = None
         self.flatten_worker = None
         self.setupUi(self)

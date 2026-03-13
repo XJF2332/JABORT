@@ -7,8 +7,8 @@ from pages.tests.ui_page import Ui_TestTab
 
 
 class TestsWidget(QWidget, Ui_TestTab):
-    def __init__(self, make_designer_happy):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
         self.setupUi(self)
 
         # 绑定信号
