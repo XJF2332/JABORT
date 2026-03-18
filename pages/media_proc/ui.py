@@ -30,7 +30,7 @@ class MediaProcWidget(QWidget, Ui_MediaProcTab):
             self, self.VidTrimInputPath, "Video (*.mp4 *.avi *.mov *.mkv)"
         ))
         self.VidTrimOutputOpen.clicked.connect(lambda: ui_utils.select_savefile(
-            self, self.VidTrimOutputPath, "Video (*.mp4)"
+            self, self.VidTrimOutputPath, "Video (*.mp4)", self.VidTrimOutputPath.text()
         ))
         self.VidTrimInputPlay.clicked.connect(lambda: ui_utils.open_file(self, self.VidTrimInputPath.text()))
         self.UpsChooseImagePath.clicked.connect(lambda: ui_utils.select_folder(self, self.UpsImagePath))

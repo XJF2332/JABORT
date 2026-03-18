@@ -1,9 +1,8 @@
 import os
 import re
-from typing import List, Tuple, Callable
 
 import send2trash
-from PySide6.QtWidgets import QComboBox, QMenu, QListWidget, QMessageBox, QWidget, QFileDialog, QLineEdit
+from PySide6.QtWidgets import QComboBox, QListWidget, QMessageBox, QWidget, QFileDialog, QLineEdit
 
 from Core import log_manager
 from Core.error_codes import ErrorCode
@@ -163,7 +162,7 @@ def remove_entry(target_widget: QListWidget, mode: str, parent: QWidget, pattern
             show_message_box(parent, "删除错误", f"移动文件到回收站时出错:\n{e}", QMessageBox.Icon.Critical)
 
     # 移除列表项逻辑
-    rows_to_remove = sorted([target_widget.row(item) for item in item_query], reverse=True)
+    rows_to_remove = [target_widget.row(item) for item in item_query]
     removed_items_count = len(rows_to_remove)
 
     for row in rows_to_remove:
@@ -199,27 +198,6 @@ def add_double_click_open(item, parent: QWidget, substring: str | list, remove_t
                          QMessageBox.Icon.Critical)
 
 
-def show_context_menu(list_widget, position, menu_items: List[Tuple[str, Callable[[], None]]]):
-    """
-    通用的右键菜单显示函数
-    :param list_widget: 目标列表控件
-    :param position: 鼠标点击位置
-    :param menu_items: 菜单项列表，格式为 [("菜单名", 回调函数), ...]
-    """
-    item = list_widget.itemAt(position)
-    if not item:
-        return
-
-    list_widget.setCurrentItem(item)
-    context_menu = QMenu(list_widget)
-
-    for text, callback in menu_items:
-        action = context_menu.addAction(text)
-        action.triggered.connect(callback)
-
-    context_menu.exec(list_widget.mapToGlobal(position))
-
-
 def open_file(parent: QWidget, path: str):
     """
     打开一个文件
@@ -232,11 +210,14 @@ def open_file(parent: QWidget, path: str):
         None
     """
     if not path or not os.path.isfile(path):
+        logger.error(ErrorCode.InvalidPath.format(path))
         show_message_box(parent, "错误", ErrorCode.InvalidPath.format(path), QMessageBox.Icon.Critical)
         return
     try:
         os.startfile(path)
+        logger.info(f"已打开文件：{path}")
     except Exception as e:
+        logger.error(f"无法打开 {path}：{str(e)}")
         show_message_box(parent, "错误", str(e), QMessageBox.Icon.Critical)
 
 
@@ -284,7 +265,7 @@ def select_file(parent: QWidget, target_widget: QLineEdit, file_filter: str = ""
         target_widget.setText(f"共 {len(path[0])} 项文件")
 
 
-def select_savefile(parent: QWidget, target_widget: QLineEdit, file_filter: str = ""):
+def select_savefile(parent: QWidget, target_widget: QLineEdit, file_filter: str = "", default: str=""):
     """
     弹出保存文件弹窗
 
@@ -292,10 +273,20 @@ def select_savefile(parent: QWidget, target_widget: QLineEdit, file_filter: str 
         parent: 父窗口
         target_widget: 选择文件后，将路径显示到此控件上
         file_filter: 文件类型过滤器
+        default: 默认保存路径
     """
-    if not file_filter:
+    # 未提供过滤器和默认值
+    if not file_filter and not default:
         path = QFileDialog.getSaveFileName(parent, "保存文件")
-    else:
+    # 提供了过滤器但未提供默认值
+    elif file_filter and not default:
         path = QFileDialog.getSaveFileName(parent, "保存文件", filter=file_filter)
+    # 提供了默认值但未提供过滤器
+    elif default and not file_filter:
+        path = QFileDialog.getSaveFileName(parent, "保存文件", dir=default)
+    # 都提供了
+    else:
+        path = QFileDialog.getSaveFileName(parent, "保存文件", dir=default, filter=file_filter)
+
     if path[0]:
         target_widget.setText(path[0])
