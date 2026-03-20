@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'apphaYrgP.ui'
+## Form generated from reading UI file 'appdWsSrZ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.0
 ##
@@ -496,7 +496,7 @@ class Ui_Form(object):
         self.retranslateUi(Form)
 
         self.MainPage.setCurrentIndex(0)
-        self.ConvertorChildTab.setCurrentIndex(1)
+        self.ConvertorChildTab.setCurrentIndex(0)
         self.PNG2JPGDedup.setCurrentIndex(2)
         self.TextProcChildTab.setCurrentIndex(0)
         self.CropTextDedup.setCurrentIndex(2)
