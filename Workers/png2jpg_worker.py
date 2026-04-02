@@ -5,8 +5,8 @@ from PySide6.QtCore import QThread, Signal
 from PySide6.QtWidgets import QMessageBox
 
 from modules.conv import PNG2JPG
-from Core import log_manager
-from Core.error_codes import ErrorCode
+from core import log_manager
+from core.error_codes import ErrorCode
 
 logger = log_manager.get_logger(__name__)
 

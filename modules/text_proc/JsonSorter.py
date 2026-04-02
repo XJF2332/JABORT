@@ -3,7 +3,7 @@ import os.path
 
 import charset_normalizer
 
-from Core import log_manager
+from core import log_manager
 
 logger = log_manager.get_logger(__name__)
 

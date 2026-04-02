@@ -6,7 +6,7 @@ from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QPainter, QPixmap
 from PySide6.QtWidgets import QStyle, QWidget
 
-from Core import log_manager
+from core import log_manager
 
 logger = log_manager.get_logger(__name__)
 

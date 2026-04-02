@@ -4,8 +4,8 @@ import re
 import send2trash
 from PySide6.QtWidgets import QComboBox, QListWidget, QMessageBox, QWidget, QFileDialog, QLineEdit
 
-from Core import log_manager
-from Core.error_codes import ErrorCode
+from core import log_manager
+from core.error_codes import ErrorCode
 from modules.utils import utils
 
 logger = log_manager.get_logger(__name__)
@@ -141,45 +141,40 @@ def remove_entry(target_widget: QListWidget, mode: str, parent: QWidget, pattern
         show_message_box(parent, "提示", "没有匹配的项可供处理", QMessageBox.Icon.Information)
         return
 
-    deleted_files_count = 0
-    delete_error_occurred = False
-
-    # 删除文件逻辑
+    # 删除文件
+    deleted = 0
     if mode.startswith("delete_"):
         del_query = [
             os.path.normpath(utils.remove_substring(item.text(), substring, remove_type))
             for item in item_query
         ]
-
         try:
+            deleted = len(del_query)
             logger.info(f"正在删除 {len(del_query)} 项文件")
             send2trash.send2trash(del_query)
-            deleted_files_count = len(del_query)
-            logger.info(f"成功移动 {deleted_files_count} 项到回收站")
+            logger.info(f"成功移动 {deleted} 项到回收站")
         except Exception as e:
-            delete_error_occurred = True
             logger.error(f"Error moving files to trash: {e}")
             show_message_box(parent, "删除错误", f"移动文件到回收站时出错:\n{e}", QMessageBox.Icon.Critical)
+            return
 
-    # 移除列表项逻辑
-    rows_to_remove = [target_widget.row(item) for item in item_query]
-    removed_items_count = len(rows_to_remove)
-
-    for row in rows_to_remove:
-        target_widget.takeItem(row)
-
-    logger.info(f"已从 {target_widget.objectName()} 中移除 {removed_items_count} 项")
+    # 移除列表项
+    removed = 0
+    for item in item_query:
+        target_widget.takeItem(target_widget.row(item))
+        logger.debug(f"已从 {target_widget.objectName()} 中移除 {item.text()}")
+        removed += 1
+    logger.info(f"已从 {target_widget.objectName()} 中移除 {removed} 项")
 
     # 反馈总结
-    if not delete_error_occurred:
-        msg_parts = []
-        if removed_items_count > 0:
-            msg_parts.append(f"已从列表中移除 {removed_items_count} 项")
-        if deleted_files_count > 0:
-            msg_parts.append(f"已将 {deleted_files_count} 个文件移动到回收站")
+    msg_parts = []
+    if removed > 0:
+        msg_parts.append(f"已从列表中移除 {removed} 项")
+    if deleted > 0:
+        msg_parts.append(f"已将 {deleted} 个文件移动到回收站")
 
-        full_msg = "\n".join(msg_parts) if msg_parts else "操作完成，无变动"
-        show_message_box(parent, "操作完成", full_msg, QMessageBox.Icon.Information)
+    full_msg = "\n".join(msg_parts) if msg_parts else "操作完成，无变动"
+    show_message_box(parent, "操作完成", full_msg, QMessageBox.Icon.Information)
 
 
 def add_double_click_open(item, parent: QWidget, substring: str | list, remove_type: str):

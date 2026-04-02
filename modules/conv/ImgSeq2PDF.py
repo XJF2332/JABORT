@@ -6,8 +6,8 @@ from typing import List, Dict, TypedDict, Generator
 import fitz
 import send2trash
 
-from Core import log_manager
-from Core.error_codes import ErrorCode
+from core import log_manager
+from core.error_codes import ErrorCode
 from modules.conv import PNG2JPG
 from modules.utils import utils
 

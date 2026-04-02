@@ -8,7 +8,7 @@ from modules.utils import ui_utils
 from Workers import *
 from ui_app import Ui_Form
 
-with open("styles\Blue Archive.qss", "r", encoding="utf-8") as f:
+with open(r"styles\Blue Archive.qss", "r", encoding="utf-8") as f:
     stylesheet = f.read()
 
 

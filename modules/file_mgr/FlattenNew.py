@@ -6,8 +6,8 @@ from anytree import Node
 from send2trash import send2trash
 
 from modules.utils import utils
-from Core import log_manager
-from Core.error_codes import ErrorCode
+from core import log_manager
+from core.error_codes import ErrorCode
 
 logger = log_manager.get_logger(__name__)
 
